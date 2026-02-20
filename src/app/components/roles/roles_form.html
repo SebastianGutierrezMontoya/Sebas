@@ -1,0 +1,49 @@
+<form method="post" class="form-container">
+    <h2 class="form-header">Crear Rol</h2>
+    <input type="hidden" name="csrfmiddlewaretoken" value="qvSCkHrcVywrZIvdqBRw9emZa8dSQloLnrs9JxEI10FKADgXK8uG36KIZvMIMiKR">
+    <!-- <p>
+    <label for="id_id_rol">Id rol:</label>
+    <input type="number" name="id_rol" value="4" readonly class="form-control" placeholder=" " required id="id_id_rol">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_nombre">Nombre:</label>
+    <input type="text" name="nombre" maxlength="50" class="form-control" placeholder=" " id="id_nombre">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_descripcion">Descripcion:</label>
+    <input type="text" name="descripcion" maxlength="255" class="form-control" placeholder=" " id="id_descripcion">
+    
+    
+      
+    
+  </p> -->
+
+    
+        <div class="form-floating">
+          <input type="number" name="id_rol" value="4" readonly="" class="form-control" placeholder=" " required="" id="id_id_rol">
+          <label for="id_id_rol">Id rol</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="text" name="nombre" maxlength="50" class="form-control" placeholder=" " id="id_nombre">
+          <label for="id_nombre">Nombre</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="text" name="descripcion" maxlength="255" class="form-control" placeholder=" " id="id_descripcion">
+          <label for="id_descripcion">Descripcion</label>
+        </div>
+    
+    <div class="form-linear form-center">
+        <button type="submit">Crear</button>
+        <a href="/roles/" class="btn-link" style="margin:auto;">Cancelar</a>
+    </div>
+</form>

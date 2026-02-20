@@ -1,0 +1,20 @@
+<form method="post" class="form-container">
+  <h2 class="form-header">Crear Estado de Pedido</h2>
+  <input type="hidden" name="csrfmiddlewaretoken" value="HoGfXBo2XhmAvBvnvTw52CEGAqnzj6k0EkgMmrBy3JvT6wg7Pq9fWu2ppNWpf3G6">
+  
+  
+    <div class="form-floating">
+      <input type="number" name="est_id" value="4" readonly="" title="La id del estado de Entregado debe ser la mayor de todas" class="form-control" placeholder=" " required="" id="id_est_id">
+      <label for="id_est_id">Est id</label>
+    </div>
+  
+    <div class="form-floating">
+      <input type="text" name="est_nombre" maxlength="50" class="form-control" placeholder=" " id="id_est_nombre">
+      <label for="id_est_nombre">Est nombre</label>
+    </div>
+  
+  <div class="form-linear form-center">
+    <button type="submit">Guardar</button>
+    <a href="/estado_pedidos/" class="btn-link">Volver al listado</a>
+  </div>
+</form>

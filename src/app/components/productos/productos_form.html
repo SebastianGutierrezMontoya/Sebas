@@ -1,0 +1,144 @@
+<form method="post" class="form-container">
+    <h2 class="form-header">Crear Producto</h2>
+    <input type="hidden" name="csrfmiddlewaretoken" value="w4VK50jzgwBM09vR7fUgSfOMfARe3vJut0vhuQw5mYK5B4gBrMxqM7cv4Xq4Zs5A">
+
+    
+    
+    
+    <!-- <p>
+    <label for="id_prod_id">Prod id:</label>
+    <input type="text" name="prod_id" value="41" maxlength="10" readonly class="form-control" placeholder=" " required id="id_prod_id">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_prod_nombre">Prod nombre:</label>
+    <input type="text" name="prod_nombre" maxlength="100" class="form-control" placeholder=" " id="id_prod_nombre">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_prod_descripcion">Prod descripcion:</label>
+    <input type="text" name="prod_descripcion" maxlength="400" class="form-control" placeholder=" " id="id_prod_descripcion">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_prod_precio_venta">Prod precio venta:</label>
+    <input type="number" name="prod_precio_venta" step="0.01" class="form-control" placeholder=" " id="id_prod_precio_venta">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_prod_stock">Prod stock:</label>
+    <input type="number" name="prod_stock" class="form-control" placeholder=" " id="id_prod_stock">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_prod_descuento">Prod descuento:</label>
+    <input type="number" name="prod_descuento" value="0" step="0.01" class="form-control" placeholder=" " id="id_prod_descuento">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_cat">Cat:</label>
+    <select name="cat" class="form-control" placeholder=" " required id="id_cat">
+  <option value="" selected>---------</option>
+
+  <option value="COS">Cosplay</option>
+
+  <option value="ESP">Ediciones Especiales</option>
+
+  <option value="FIG">Figuras y Coleccionables</option>
+
+  <option value="GDT">Gadgets y Tecnología</option>
+
+  <option value="JUG">Juegos y Videojuegos</option>
+
+  <option value="MNG">Manga y Light Novels</option>
+
+  <option value="POS">Posters y Arte</option>
+
+  <option value="ROA">Ropa y Accesorios</option>
+
+</select>
+    
+    
+      
+    
+  </p> -->
+
+    
+        <div class="form-floating">
+          <input type="text" name="prod_id" value="41" maxlength="10" readonly="" class="form-control" placeholder=" " required="" id="id_prod_id">
+          <label for="id_prod_id">Prod id</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="text" name="prod_nombre" maxlength="100" class="form-control" placeholder=" " id="id_prod_nombre">
+          <label for="id_prod_nombre">Prod nombre</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="text" name="prod_descripcion" maxlength="400" class="form-control" placeholder=" " id="id_prod_descripcion">
+          <label for="id_prod_descripcion">Prod descripcion</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="number" name="prod_precio_venta" step="0.01" class="form-control" placeholder=" " id="id_prod_precio_venta">
+          <label for="id_prod_precio_venta">Prod precio venta</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="number" name="prod_stock" class="form-control" placeholder=" " id="id_prod_stock">
+          <label for="id_prod_stock">Prod stock</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="number" name="prod_descuento" value="0" step="0.01" class="form-control" placeholder=" " id="id_prod_descuento">
+          <label for="id_prod_descuento">Prod descuento</label>
+        </div>
+    
+        <div class="form-floating">
+          <select name="cat" class="form-control" placeholder=" " required="" id="id_cat">
+  <option value="" selected="">---------</option>
+
+  <option value="COS">Cosplay</option>
+
+  <option value="ESP">Ediciones Especiales</option>
+
+  <option value="FIG">Figuras y Coleccionables</option>
+
+  <option value="GDT">Gadgets y Tecnología</option>
+
+  <option value="JUG">Juegos y Videojuegos</option>
+
+  <option value="MNG">Manga y Light Novels</option>
+
+  <option value="POS">Posters y Arte</option>
+
+  <option value="ROA">Ropa y Accesorios</option>
+
+</select>
+          <label for="id_cat">Cat</label>
+        </div>
+    
+
+    <div class="form-linear form-center">
+        <button type="submit">Guardar</button>
+        <a href="/productos/" class="btn-link">Volver al listado</a>
+    </div>
+</form>

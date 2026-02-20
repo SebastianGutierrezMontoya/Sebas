@@ -1,0 +1,210 @@
+<form method="post" class="form-container">
+    <h2 class="form-header">Crear Usuario</h2>
+    <input type="hidden" name="csrfmiddlewaretoken" value="OjEDQUbynoCxiN2HkFg1yE28tydlsYcxLfeafKo4tQLQTINrEcTbswqRiVMboVyD">
+
+    
+    
+
+    <!-- <p>
+    <label for="id_id_usuario">Id usuario:</label>
+    <input type="number" name="id_usuario" value="5" readonly class="form-control" placeholder=" " required id="id_id_usuario">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_nombre">Nombre:</label>
+    <input type="text" name="nombre" maxlength="300" class="form-control" placeholder=" " id="id_nombre">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_primer_apellido">Primer apellido:</label>
+    <input type="text" name="primer_apellido" maxlength="50" class="form-control" placeholder=" " id="id_primer_apellido">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_segundo_apellido">Segundo apellido:</label>
+    <input type="text" name="segundo_apellido" maxlength="50" class="form-control" placeholder=" " id="id_segundo_apellido">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_fecha_nacimiento">Fecha nacimiento:</label>
+    <input type="date" name="fecha_nacimiento" class="form-control datepicker" placeholder=" " id="id_fecha_nacimiento">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_password_hash">Password hash:</label>
+    <input type="password" name="password_hash" maxlength="255" class="form-control" placeholder=" " id="id_password_hash">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_usuario_id_sexo">Usuario id sexo:</label>
+    <select name="usuario_id_sexo" class="form-control" placeholder=" " required id="id_usuario_id_sexo">
+  <option value="" selected>---------</option>
+
+  <option value="1">Hombre</option>
+
+  <option value="2">Mujer</option>
+
+</select>
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_usuario_id_perfil">Usuario id perfil:</label>
+    <select name="usuario_id_perfil" class="form-control" placeholder=" " required id="id_usuario_id_perfil">
+  <option value="" selected>---------</option>
+
+  <option value="1">ADMIN_USUARIOS</option>
+
+  <option value="2">ADMIN_PRODUCTOS</option>
+
+  <option value="3">ADMIN_PEDIDOS</option>
+
+  <option value="4">VENDEDOR_PEDIDOS</option>
+
+  <option value="5">VENDEDOR_PRODUCTOS</option>
+
+  <option value="6">CLIENTE_PEDIDOS</option>
+
+  <option value="7">CLIENTE_PRODUCTOS</option>
+
+</select>
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_activo">Activo:</label>
+    <input type="number" name="activo" value="1" step="1" min="0" max="1" class="form-control" placeholder=" " id="id_activo">
+    
+    
+      
+    
+  </p> -->
+
+    
+        <div class="form-floating">
+          <input type="number" name="id_usuario" value="5" readonly="" class="form-control" placeholder=" " required="" id="id_id_usuario">
+          <label for="id_id_usuario">Id usuario</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="text" name="nombre" maxlength="300" class="form-control" placeholder=" " id="id_nombre">
+          <label for="id_nombre">Nombre</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="text" name="primer_apellido" maxlength="50" class="form-control" placeholder=" " id="id_primer_apellido">
+          <label for="id_primer_apellido">Primer apellido</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="text" name="segundo_apellido" maxlength="50" class="form-control" placeholder=" " id="id_segundo_apellido">
+          <label for="id_segundo_apellido">Segundo apellido</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="date" name="fecha_nacimiento" class="form-control datepicker" placeholder=" " id="id_fecha_nacimiento">
+          <label for="id_fecha_nacimiento">Fecha nacimiento</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="password" name="password_hash" maxlength="255" class="form-control" placeholder=" " id="id_password_hash">
+          <label for="id_password_hash">Password hash</label>
+        </div>
+    
+        <div class="form-floating">
+          <select name="usuario_id_sexo" class="form-control" placeholder=" " required="" id="id_usuario_id_sexo">
+  <option value="" selected="">---------</option>
+
+  <option value="1">Hombre</option>
+
+  <option value="2">Mujer</option>
+
+</select>
+          <label for="id_usuario_id_sexo">Usuario id sexo</label>
+        </div>
+    
+        <div class="form-floating">
+          <select name="usuario_id_perfil" class="form-control" placeholder=" " required="" id="id_usuario_id_perfil">
+  <option value="" selected="">---------</option>
+
+  <option value="1">ADMIN_USUARIOS</option>
+
+  <option value="2">ADMIN_PRODUCTOS</option>
+
+  <option value="3">ADMIN_PEDIDOS</option>
+
+  <option value="4">VENDEDOR_PEDIDOS</option>
+
+  <option value="5">VENDEDOR_PRODUCTOS</option>
+
+  <option value="6">CLIENTE_PEDIDOS</option>
+
+  <option value="7">CLIENTE_PRODUCTOS</option>
+
+</select>
+          <label for="id_usuario_id_perfil">Usuario id perfil</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="number" name="activo" value="1" step="1" min="0" max="1" class="form-control" placeholder=" " id="id_activo">
+          <label for="id_activo">Activo</label>
+        </div>
+    
+    
+
+    <div class="form-list">
+    <div id="contactosContainer" class="form-contactos">
+        <div class="contacto-row form-linear">
+            <p> Contacto:</p>
+            <select name="tipo_contacto">
+                <option value="">Tipo de contacto</option>
+                
+                    <option value="1">Correo Electronico</option>
+                
+                    <option value="2">Número telefónico</option>
+                
+                    <option value="3">Direccion</option>
+                
+                    <option value="4">Codigo Postal</option>
+                
+            </select>
+            <label> Dato:</label> <input type="text" name="dato_contacto" class="form-dato-contacto">
+        </div>
+        <button type="button" id="addContacto">Agregar Contacto</button>
+    </div>
+    
+
+    
+
+    </div>
+
+    <div class="form-linear form-center">
+        
+        <button type="submit">Guardar</button>
+
+        <a href="/usuarios/" class="btn-link">Volver al listado</a>
+        
+    </div>
+</form>

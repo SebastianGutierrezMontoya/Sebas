@@ -1,0 +1,20 @@
+<form method="post" class="form-container">
+  <h2 class="form-header">Crear Sexo</h2>
+  <input type="hidden" name="csrfmiddlewaretoken" value="7rSBMk67YkeohGRIWUZypQNlOKUgoQai4ns8bajD4MnHSBCsgrCIjIb4D7t6kNwo">
+  
+  
+    <div class="form-floating">
+      <input type="number" name="id_sexo" required="" id="id_id_sexo">
+      <label for="id_id_sexo">Id sexo</label>
+    </div>
+  
+    <div class="form-floating">
+      <input type="text" name="nombre_sexo" maxlength="20" id="id_nombre_sexo">
+      <label for="id_nombre_sexo">Nombre sexo</label>
+    </div>
+  
+  <div class="form-linear form-center">
+    <button type="submit">Guardar</button>
+    <a href="/sexos/" class="btn-link">Volver al listado</a>
+  </div>
+</form>

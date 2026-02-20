@@ -1,0 +1,302 @@
+<form method="post" class="form-container">
+    <h2 class="form-header">Crear Pedido</h2>
+    <p> Estado :  </p>
+    <input type="hidden" name="csrfmiddlewaretoken" value="hqj0k2T3v8rHb8uvNzeOzHUamp3XcE3AemTxJS6zBAA0M3ff76RYtziTbMCN8BpG">
+
+    
+    
+    
+    <!-- <p>
+    <label for="id_ped_id">Ped id:</label>
+    <input type="number" name="ped_id" value="1" readonly class="form-control" placeholder=" " required id="id_ped_id">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_usu">Usu:</label>
+    <select name="usu" class="form-control" placeholder=" " required id="id_usu">
+  <option value="" selected>---------</option>
+
+  <option value="1">Sebas Admin</option>
+
+  <option value="2">Juan Pablo Cardona</option>
+
+  <option value="3">Maria Fernanda Cardona</option>
+
+  <option value="4">Carlos Martinez</option>
+
+</select>
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_ped_fecha_pedido">Ped fecha pedido:</label>
+    <input type="date" name="ped_fecha_pedido" value="2026-02-20" class="form-control datepicker" placeholder=" " id="id_ped_fecha_pedido">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_ped_total">Ped total:</label>
+    <input type="number" name="ped_total" value="0.0" step="0.01" readonly class="form-control" placeholder=" " id="id_ped_total">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_ped_direccion_envio">Ped direccion envio:</label>
+    <input type="text" name="ped_direccion_envio" maxlength="200" placeholder=" " class="form-control" id="id_ped_direccion_envio">
+    
+    
+  </p>
+
+  
+  <p>
+    <label for="id_ped_notas">Ped notas:</label>
+    <textarea name="ped_notas" cols="40" rows="4" maxlength="200" placeholder=" " class="form-control" id="id_ped_notas">
+</textarea>
+    
+    
+      
+    
+  </p> -->
+
+    
+        <div class="form-floating">
+          <input type="number" name="ped_id" value="1" readonly="" class="form-control" placeholder=" " required="" id="id_ped_id">
+          <label for="id_ped_id">Ped id</label>
+        </div>
+    
+        <div class="form-floating">
+          <select name="usu" class="form-control" placeholder=" " required="" id="id_usu">
+  <option value="" selected="">---------</option>
+
+  <option value="1">Sebas Admin</option>
+
+  <option value="2">Juan Pablo Cardona</option>
+
+  <option value="3">Maria Fernanda Cardona</option>
+
+  <option value="4">Carlos Martinez</option>
+
+</select>
+          <label for="id_usu">Usu</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="date" name="ped_fecha_pedido" value="2026-02-20" class="form-control datepicker" placeholder=" " id="id_ped_fecha_pedido">
+          <label for="id_ped_fecha_pedido">Ped fecha pedido</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="number" name="ped_total" value="0.0" step="0.01" readonly="" class="form-control" placeholder=" " id="id_ped_total">
+          <label for="id_ped_total">Ped total</label>
+        </div>
+    
+        <div class="form-floating">
+          <input type="text" name="ped_direccion_envio" maxlength="200" placeholder=" " class="form-control" id="id_ped_direccion_envio">
+          <label for="id_ped_direccion_envio">Ped direccion envio</label>
+        </div>
+    
+        <div class="form-floating">
+          <textarea name="ped_notas" cols="40" rows="4" maxlength="200" placeholder=" " class="form-control" id="id_ped_notas"></textarea>
+          <label for="id_ped_notas">Ped notas</label>
+        </div>
+    
+
+    <div class="form-list">
+    <div class="form-linear">
+        <label for="productos">Productos:</label>
+
+    
+        <select id="productos" name="productos" class="form-productos">
+                <option value="">Seleccione un producto</option>
+            
+                <option value="PROD001" data-price="145000.00" data-discount="0">
+                    Figura Goku Super Saiyan - $145000.00 - %0
+                </option>
+            
+                <option value="PROD002" data-price="98000.00" data-discount="10.00">
+                    Nendoroid Naruto Uzumaki - $98000.00 - %10.00
+                </option>
+            
+                <option value="PROD003" data-price="165000.00" data-discount="5.00">
+                    Figura Luffy Gear 4 - $165000.00 - %5.00
+                </option>
+            
+                <option value="PROD004" data-price="285000.00" data-discount="0">
+                    Scale Figure Asuka Langley - $285000.00 - %0
+                </option>
+            
+                <option value="PROD005" data-price="65000.00" data-discount="15.00">
+                    Funko Pop Eren Yeager - $65000.00 - %15.00
+                </option>
+            
+                <option value="PROD006" data-price="45000.00" data-discount="20.00">
+                    Camiseta Attack on Titan - $45000.00 - %20.00
+                </option>
+            
+                <option value="PROD007" data-price="89000.00" data-discount="15.00">
+                    Sudadera My Hero Academia - $89000.00 - %15.00
+                </option>
+            
+                <option value="PROD008" data-price="38000.00" data-discount="10.00">
+                    Gorra Akatsuki - $38000.00 - %10.00
+                </option>
+            
+                <option value="PROD009" data-price="195000.00" data-discount="5.00">
+                    Chaqueta Bomber Saiyan - $195000.00 - %5.00
+                </option>
+            
+                <option value="PROD010" data-price="28000.00" data-discount="25.00">
+                    Calcetines Totoro Pack x3 - $28000.00 - %25.00
+                </option>
+            
+                <option value="PROD011" data-price="89000.00" data-discount="0">
+                    One Piece Vol. 1-3 Box Set - $89000.00 - %0
+                </option>
+            
+                <option value="PROD012" data-price="35000.00" data-discount="5.00">
+                    Attack on Titan Vol. 34 Final - $35000.00 - %5.00
+                </option>
+            
+                <option value="PROD013" data-price="28000.00" data-discount="10.00">
+                    Chainsaw Man Vol. 1 - $28000.00 - %10.00
+                </option>
+            
+                <option value="PROD014" data-price="52000.00" data-discount="0">
+                    Death Note Black Edition - $52000.00 - %0
+                </option>
+            
+                <option value="PROD015" data-price="78000.00" data-discount="12.00">
+                    Demon Slayer Artbook - $78000.00 - %12.00
+                </option>
+            
+                <option value="PROD016" data-price="18000.00" data-discount="15.00">
+                    Poster Evangelion Unit-01 - $18000.00 - %15.00
+                </option>
+            
+                <option value="PROD017" data-price="32000.00" data-discount="10.00">
+                    Scroll Akame ga Kill - $32000.00 - %10.00
+                </option>
+            
+                <option value="PROD018" data-price="42000.00" data-discount="20.00">
+                    Set de Posters Jujutsu Kaisen - $42000.00 - %20.00
+                </option>
+            
+                <option value="PROD019" data-price="28000.00" data-discount="5.00">
+                    Poster Metálico Cowboy Bebop - $28000.00 - %5.00
+                </option>
+            
+                <option value="PROD020" data-price="68000.00" data-discount="0">
+                    Canvas Spy x Family - $68000.00 - %0
+                </option>
+            
+                <option value="PROD021" data-price="35000.00" data-discount="18.00">
+                    Mouse Pad XXL Dragon Ball - $35000.00 - %18.00
+                </option>
+            
+                <option value="PROD022" data-price="42000.00" data-discount="12.00">
+                    Taza Térmica One Punch Man - $42000.00 - %12.00
+                </option>
+            
+                <option value="PROD023" data-price="15000.00" data-discount="25.00">
+                    Llavero Metal Sharingan - $15000.00 - %25.00
+                </option>
+            
+                <option value="PROD024" data-price="58000.00" data-discount="8.00">
+                    Lámpara LED Death Note - $58000.00 - %8.00
+                </option>
+            
+                <option value="PROD025" data-price="12000.00" data-discount="30.00">
+                    Pack Stickers Anime Mix - $12000.00 - %30.00
+                </option>
+            
+                <option value="PROD026" data-price="78000.00" data-discount="10.00">
+                    Peluca Kakashi Hatake - $78000.00 - %10.00
+                </option>
+            
+                <option value="PROD027" data-price="22000.00" data-discount="15.00">
+                    Banda Ninja Konoha - $22000.00 - %15.00
+                </option>
+            
+                <option value="PROD028" data-price="125000.00" data-discount="5.00">
+                    Capa Survey Corps - $125000.00 - %5.00
+                </option>
+            
+                <option value="PROD029" data-price="48000.00" data-discount="0">
+                    Espada de Espuma Tanjiro - $48000.00 - %0
+                </option>
+            
+                <option value="PROD030" data-price="38000.00" data-discount="12.00">
+                    Lentes Steins Gate - $38000.00 - %12.00
+                </option>
+            
+                <option value="PROD031" data-price="89000.00" data-discount="10.00">
+                    Dragon Ball FighterZ PS4 - $89000.00 - %10.00
+                </option>
+            
+                <option value="PROD032" data-price="65000.00" data-discount="15.00">
+                    Naruto Storm 4 Road to Boruto - $65000.00 - %15.00
+                </option>
+            
+                <option value="PROD033" data-price="285000.00" data-discount="0">
+                    Cartas Pokémon Booster Box - $285000.00 - %0
+                </option>
+            
+                <option value="PROD034" data-price="42000.00" data-discount="8.00">
+                    Yu-Gi-Oh Structure Deck - $42000.00 - %8.00
+                </option>
+            
+                <option value="PROD035" data-price="58000.00" data-discount="5.00">
+                    Puzzle 1000 pzs Studio Ghibli - $58000.00 - %5.00
+                </option>
+            
+                <option value="PROD036" data-price="385000.00" data-discount="0">
+                    Evangelion Ultimate Edition - $385000.00 - %0
+                </option>
+            
+                <option value="PROD037" data-price="125000.00" data-discount="5.00">
+                    Fullmetal Alchemist Deluxe - $125000.00 - %5.00
+                </option>
+            
+                <option value="PROD038" data-price="245000.00" data-discount="0">
+                    Demon Slayer Collector Box - $245000.00 - %0
+                </option>
+            
+                <option value="PROD039" data-price="198000.00" data-discount="8.00">
+                    Attack on Titan Season Box - $198000.00 - %8.00
+                </option>
+            
+                <option value="PROD040" data-price="895000.00" data-discount="0">
+                    Studio Ghibli Collection - $895000.00 - %0
+                </option>
+            
+        </select>
+    </div> <!-- cierre div form-linear dentro del IF  -->
+
+        <div class="form-linear">
+            <label> Cantidad :</label> <input type="number" name="Cantidad" min="1" value="1">
+            <button type="button" id="addProducto">Agregar Producto</button>
+        </div>
+    <div id="productosList">
+        <!-- Aquí se mostrarán los productos agregados al pedido -->
+
+    </div>
+
+    
+
+    </div>
+
+    
+    <div class="form-linear">
+        <button type="submit">Guardar</button>
+        <a href="/pedidos/" class="btn-link">Volver al listado</a>
+    </div>
+</form>
