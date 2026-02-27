@@ -13,6 +13,7 @@ import { Categorias } from './components/categorias/categorias';
 import { CategoriasForm } from './components/categorias/categorias_form';
 import { Productos } from './components/productos/productos';
 import { ProductosForm } from './components/productos/productos_form';
+import { AuditoriaProductos } from './components/productos/auditoria_productos';
 import { Pedidos } from './components/pedidos/pedidos';
 import { PedidosForm } from './components/pedidos/pedidos_form';
 import { Estados } from './components/estados/estados';
@@ -41,6 +42,7 @@ export const routes: Routes = [
 
     { path : 'productos', component: Productos },
     { path : 'productos/form', component: ProductosForm },
+    { path : 'productos/auditoria', component: AuditoriaProductos },
 
     { path : 'pedidos', component: Pedidos },
     { path : 'pedidos/form', component: PedidosForm },
