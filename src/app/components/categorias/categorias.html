@@ -21,9 +21,9 @@
 
     <ul *ngIf="categorias.length > 0">  
       <li *ngFor="let categoria of categorias">
-        <a href="#" class="btn-link2">{{ categoria.cat_nombre }}</a>
-        <a href="#" (click)="editarCategoria(categoria)" class="btn-link">Editar</a>,
-        <a href="#" (click)="confirmarEliminar(categoria); $event.preventDefault()" class="btn-link">Eliminar</a>
+        <a class="btn-link2">{{ categoria.cat_nombre }}</a>
+        <a (click)="editarCategoria(categoria)" class="btn-link">Editar</a>,
+        <a (click)="confirmarEliminar(categoria); $event.preventDefault()" class="btn-link">Eliminar</a>
       </li>
     </ul>
 
