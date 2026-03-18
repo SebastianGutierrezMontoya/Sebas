@@ -1,50 +1,68 @@
-<form method="post" class="form-container">
-    <h2 class="form-header">Crear Categoría</h2>
-    <input type="hidden" name="csrfmiddlewaretoken" value="YmhEYYhqSW9UA2WWuWkglGK2eWdcvrQAViRbnOuWYoidbXHGOtXqfy8L3jM2rocG">
-    <!-- <p>
-    <label for="id_cat_id">Cat id:</label>
-    <input type="text" name="cat_id" value="9" maxlength="10" readonly class="form-control" placeholder=" " required id="id_cat_id">
-    
-    
-  </p>
 
   
-  <p>
-    <label for="id_cat_nombre">Cat nombre:</label>
-    <input type="text" name="cat_nombre" maxlength="50" class="form-control" placeholder=" " id="id_cat_nombre">
-    
-    
-  </p>
 
-  
-  <p>
-    <label for="id_cat_descripcion">Cat descripcion:</label>
-    <input type="text" name="cat_descripcion" maxlength="200" class="form-control" placeholder=" " id="id_cat_descripcion">
-    
-    
-      
-    
-  </p> -->
+  <!-- Formulario reactivo -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+    <h2 class="form-header">
+    <!-- {% if isEditMode %}Editar{% else %}Crear{% endif %} Categoría -->
+    {{ isEditMode ? 'Editar' : 'Crear' }} Categoría
+  </h2>
 
-    
-        <div class="form-floating">
-          <input type="text" name="cat_id" value="9" maxlength="10" readonly="" class="form-control" placeholder=" " required="" id="id_cat_id">
-          <label for="id_cat_id">Cat id</label>
-        </div>
-    
-        <div class="form-floating">
-          <input type="text" name="cat_nombre" maxlength="50" class="form-control" placeholder=" " id="id_cat_nombre">
-          <label for="id_cat_nombre">Cat nombre</label>
-        </div>
-    
-        <div class="form-floating">
-          <input type="text" name="cat_descripcion" maxlength="200" class="form-control" placeholder=" " id="id_cat_descripcion">
-          <label for="id_cat_descripcion">Cat descripcion</label>
-        </div>
-    
-
-    <div class="form-linear form-center">
-        <button type="submit">Guardar</button>
-        <a href="/categorias/" class="btn-link">Volver al listado</a>
+  <!-- Mostrar mensaje de error si existe -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+    <!-- Campo: Cat nombre -->
+    <div class="form-floating">
+      <input 
+        type="text" 
+        formControlName="cat_nombre"
+        maxlength="50" 
+        class="form-control" 
+        placeholder=" " 
+        id="cat_nombre"
+        [class.is-invalid]="cat_nombre && cat_nombre.invalid && cat_nombre.touched"
+      >
+      <label for="cat_nombre">Cat nombre</label>
+      <div *ngIf="cat_nombre && cat_nombre.invalid && cat_nombre.touched" class="invalid-feedback">
+        <small *ngIf="cat_nombre.errors?.['required']">Este campo es requerido</small>
+        <small *ngIf="cat_nombre.errors?.['maxlength']">Máximo 50 caracteres</small>
+      </div>
     </div>
-</form>
+
+    <!-- Campo: Cat descripción -->
+    <div class="form-floating">
+      <input 
+        type="text" 
+        formControlName="cat_descripcion"
+        maxlength="200" 
+        class="form-control" 
+        placeholder=" " 
+        id="cat_descripcion"
+        [class.is-invalid]="cat_descripcion && cat_descripcion.invalid && cat_descripcion.touched"
+      >
+      <label for="cat_descripcion">Cat descripcion</label>
+      <div *ngIf="cat_descripcion && cat_descripcion.invalid && cat_descripcion.touched" class="invalid-feedback">
+        <small *ngIf="cat_descripcion.errors?.['maxlength']">Máximo 200 caracteres</small>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="form-linear form-center">
+      <button 
+        type="submit" 
+        [disabled]="!form.valid || isLoading"
+        class="btn btn-primary"
+      >
+        {{ isLoading ? 'Guardando...' : 'Guardar' }}
+      </button>
+      <button 
+        type="button" 
+        (click)="volver()"
+        [disabled]="isLoading"
+        class="btn-link"
+      >
+        Volver al listado
+      </button>
+    </div>
+  </form>
