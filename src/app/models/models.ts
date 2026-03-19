@@ -21,7 +21,7 @@ export interface EstadoPedidos {
 
 export interface Pedidos {
   ped_id: number;
-  usu: string; // FK a Usuarios.id_usuario
+  usu_id: string; // FK a Usuarios.id_usuario
   ped_fecha_pedido?: string; // Date
   ped_total?: number; // Decimal
   ped_estado?: number; // Float
@@ -55,7 +55,7 @@ export interface Modulos {
 }
 
 export interface PerfilPermisos {
-  id_perfil_permiso: number;
+
   perfil_id: number; // FK a Perfiles
   mod_id: number; // FK a Modulos
   can_create: string; // 'Y'|'N'
@@ -76,7 +76,7 @@ export interface Productos {
 }
 
 export interface ProductosAuditoria {
-  dummy_id: number;
+
   creation_date?: string; // Date
   au_type?: number;
   auditoria?: string;

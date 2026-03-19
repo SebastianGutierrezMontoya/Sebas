@@ -38,7 +38,7 @@ export const routes: Routes = [
     { path : 'config_contactos/form', component: ConfigContactosForm },
 
     { path : 'categorias', component: Categorias },
-    // { path : 'categorias/form', component: CategoriasForm },
+    { path : 'categorias/form', component: CategoriasForm },
     { path : 'categorias/form/:id', component: CategoriasForm },
 
     { path : 'productos', component: Productos },
