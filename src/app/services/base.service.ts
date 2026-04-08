@@ -1,7 +1,13 @@
 // base.service.ts
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
+
+
+@Injectable({
+  providedIn: 'root'
+})
 export abstract class BaseService<T, ID> {
 
   constructor(
@@ -28,4 +34,7 @@ export abstract class BaseService<T, ID> {
   delete(id: ID): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+
+
+
 }

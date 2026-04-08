@@ -8,4 +8,10 @@ export class ProductosAuditoriaService extends BaseService<ProductosAuditoria, n
   constructor(http: HttpClient) {
     super(http, 'http://localhost:3000/api/productos-auditoria');
   }
+
+  getAuditoria() {
+        // return this.http.get<ProductosAuditoria[]>('http://localhost:3000/api/productos-auditoria');
+        return this.http.get<[]>('http://localhost:3000/api/productos-auditoria');
+    
+  }
 }

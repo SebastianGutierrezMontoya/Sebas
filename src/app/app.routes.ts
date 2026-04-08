@@ -11,7 +11,7 @@ import { ConfigContactos } from './components/config_contactos/config_contactos'
 import { ConfigContactosForm } from './components/config_contactos/config_contactos_form';
 import { Categorias } from './components/categorias/categorias';
 import { CategoriasForm } from './components/categorias/categorias_form';
-import { Productos } from './components/productos/productos';
+import { Producto } from './components/productos/productos';
 import { ProductosForm } from './components/productos/productos_form';
 import { AuditoriaProductos } from './components/productos/auditoria_productos';
 import { Pedidos } from './components/pedidos/pedidos';
@@ -41,8 +41,9 @@ export const routes: Routes = [
     { path : 'categorias/form', component: CategoriasForm },
     { path : 'categorias/form/:id', component: CategoriasForm },
 
-    { path : 'productos', component: Productos },
+    { path : 'productos', component: Producto },
     { path : 'productos/form', component: ProductosForm },
+    { path : 'productos/form/:id', component: ProductosForm },
     { path : 'productos/auditoria', component: AuditoriaProductos },
 
     { path : 'pedidos', component: Pedidos },

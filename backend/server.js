@@ -20,6 +20,96 @@ const pool = new Pool({
 app.use(cors()); // Permite solicitudes desde Angular
 app.use(express.json()); // Para parsear JSON en requests
 
+
+app.get('/api/productos', async (req, res) => {
+  const { search, page = 1, limit = 10 } = req.query;
+
+  const offset = (page - 1) * limit;
+
+  try {
+    let query = `
+      SELECT prod_id, cat_id, prod_nombre, prod_descripcion,
+             prod_precio_venta, prod_stock, prod_imagen_url, prod_descuento
+      FROM productos
+    `;
+
+    let values = [];
+
+    if (search) {
+      query += ` WHERE prod_nombre ILIKE $1`;
+      values.push(`%${search}%`);
+    }
+
+    query += ` ORDER BY prod_id LIMIT $${values.length + 1} OFFSET $${values.length + 2}`;
+    values.push(limit, offset);
+
+    const result = await pool.query(query, values);
+
+    res.json(result.rows);
+
+  } catch (err) {
+    res.status(500).send('DB error');
+  }
+});
+
+app.get('/api/productos-auditoria', async (req, res) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        ROW_NUMBER() OVER (ORDER BY creation_date DESC) AS id,
+        creation_date,
+        au_type,
+        auditoria
+      FROM productos_auditoria
+    `);
+
+    const data = result.rows.map(p => {
+      let parsed = null;
+      let differences = [];
+      let product_name = null;
+
+      try {
+        parsed = JSON.parse(p.auditoria);
+
+        const old = parsed?.old || {};
+        const newVal = parsed?.new || {};
+
+        if (p.au_type === 2) {
+          for (const key of new Set([...Object.keys(old), ...Object.keys(newVal)])) {
+            if (old[key] !== newVal[key]) {
+              differences.push({
+                field: key,
+                old: old[key],
+                new: newVal[key]
+              });
+            }
+          }
+        }
+
+        product_name =
+          old?.prod_nombre ||
+          newVal?.prod_nombre ||
+          parsed?.prod_nombre;
+
+      } catch {}
+
+      return {
+        ...p,
+        au_type_text:
+          p.au_type === 1 ? 'Creación' :
+          p.au_type === 2 ? 'Modificación' :
+          p.au_type === 3 ? 'Eliminación' : 'Desconocido',
+        differences,
+        product_name
+      };
+    });
+    
+    res.json(data);
+
+  } catch (err) {
+    res.status(500).send('Error auditoría');
+  }
+});
 /**
  * Categorías
  * Asume la existencia de la tabla "categoria" con columnas:
@@ -124,7 +214,10 @@ createCrudRoutes(app, 'productos', 'productos', 'prod_id', [
   'cat_id',
   'prod_nombre',
   'prod_descripcion',
-  'prod_precio_venta'
+  'prod_precio_venta',
+  'prod_stock',
+  'prod_imagen_url',
+  'prod_descuento'
 ]);
 
 createCrudRoutes(app, 'usuarios', 'usuarios', 'id_usuario', [

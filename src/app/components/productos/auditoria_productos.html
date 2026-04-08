@@ -3,32 +3,22 @@
 <div class="container" style="width: auto !important;">
     <h2>Auditoría de Productos</h2>
 </div>
-    <table class="table-auditoria">
-        <thead>
-            <tr>
-                <th>Fecha de Creación</th>
-                <th>Tipo de Auditoría</th>
-                <th>Detalles de Auditoría</th>
-            </tr>
-        </thead>
-        <tbody>
-            
-        </tbody>
+   <table>
+  <tr *ngFor="let p of data">
+    <td>{{ p.creation_date }}</td>
+    <td>{{ p.au_type_text }}</td>
+    <td>
 
+      <div *ngIf="p.product_name">
+        Producto: {{ p.product_name }}
+      </div>
 
+      <div *ngIf="p.differences?.length">
+        <div *ngFor="let d of p.differences">
+          {{ d.field }}: {{ d.old }} → {{ d.new }}
+        </div>
+      </div>
 
-
-    
-    <!-- <footer>
-        <hr>
-        <p>&copy; 2024 Multiverse Anime Store</p>
-    </footer> -->
-
-
-
-
-
-
-
-
+    </td>
+  </tr>
 </table>

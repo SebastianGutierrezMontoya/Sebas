@@ -1,144 +1,74 @@
-<form method="post" class="form-container">
-    <h2 class="form-header">Crear Producto</h2>
-    <input type="hidden" name="csrfmiddlewaretoken" value="w4VK50jzgwBM09vR7fUgSfOMfARe3vJut0vhuQw5mYK5B4gBrMxqM7cv4Xq4Zs5A">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
 
-    
-    
-    
-    <!-- <p>
-    <label for="id_prod_id">Prod id:</label>
-    <input type="text" name="prod_id" value="41" maxlength="10" readonly class="form-control" placeholder=" " required id="id_prod_id">
-    
-    
-  </p>
+  <h2 class="form-header">
+    {{ isEditMode ? 'Editar' : 'Crear' }} Producto
+  </h2>
 
-  
-  <p>
-    <label for="id_prod_nombre">Prod nombre:</label>
-    <input type="text" name="prod_nombre" maxlength="100" class="form-control" placeholder=" " id="id_prod_nombre">
-    
-    
-  </p>
+  <!-- ERROR -->
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
 
-  
-  <p>
-    <label for="id_prod_descripcion">Prod descripcion:</label>
-    <input type="text" name="prod_descripcion" maxlength="400" class="form-control" placeholder=" " id="id_prod_descripcion">
-    
-    
-  </p>
+  <div class="form-floating">
+    <input type="text" formControlName="prod_id" class="form-control">
+    <label>ID</label>
+  </div>
+  <!-- NOMBRE -->
+  <div class="form-floating">
+    <input type="text" formControlName="prod_nombre" class="form-control">
+    <label>Nombre</label>
+  </div>
 
-  
-  <p>
-    <label for="id_prod_precio_venta">Prod precio venta:</label>
-    <input type="number" name="prod_precio_venta" step="0.01" class="form-control" placeholder=" " id="id_prod_precio_venta">
-    
-    
-  </p>
+  <!-- CATEGORIA (FK) -->
+  <div class="form-floating">
+    <select formControlName="cat_id" class="form-control">
+      <option value="">Seleccione categoría</option>
+      <option *ngFor="let c of categorias" [value]="c.cat_id">
+        {{ c.cat_nombre }}
+      </option>
+    </select>
+    <label>Categoría</label>
+  </div>
 
-  
-  <p>
-    <label for="id_prod_stock">Prod stock:</label>
-    <input type="number" name="prod_stock" class="form-control" placeholder=" " id="id_prod_stock">
-    
-    
-  </p>
+  <!-- DESCRIPCION -->
+  <div class="form-floating">
+    <input type="text" formControlName="prod_descripcion" class="form-control">
+    <label>Descripción</label>
+  </div>
 
-  
-  <p>
-    <label for="id_prod_descuento">Prod descuento:</label>
-    <input type="number" name="prod_descuento" value="0" step="0.01" class="form-control" placeholder=" " id="id_prod_descuento">
-    
-    
-  </p>
+  <!-- PRECIO -->
+  <div class="form-floating">
+    <input type="number" formControlName="prod_precio_venta" class="form-control">
+    <label>Precio</label>
+  </div>
 
-  
-  <p>
-    <label for="id_cat">Cat:</label>
-    <select name="cat" class="form-control" placeholder=" " required id="id_cat">
-  <option value="" selected>---------</option>
+  <!-- STOCK -->
+  <div class="form-floating">
+    <input type="number" formControlName="prod_stock" class="form-control">
+    <label>Stock</label>
+  </div>
 
-  <option value="COS">Cosplay</option>
+  <!-- IMAGEN -->
+  <div class="form-floating">
+    <input type="text" formControlName="prod_imagen_url" class="form-control">
+    <label>URL Imagen</label>
+  </div>
 
-  <option value="ESP">Ediciones Especiales</option>
+  <!-- DESCUENTO -->
+  <div class="form-floating">
+    <input type="number" formControlName="prod_descuento" class="form-control">
+    <label>Descuento</label>
+  </div>
 
-  <option value="FIG">Figuras y Coleccionables</option>
+  <!-- BOTONES -->
+  <div class="form-linear form-center">
+    <button type="submit" [disabled]="isLoading || form.invalid">
+      {{ isLoading ? 'Guardando...' : 'Guardar' }}
+    </button>
 
-  <option value="GDT">Gadgets y Tecnología</option>
+    <button type="button" (click)="volver()">
+      Volver
+    </button>
+  </div>
 
-  <option value="JUG">Juegos y Videojuegos</option>
-
-  <option value="MNG">Manga y Light Novels</option>
-
-  <option value="POS">Posters y Arte</option>
-
-  <option value="ROA">Ropa y Accesorios</option>
-
-</select>
-    
-    
-      
-    
-  </p> -->
-
-    
-        <div class="form-floating">
-          <input type="text" name="prod_id" value="41" maxlength="10" readonly="" class="form-control" placeholder=" " required="" id="id_prod_id">
-          <label for="id_prod_id">Prod id</label>
-        </div>
-    
-        <div class="form-floating">
-          <input type="text" name="prod_nombre" maxlength="100" class="form-control" placeholder=" " id="id_prod_nombre">
-          <label for="id_prod_nombre">Prod nombre</label>
-        </div>
-    
-        <div class="form-floating">
-          <input type="text" name="prod_descripcion" maxlength="400" class="form-control" placeholder=" " id="id_prod_descripcion">
-          <label for="id_prod_descripcion">Prod descripcion</label>
-        </div>
-    
-        <div class="form-floating">
-          <input type="number" name="prod_precio_venta" step="0.01" class="form-control" placeholder=" " id="id_prod_precio_venta">
-          <label for="id_prod_precio_venta">Prod precio venta</label>
-        </div>
-    
-        <div class="form-floating">
-          <input type="number" name="prod_stock" class="form-control" placeholder=" " id="id_prod_stock">
-          <label for="id_prod_stock">Prod stock</label>
-        </div>
-    
-        <div class="form-floating">
-          <input type="number" name="prod_descuento" value="0" step="0.01" class="form-control" placeholder=" " id="id_prod_descuento">
-          <label for="id_prod_descuento">Prod descuento</label>
-        </div>
-    
-        <div class="form-floating">
-          <select name="cat" class="form-control" placeholder=" " required="" id="id_cat">
-  <option value="" selected="">---------</option>
-
-  <option value="COS">Cosplay</option>
-
-  <option value="ESP">Ediciones Especiales</option>
-
-  <option value="FIG">Figuras y Coleccionables</option>
-
-  <option value="GDT">Gadgets y Tecnología</option>
-
-  <option value="JUG">Juegos y Videojuegos</option>
-
-  <option value="MNG">Manga y Light Novels</option>
-
-  <option value="POS">Posters y Arte</option>
-
-  <option value="ROA">Ropa y Accesorios</option>
-
-</select>
-          <label for="id_cat">Cat</label>
-        </div>
-    
-
-    <div class="form-linear form-center">
-        <button type="submit">Guardar</button>
-        <a href="/productos/" class="btn-link">Volver al listado</a>
-    </div>
 </form>
