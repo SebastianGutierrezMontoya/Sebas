@@ -31,12 +31,15 @@ export const routes: Routes = [
 
     { path : 'sexos', component: Sexos },
     { path : 'sexos/form', component: SexosForm },
+    { path : 'sexos/form/:id', component: SexosForm },
 
     { path : 'roles', component: Roles },
     { path : 'roles/form', component: RolesForm },
+    { path : 'roles/form/:id', component: RolesForm },
 
     { path : 'config_contactos', component: ConfigContactos },
     { path : 'config_contactos/form', component: ConfigContactosForm },
+    { path : 'config_contactos/form/:id', component: ConfigContactosForm },
 
     { path : 'categorias', component: Categorias },
     { path : 'categorias/form', component: CategoriasForm },
@@ -49,10 +52,13 @@ export const routes: Routes = [
 
     { path : 'pedidos', component: Pedidos },
     { path : 'pedidos/form', component: PedidosForm },
+    { path : 'pedidos/form/:id', component: PedidosForm },
 
     { path : 'estado_pedidos', component: Estados },
     { path : 'estado_pedidos/form', component: EstadosForm },
+    { path : 'estado_pedidos/form/:id', component: EstadosForm },
 
     { path : 'consultas_dinamicas', component: ConsultasDinamicas },
     { path : 'consultas_dinamicas/form', component: ConsultasDinamicasForm },
+    { path : 'consultas_dinamicas/form/:id', component: ConsultasDinamicasForm },
 ];

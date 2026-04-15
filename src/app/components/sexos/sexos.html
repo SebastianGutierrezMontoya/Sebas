@@ -1,19 +1,40 @@
 <div class="container">
 <h2>Sexos</h2>
-<a href="/sexos/form/" class="btn-link">Crear nuevo</a>
-<ul>
+<!-- <a href="/sexos/form/" class="btn-link">Crear nuevo</a> -->
+
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+
+    <button (click)="crearSexo()" class="btn-link">
+      Crear nuevo
+    </button>
+
+
+  <div *ngIf="isLoading">Cargando sexos...</div>
+  <div *ngIf="!isLoading">
+    <ul *ngIf="sexos.length > 0">
+      <li *ngFor="let sexo of sexos">
+        <span class="btn-link2">
+          {{ sexo.nombre_sexo }}
+        </span>
+
+        <a (click)="editarSexo(sexo)" class="btn-link">
+          Editar
+        </a>
+        <a (click)="deleteSexo(sexo)" class="btn-link">
+          Eliminar
+        </a>
+
+      </li>
   
-    <li>
-      <a href="/sexos/1/" class="btn-link2">Hombre</a>
-      (<a href="/sexos/1/editar/" class="btn-link">Editar</a>,
-       <a href="#" onclick="showDeleteModal('1', 'Hombre'); return false;" class="btn-link">Eliminar</a>)
-    </li>
-  
-    <li>
-      <a href="/sexos/2/" class="btn-link2">Mujer</a>
-      (<a href="/sexos/2/editar/" class="btn-link">Editar</a>,
-       <a href="#" onclick="showDeleteModal('2', 'Mujer'); return false;" class="btn-link">Eliminar</a>)
-    </li>
+
   
 </ul>
+    <p *ngIf="sexos.length === 0">
+      No se encontraron sexos.
+    </p>
+  </div>
 </div>

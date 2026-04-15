@@ -95,7 +95,7 @@ export class ProductosForm implements OnInit {
         this.form.patchValue(data);
         this.isLoading = false;
         this.cdr.detectChanges();
-        console.log('Producto cargado:', data);
+        // console.log('Producto cargado:', data);
       },
       error: (err) => {
         console.error(err);
