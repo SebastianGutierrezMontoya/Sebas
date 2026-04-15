@@ -8,4 +8,8 @@ export class ContactosService extends BaseService<Contactos, number> {
   constructor(http: HttpClient) {
     super(http, 'http://localhost:3000/api/contactos');
   }
+
+  getByUsuarioId(id_usuario: string) {
+    return this.http.get<Contactos[]>(`${this.apiUrl}/usuario/${id_usuario}`);
+  }
 }

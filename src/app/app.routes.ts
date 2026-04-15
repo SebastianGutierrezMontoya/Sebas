@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { Users } from './components/users/users';
 import { Home } from './components/home/home';
-import { Usuarios } from './components/usuarios/usuarios';
+import { UsuariosComponent } from './components/usuarios/usuarios';
 import { UsuariosForm } from './components/usuarios/usuarios-form';
 import { Sexos } from './components/sexos/sexos';
 import { SexosForm } from './components/sexos/sexos_form';
@@ -25,8 +25,9 @@ import { ConsultasDinamicasForm } from './components/consultas_dinamicas/consult
 export const routes: Routes = [
 	{ path: '', component: Home },
 	{ path: 'users', component: Users },
-	{ path: 'usuarios', component: Usuarios },
+	{ path: 'usuarios', component: UsuariosComponent },
     { path: 'usuarios/form', component: UsuariosForm },
+    { path: 'usuarios/form/:id', component: UsuariosForm },
 
     { path : 'sexos', component: Sexos },
     { path : 'sexos/form', component: SexosForm },

@@ -6,6 +6,6 @@ import { ConfigContacto } from '../models/models';
 @Injectable({ providedIn: 'root' })
 export class ConfigContactoService extends BaseService<ConfigContacto, number> {
   constructor(http: HttpClient) {
-    super(http, 'http://localhost:3000/api/config-contacto');
+    super(http, 'http://localhost:3000/api/config_contacto');
   }
 }

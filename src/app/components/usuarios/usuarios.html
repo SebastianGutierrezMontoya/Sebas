@@ -1,15 +1,26 @@
 
 <div class="container">
 <h2>Usuarios</h2>
-<a href="usuarios/form" class="btn-link">Crear nuevo usuario</a>
-<ul>
-    <!-- {% for usuario in object_list %}
-        <li>
-            <a href="{% url 'usuarios_detail' usuario.pk %}" class="btn-link2">{{ usuario.nombre }}</a>
-            (<a href="{% url 'usuarios_update' usuario.pk %}" class="btn-link">Editar</a>,
-             <a href="#" onclick="showDeleteModal('{{ usuario.pk }}', '{{ usuario.nombre }}'); return false;" class="btn-link">Eliminar</a>)
-        </li>
-    {% endfor %} -->
+
+<button (click)="crearUsuario()">Crear usuario</button>
+
+<form [formGroup]="form" (ngSubmit)="buscar()">
+  <input formControlName="search" placeholder="Buscar usuario">
+  <label>
+    <input type="checkbox" formControlName="match_id">
+    Búsqueda exacta
+  </label>
+  <button type="submit">Buscar</button>
+</form>
+
+<ul *ngIf="usuarios.length > 0">
+  <li *ngFor="let u of usuarios">
+    <span class="btn-link2">
+    {{ u.nombre }}
+    </span>
+    <button (click)="editarUsuario(u)">Editar</button>
+    <button (click)="confirmarEliminar(u)">Eliminar</button>
+  </li>
 </ul>
 </div>
 

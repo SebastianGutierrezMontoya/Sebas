@@ -110,6 +110,23 @@ app.get('/api/productos-auditoria', async (req, res) => {
     res.status(500).send('Error auditoría');
   }
 });
+
+
+app.get('/api/contactos/usuario/:id_usuario', async (req, res) => {
+  const { id_usuario } = req.params;
+  try {
+    const result = await pool.query(
+      'SELECT id_contacto, tipo_contacto, dato_contacto FROM contactos WHERE id_usuario = $1',
+      [id_usuario]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error al obtener contactos:', err);
+    res.status(500).send('Error en la base de datos');
+  }
+});
+
+
 /**
  * Categorías
  * Asume la existencia de la tabla "categoria" con columnas:

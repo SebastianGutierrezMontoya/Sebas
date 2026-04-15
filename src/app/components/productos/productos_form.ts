@@ -6,17 +6,20 @@ import { RouterOutlet, ActivatedRoute, Router } from '@angular/router';
 import { ProductosService } from '../../services/productos.service';
 import { CategoriaService } from '../../services/categoria.service';
 
+
 @Component({
   selector: 'app-productos-form',
   standalone: true,
   imports: [RouterOutlet, CommonModule, ReactiveFormsModule],
   templateUrl: './productos_form.html',
 })
+
 export class ProductosForm implements OnInit {
 
   form!: FormGroup;
 
   categorias: any[] = [];
+  
 
 
   isEditMode = false;
@@ -58,7 +61,9 @@ export class ProductosForm implements OnInit {
       console.error('Error cargando categorías', err);
     }
   });
-}
+  }
+
+  
 
   // ========================
   // FORM INIT
