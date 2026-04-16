@@ -6,6 +6,6 @@ import { EstadoPedidos } from '../models/models';
 @Injectable({ providedIn: 'root' })
 export class EstadoPedidosService extends BaseService<EstadoPedidos, number> {
   constructor(http: HttpClient) {
-    super(http, 'http://localhost:3000/api/estado-pedidos');
+    super(http, 'http://localhost:3000/api/estadopedidos');
   }
 }

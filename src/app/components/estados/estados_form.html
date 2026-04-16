@@ -1,4 +1,29 @@
-<form method="post" class="form-container">
+<form [formGroup]="form" (ngSubmit)="saveEstado()" class="form-container">
+  <h2 class="form-header">
+    {{ isEditMode ? 'Editar Estado de Pedido' : 'Crear Estado de Pedido' }}
+  </h2>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="form-floating">
+    <input type="number" formControlName="est_id" class="form-control"  title="La id del estado de Entregado debe ser la mayor de todas">
+    <label>ID</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="text" formControlName="est_nombre" maxlength="50" class="form-control">
+    <label>Nombre</label>
+  </div>
+
+  <div class="form-linear form-center">
+    <button type="submit">Guardar</button>
+    <a href="/estado_pedidos/" class="btn-link">Volver al listado</a>
+  </div>
+</form>
+
+<!-- <form method="post" class="form-container">
   <h2 class="form-header">Crear Estado de Pedido</h2>
   <input type="hidden" name="csrfmiddlewaretoken" value="HoGfXBo2XhmAvBvnvTw52CEGAqnzj6k0EkgMmrBy3JvT6wg7Pq9fWu2ppNWpf3G6">
   
@@ -17,4 +42,4 @@
     <button type="submit">Guardar</button>
     <a href="/estado_pedidos/" class="btn-link">Volver al listado</a>
   </div>
-</form>
+</form> -->

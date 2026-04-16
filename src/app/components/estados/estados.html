@@ -1,6 +1,52 @@
 <div class="container">
 <h2>Estado Pedidos</h2>
-<a href="/estado_pedidos/form/" class="btn-link">Crear nuevo</a>
+
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<div class="form-linear">
+  <button (click)="crearEstado()" class="btn-link">
+    Crear nuevo estado de pedido
+  </button>
+</div>
+
+<div *ngIf="isLoading">Cargando estados de pedido...</div>
+<div *ngIf="!isLoading">
+
+  <ul *ngIf="estados.length > 0">
+    <li *ngFor="let estadoPedido of estados"> 
+
+      <span class="btn-link2">
+        {{ estadoPedido.est_nombre }}
+      </span>
+
+      <a (click)="editarEstado(estadoPedido)" class="btn-link">
+        Editar
+      </a>
+
+      <a (click)="confirmarEliminar(estadoPedido)" class="btn-link">
+        Eliminar
+      </a>
+
+    </li>
+  </ul>
+
+  <p *ngIf="estados.length === 0">
+    No se encontraron estados de pedido.
+  </p>
+</div>
+
+<div *ngIf="showDeleteModal" class="modal">
+  <div class="modal-content">
+    <h3>Confirmar eliminación</h3>
+    <p>¿Estás seguro de que deseas eliminar el estado de pedido "{{ estadoToDelete?.est_nombre }}"?</p>
+    <button (click)="eliminarEstado()">Sí, eliminar</button>
+    <button (click)="cancelarEliminar()">No, cancelar</button>
+  </div>
+</div>
+
+<!-- <a href="/estado_pedidos/form/" class="btn-link">Crear nuevo</a>
 <ul>
   
     <li>
@@ -27,5 +73,5 @@
        <a href="#" onclick="showDeleteModal('10', 'Entregado'); return false;" class="btn-link">Eliminar</a>)
     </li>
   
-</ul>
+</ul> -->
 </div>
