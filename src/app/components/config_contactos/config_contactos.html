@@ -1,6 +1,53 @@
 <div class="container">
 <h2>Configuración de Contactos</h2>
-<a href="/config_contactos/form/" class="btn-link">Crear nueva regla</a>
+
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<div class="form-linear">
+  <button (click)="crearContacto()" class="btn-link">
+    Crear nueva regla
+  </button>
+</div>
+
+
+<div *ngIf="isLoading">Cargando reglas de contacto...</div>
+<div *ngIf="!isLoading">
+
+  <ul *ngIf="contactos.length > 0">
+    <li *ngFor="let regla of contactos"> 
+
+      <span class="btn-link2">
+        {{ regla.nombre_contacto }}
+      </span>
+
+      <a (click)="editarContacto(regla)" class="btn-link">
+        Editar
+      </a>
+
+      <a (click)="confirmarEliminar(regla)" class="btn-link">
+        Eliminar
+      </a>
+
+    </li>
+  </ul>
+
+  <p *ngIf="contactos.length === 0">
+    No se encontraron reglas de contacto.
+  </p>
+
+  <div *ngIf="showDeleteModal" class="modal">
+    <div class="modal-content">
+      <p>¿Eliminar esta regla de contacto?</p>
+      <button (click)="eliminarContacto()">Sí, eliminar</button>
+      <button (click)="cancelarEliminar()">No, cancelar</button>
+    </div>
+  </div> 
+
+
+
+<!-- <a href="/config_contactos/form/" class="btn-link">Crear nueva regla</a>
 <ul>
   
     <li>
@@ -27,5 +74,5 @@
        <a href="/config_contacto/4/eliminar/" class="btn-link" onclick="return confirm('Eliminar esta regla?');">Eliminar</a>)
     </li>
   
-</ul>
+</ul> -->
 </div>

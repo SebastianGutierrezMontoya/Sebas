@@ -1,45 +1,44 @@
-<form method="post" class="form-container">
-  <h2 class="form-header">Crear Regla de Contacto</h2>
-  <input type="hidden" name="csrfmiddlewaretoken" value="1BanckoCAjwpAWQguAKy5fFrwfeglJbhYxKUBaB8GLFIbRB0O7nIZ73alCN6hGxn">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+  <h2 class="form-header">{{ isEditMode ? 'Editar Regla de Contacto' : 'Crear Regla de Contacto' }}</h2>
   
-  
-    <div class="form-floating">
-      <input type="number" name="id_regla" value="5" required="" id="id_id_regla">
-      <label for="id_id_regla">Id regla</label>
-    </div>
-  
-    <div class="form-floating">
-      <input type="text" name="nombre_contacto" maxlength="50" id="id_nombre_contacto">
-      <label for="id_nombre_contacto">Nombre contacto</label>
-    </div>
-  
-    <div class="form-floating">
-      <input type="text" name="descripcion" maxlength="100" id="id_descripcion">
-      <label for="id_descripcion">Descripcion</label>
-    </div>
-  
-    <div class="form-floating">
-      <input type="text" name="regex_val" maxlength="200" id="id_regex_val">
-      <label for="id_regex_val">Regex val</label>
-    </div>
-  
-    <div class="form-floating">
-      <input type="number" name="min_length" step="any" id="id_min_length">
-      <label for="id_min_length">Min length</label>
-    </div>
-  
-    <div class="form-floating">
-      <input type="number" name="max_length" step="any" id="id_max_length">
-      <label for="id_max_length">Max length</label>
-    </div>
-  
-    <div class="form-floating">
-      <input type="text" name="mensaje_error" maxlength="200" id="id_mensaje_error">
-      <label for="id_mensaje_error">Mensaje error</label>
-    </div>
-  
+  <div class="form-floating">
+    <input type="number" formControlName="id_regla" required id="id_id_regla">
+    <label for="id_id_regla">Id regla</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="text" formControlName="nombre_contacto" maxlength="50" id="id_nombre_contacto">
+    <label for="id_nombre_contacto">Nombre contacto</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="text" formControlName="descripcion" maxlength="100" id="id_descripcion">
+    <label for="id_descripcion">Descripcion</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="text" formControlName="regex_val" maxlength="200" id="id_regex_val">
+    <label for="id_regex_val">Regex val</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="number" formControlName="min_length" step="any" id="id_min_length">
+    <label for="id_min_length">Min length</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="number" formControlName="max_length" step="any" id="id_max_length">
+    <label for="id_max_length">Max length</label>
+  </div>
+
+  <div class="form-floating">
+    <input type="text" formControlName="mensaje_error" maxlength="200" id="id_mensaje_error">
+    <label for="id_mensaje_error">Mensaje error</label>
+  </div>
+
   <div class="form-linear form-center">
-    <button type="submit">Guardar</button>
-    <a href="/config_contacto/" class="btn-link">Volver al listado</a>
+    <button type="submit">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+    <a routerLink="/config_contacto/" class="btn-link">Volver al listado</a>
   </div>
 </form>
+
