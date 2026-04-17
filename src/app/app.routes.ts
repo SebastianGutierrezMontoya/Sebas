@@ -18,7 +18,7 @@ import { Pedidos } from './components/pedidos/pedidos';
 import { PedidosForm } from './components/pedidos/pedidos_form';
 import { Estados } from './components/estados/estados';
 import { EstadosForm } from './components/estados/estados_form';
-import { ConsultasDinamicas  } from './components/consultas_dinamicas/consultas_dinamicas';
+import { ConsultasDinamicass } from './components/consultas_dinamicas/consultas_dinamicass';
 import { ConsultasDinamicasForm } from './components/consultas_dinamicas/consultas_dinamicas_form';
 
 
@@ -58,7 +58,8 @@ export const routes: Routes = [
     { path : 'estado_pedidos/form', component: EstadosForm },
     { path : 'estado_pedidos/form/:id', component: EstadosForm },
 
-    { path : 'consultas_dinamicas', component: ConsultasDinamicas },
+    { path : 'consultas_dinamicas', component: ConsultasDinamicass },
     { path : 'consultas_dinamicas/form', component: ConsultasDinamicasForm },
     { path : 'consultas_dinamicas/form/:id', component: ConsultasDinamicasForm },
 ];
+ 

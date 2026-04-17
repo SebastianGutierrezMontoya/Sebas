@@ -1,64 +1,29 @@
-<form method="post" class="form-container">
-    <h2 class="form-header">Crear Categoría</h2>
-    <input type="hidden" name="csrfmiddlewaretoken" value="rjuGjjvUu7SVyUHbLCjed6bXGwtsiduLof4dI9IqAz1e9PsV59Wo7YzGvT2ieaQR">
-    <!-- <ul class="errorlist" id="id_cons_id_error"><li>This field is required.</li></ul>
-  <p>
-    <label for="id_cons_id">Cons id:</label>
-    <input type="number" name="cons_id" readonly class="form-control" placeholder=" " required aria-invalid="true" aria-describedby="id_cons_id_error" id="id_cons_id">
-    
-    
-  </p>
+<form [formGroup]="form" (ngSubmit)="guardar()" class="form-container">
+  <h2 class="form-header">Crear Consulta Dinámica</h2>
 
-  <ul class="errorlist" id="id_cons_nombre_error"><li>This field is required.</li></ul>
-  <p>
-    <label for="id_cons_nombre">Cons nombre:</label>
-    <input type="text" name="cons_nombre" maxlength="50" class="form-control" placeholder=" " required aria-invalid="true" aria-describedby="id_cons_nombre_error" id="id_cons_nombre">
-    
-    
-  </p>
+  <div class="form-floating">
+    <input formControlName="cons_id" type="number" class="form-control" placeholder=" " id="id_cons_id">
+    <label for="id_cons_id">Cons id</label>
+  </div>
 
-  
-  <p>
-    <label for="id_cons_descripcion">Cons descripcion:</label>
-    <input type="text" name="cons_descripcion" maxlength="200" class="form-control" placeholder=" " id="id_cons_descripcion">
-    
-    
-  </p>
+  <div class="form-floating">
+    <input formControlName="cons_nombre" type="text" maxlength="50" class="form-control" placeholder=" " id="id_cons_nombre">
+    <label for="id_cons_nombre">Cons nombre</label>
+  </div>
 
-  <ul class="errorlist" id="id_cons_sql_error"><li>This field is required.</li></ul>
-  <p>
-    <label for="id_cons_sql">Cons sql:</label>
-    <textarea name="cons_sql" cols="40" rows="5" maxlength="4000" class="form-control" placeholder=" " required aria-invalid="true" aria-describedby="id_cons_sql_error" id="id_cons_sql">
-</textarea>
-    
-    
-      
-    
-  </p> -->
+  <div class="form-floating">
+    <input formControlName="cons_descripcion" type="text" maxlength="200" class="form-control" placeholder=" " id="id_cons_descripcion">
+    <label for="id_cons_descripcion">Cons descripcion</label>
+  </div>
 
-    
-        <div class="form-floating">
-          <input type="number" name="cons_id" readonly="" class="form-control" placeholder=" " required="" aria-invalid="true" aria-describedby="id_cons_id_error" id="id_cons_id">
-          <label for="id_cons_id">Cons id</label>
-        </div>
-    
-        <div class="form-floating">
-          <input type="text" name="cons_nombre" maxlength="50" class="form-control" placeholder=" " required="" aria-invalid="true" aria-describedby="id_cons_nombre_error" id="id_cons_nombre">
-          <label for="id_cons_nombre">Cons nombre</label>
-        </div>
-    
-        <div class="form-floating">
-          <input type="text" name="cons_descripcion" maxlength="200" class="form-control" placeholder=" " id="id_cons_descripcion">
-          <label for="id_cons_descripcion">Cons descripcion</label>
-        </div>
-    
-        <div class="form-floating">
-          <textarea name="cons_sql" cols="40" rows="5" maxlength="4000" class="form-control" placeholder=" " required="" aria-invalid="true" aria-describedby="id_cons_sql_error" id="id_cons_sql"></textarea>
-          <label for="id_cons_sql">Cons sql</label>
-        </div>
-    
-    <div class="form-linear form-center">
-        <button type="submit">Guardar</button>
-        <a href="/consultas_dinamicas/" class="btn-link">Volver al listado</a>
-    </div>
+  <div class="form-floating">
+    <textarea formControlName="cons_sql" cols="40" rows="10" maxlength="4000" class="form-control" placeholder=" " id="id_cons_sql"></textarea>
+    <label for="id_cons_sql">Cons sql</label>
+  </div>
+
+  <div class="form-linear form-center">
+    <button type="submit">Guardar</button>
+    <a (click)="volver()" class="btn-link">Volver al listado</a>
+  </div>
 </form>
+

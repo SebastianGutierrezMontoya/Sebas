@@ -1,28 +1,51 @@
 <div class="container">
 <h2>Consultas</h2>
-<a href="/consultas_dinamicas/form/" class="btn-link">Crear nueva consulta</a>
-<ul>
-    
-        <li>
-            <a href="/consultas_dinamicas/1/" class="btn-link2">TOP_BAJO_STOCK</a>
-            <a href="/consultas_dinamicas/1/editar/" class="btn-link">Editar</a>
-            <a href="/consultas_dinamicas/reporte/1/" class="btn-link">Ver Reporte</a>,
-            <a href="#" onclick="showDeleteModal('1', ''); return false;" class="btn-link">Eliminar</a>
-        </li>
-    
-        <li>
-            <a href="/consultas_dinamicas/2/" class="btn-link2">VENTAS_POR_CATEGORIA</a>
-            <a href="/consultas_dinamicas/2/editar/" class="btn-link">Editar</a>
-            <a href="/consultas_dinamicas/reporte/2/" class="btn-link">Ver Reporte</a>,
-            <a href="#" onclick="showDeleteModal('2', ''); return false;" class="btn-link">Eliminar</a>
-        </li>
-    
-        <li>
-            <a href="/consultas_dinamicas/3/" class="btn-link2">VER_PEDIDOS_COMPLETO</a>
-            <a href="/consultas_dinamicas/3/editar/" class="btn-link">Editar</a>
-            <a href="/consultas_dinamicas/reporte/3/" class="btn-link">Ver Reporte</a>,
-            <a href="#" onclick="showDeleteModal('3', ''); return false;" class="btn-link">Eliminar</a>
-        </li>
-    
-</ul>
+
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+</div>
+
+<div class="form-linear">
+    <button (click)="crearConsulta()" class="btn-link">
+      Crear nueva consulta
+    </button>
+</div>
+
+<div *ngIf="isLoading">Cargando consultas...</div>
+<div *ngIf="!isLoading">
+
+  <ul *ngIf="consultas.length > 0">
+    <li *ngFor="let consulta of consultas">
+
+      <span class="btn-link2">
+        {{ consulta.cons_nombre }}
+      </span>
+
+      <a (click)="editarConsulta(consulta)" class="btn-link">
+        Editar
+      </a>
+
+      <a (click)="verReporte(consulta)" class="btn-link">
+        Ver Reporte
+      </a>
+
+      <a (click)="confirmarEliminar(consulta)" class="btn-link">
+        Eliminar
+      </a>
+
+    </li>
+  </ul>
+
+  <p *ngIf="consultas.length === 0">
+    No se encontraron consultas.
+  </p>
+
+  <div *ngIf="showDeleteModal" class="modal">
+    <div class="modal-content">
+      <p>¿Estás seguro de que deseas eliminar esta consulta?</p>
+      <button (click)="eliminarConsulta()">Sí, eliminar</button>
+      <button (click)="showDeleteModal = false">No, cancelar</button>
+    </div>
+    </div>
+
 </div>
