@@ -23,8 +23,8 @@
   <!-- CONTACTOS -->
   <div formArrayName="contactos">
 
-    <!-- <div *ngFor="let t of contactos().controls; let i = index" [formGroupName]="i"> -->
-    <div *ngFor="let t of contactoID; let i = index" [formGroupName]="i">
+    <div *ngFor="let t of contactos().controls; let i = index" [formGroupName]="i">
+    <!-- <div *ngFor="let t of contactoID; let i = index" [formGroupName]="i"> -->
 
       <select formControlName="tipo_contacto">
         <option value="">Tipo</option>

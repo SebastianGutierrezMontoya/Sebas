@@ -14,7 +14,7 @@ import { CategoriasForm } from './components/categorias/categorias_form';
 import { Producto } from './components/productos/productos';
 import { ProductosForm } from './components/productos/productos_form';
 import { AuditoriaProductos } from './components/productos/auditoria_productos';
-import { Pedidos } from './components/pedidos/pedidos';
+import { Pedidoss } from './components/pedidos/pedidoss';
 import { PedidosForm } from './components/pedidos/pedidos_form';
 import { Estados } from './components/estados/estados';
 import { EstadosForm } from './components/estados/estados_form';
@@ -50,7 +50,7 @@ export const routes: Routes = [
     { path : 'productos/form/:id', component: ProductosForm },
     { path : 'productos/auditoria', component: AuditoriaProductos },
 
-    { path : 'pedidos', component: Pedidos },
+    { path : 'pedidos', component: Pedidoss },
     { path : 'pedidos/form', component: PedidosForm },
     { path : 'pedidos/form/:id', component: PedidosForm },
 

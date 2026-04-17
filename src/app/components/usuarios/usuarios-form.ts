@@ -47,11 +47,7 @@ export class UsuariosForm implements OnInit {
     this.loadPerfiles();
     this.loadContactos();
     this.loadConfigContacto();
-    // console.log(this.contacto);
-    // console.log(this.contactos());
-    // console.log(this.sexos);
-    // console.log(this.perfiles);
-    // console.log(this.configContacto);
+
 
     this.route.params.subscribe(params => {
       if (params['id']) {
@@ -65,22 +61,7 @@ export class UsuariosForm implements OnInit {
       }
     });
   }
-      
-  // ngOnInit(): void {
-  //   this.form = this.fb.group({
-  //     id_usuario: ['', Validators.required],
-  //     nombre: ['', Validators.required],
-  //     primer_apellido: ['', Validators.required],
-  //     segundo_apellido: [''],
-  //     fecha_nacimiento: ['', Validators.required],
-  //     password_hash: ['', Validators.required],
-  //     usuario_id_sexo: ['', Validators.required],
-  //     usuario_id_perfil: ['', Validators.required],
-  //     activo: [true, Validators.required],
-  //     contactos: this.fb.array([])
-  //   });
 
-  // }
 
   constructor(
     private fb: FormBuilder,

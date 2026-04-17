@@ -1,7 +1,58 @@
 <div class="container">
 <h2>Pedidos</h2>
-<a href="/pedidos/form/" class="btn-link">Crear nuevo pedido</a>
-<ul>
-    
-</ul>
+
+<div *ngIf="errorMessage" class="alert alert-danger">
+  {{ errorMessage }}
+  </div>
+
+<div class="form-linear">
+  <button (click)="crearPedido()" class="btn-link">
+    Crear nuevo pedido
+    </button>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="buscar()" style="margin-top:1rem;">
+  <input formControlName="search" placeholder="Buscar pedido">
+  <button type="submit">Buscar</button>
+</form>
+
+<div *ngIf="isLoading">Cargando pedidos...</div>
+<div *ngIf="!isLoading">
+
+  <ul *ngIf="pedidos.length > 0">
+    <li *ngFor="let pedido of pedidos">
+
+      <span class="btn-link2">
+        Pedido #{{ pedido.ped_id }} - {{ pedido.ped_fecha_pedido }}
+      </span>
+
+      <a (click)="editarPedido(pedido)" class="btn-link">
+        Editar
+      </a>
+
+      <a (click)="confirmarEliminar(pedido)" class="btn-link">
+        Eliminar
+      </a>
+
+    </li>
+  </ul>
+
+  <p *ngIf="pedidos.length === 0">
+    No se encontraron pedidos.
+  </p>
+
+  <div style="margin-top: 1rem;">
+    <button (click)="anterior()" [disabled]="page === 1">Anterior</button>
+    <span>Página {{ page }}</span>
+    <button (click)="siguiente()">Siguiente</button>
+  </div>
+</div>
+
+<div *ngIf="showDeleteModal" class="modal">
+  <div class="modal-content">
+    <p>¿Confirma que desea eliminar el pedido #{{ pedidoToDelete?.ped_id }}?</p>
+    <button (click)="eliminarPedido()">Sí, eliminar</button>
+    <button (click)="cancelarEliminar()">No, cancelar</button>
+  </div>
+</div>
 </div>

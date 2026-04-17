@@ -126,6 +126,47 @@ app.get('/api/contactos/usuario/:id_usuario', async (req, res) => {
   }
 });
 
+app.get('/api/pedidos', async (req, res) => {
+  const { search, page = 1, limit = 10 } = req.query;
+  const offset = (page - 1) * limit;
+
+  try {
+    let query = `
+      SELECT ped_id, usu_id, ped_fecha_pedido, ped_total, ped_estado, ped_direccion_envio, ped_notas
+      FROM pedidos
+    `;
+    let values = [];
+
+    if (search) {
+      query += ` WHERE ped_id::text ILIKE $1 OR usu_id::text ILIKE $1`;
+      values.push(`%${search}%`);
+    }
+
+    query += ` ORDER BY ped_id LIMIT $${values.length + 1} OFFSET $${values.length + 2}`;
+    values.push(limit, offset);
+    const result = await pool.query(query, values);
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error al obtener pedidos:', err);
+    res.status(500).send('Error en la base de datos');
+  }
+});
+
+app.get('/api/pedidos/:id/pedidos-productos', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await pool.query(
+      `SELECT prod_id, pped_fecha_entrega, pped_cantidad, pped_precio_unitario, pped_descuento, pped_total, pped_estado
+       FROM pedidos_productos
+        WHERE ped_id = $1`,
+      [id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error al obtener productos del pedido:', err);
+    res.status(500).send('Error en la base de datos');
+  }
+});
 
 /**
  * Categorías

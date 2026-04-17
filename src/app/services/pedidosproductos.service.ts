@@ -8,4 +8,8 @@ export class PedidosProductosService extends BaseService<PedidosProductos, numbe
   constructor(http: HttpClient) {
     super(http, 'http://localhost:3000/api/pedidos-productos');
   }
+
+  getByPedidoId(ped_id: number) {
+    return this.http.get<PedidosProductos[]>(`${this.apiUrl}/pedido/${ped_id}`);
+  }
 }
