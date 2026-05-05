@@ -16,6 +16,7 @@ import { ProductosForm } from './components/productos/productos_form';
 import { AuditoriaProductos } from './components/productos/auditoria_productos';
 import { Pedidoss } from './components/pedidos/pedidoss';
 import { PedidosForm } from './components/pedidos/pedidos_form';
+import { PedidosProductosForm } from './components/pedidos/pedidos_productos_form';
 import { Estados } from './components/estados/estados';
 import { EstadosForm } from './components/estados/estados_form';
 import { ConsultasDinamicass } from './components/consultas_dinamicas/consultas_dinamicass';
@@ -49,6 +50,7 @@ export const routes: Routes = [
     { path : 'productos/form', component: ProductosForm },
     { path : 'productos/form/:id', component: ProductosForm },
     { path : 'productos/auditoria', component: AuditoriaProductos },
+    { path : 'pedidos_productos/form/:pedidoId/:productoId', component: PedidosProductosForm },
 
     { path : 'pedidos', component: Pedidoss },
     { path : 'pedidos/form', component: PedidosForm },

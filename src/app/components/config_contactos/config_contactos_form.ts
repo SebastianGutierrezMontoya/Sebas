@@ -84,7 +84,7 @@ onSubmit(): void {
     if (this.isEditMode) {
       this.configContactoService.update(this.contactoId!, contactoData).subscribe({
         next: () => {
-          this.router.navigate(['/config-contactos']);
+          this.router.navigate(['/config_contactos']);
         },
         error: (err) => {
           console.error(err);
@@ -104,4 +104,8 @@ onSubmit(): void {
     }
   }
   
+
+  volver(): void {
+    this.router.navigate(['/config_contactos']);
+  }
 }

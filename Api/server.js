@@ -152,7 +152,7 @@ app.get('/api/pedidos', async (req, res) => {
   }
 });
 
-app.get('/api/pedidos/:id/pedidos-productos', async (req, res) => {
+app.get('/api/pedidos/:id/pedidos_productos', async (req, res) => {
   const { id } = req.params;
   try {
     const result = await pool.query(
@@ -164,6 +164,72 @@ app.get('/api/pedidos/:id/pedidos-productos', async (req, res) => {
     res.json(result.rows);
   } catch (err) {
     console.error('Error al obtener productos del pedido:', err);
+    res.status(500).send('Error en la base de datos');
+  }
+});
+
+app.get('/api/pedidos_productos/pedido/:pedido_id', async (req, res) => {
+  const { pedido_id } = req.params;
+  try {
+    const result = await pool.query(
+      `SELECT prod_id, pped_fecha_entrega, pped_cantidad, pped_precio_unitario, pped_descuento, pped_total, pped_estado
+        FROM pedidos_productos
+        WHERE ped_id = $1`,
+      [pedido_id]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error al obtener producto del pedido:', err);
+    res.status(500).send('Error en la base de datos');
+  }
+});
+
+app.put('/api/pedidos_productos/:ped_id/:prod_id', async (req, res) => {
+  const { ped_id, prod_id } = req.params;
+  const { pped_fecha_entrega, pped_cantidad, pped_precio_unitario, pped_descuento, pped_total, pped_estado } = req.body;
+
+  try {
+    const result = await pool.query(
+      `UPDATE pedidos_productos
+        SET pped_fecha_entrega = $1, pped_cantidad = $2, pped_precio_unitario = $3, pped_descuento = $4, pped_total = $5, pped_estado = $6
+        WHERE ped_id = $7 AND prod_id = $8
+        RETURNING ped_id, prod_id, pped_fecha_entrega, pped_cantidad, pped_precio_unitario, pped_descuento, pped_total, pped_estado`,
+      [pped_fecha_entrega, pped_cantidad, pped_precio_unitario, pped_descuento, pped_total, pped_estado, ped_id, prod_id]
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Error al actualizar producto del pedido:', err);
+    res.status(500).send('Error en la base de datos');
+  }
+});
+
+
+app.delete('/api/pedidos_productos/:ped_id/:prod_id', async (req, res) => {
+  const { ped_id, prod_id } = req.params;
+  try {
+    await pool.query(
+      `DELETE FROM pedidos_productos WHERE ped_id = $1 AND prod_id = $2`,
+      [ped_id, prod_id]
+    );
+    res.status(204).send();
+  } catch (err) {
+    console.error('Error al eliminar producto del pedido:', err);
+    res.status(500).send('Error en la base de datos');
+  }
+});
+
+app.get('/api/pedidos_productos/:ped_id/:prod_id', async (req, res) => {
+  const { ped_id, prod_id } = req.params;
+  try {
+    const result = await pool.query(
+      `SELECT ped_id, prod_id, pped_fecha_entrega, pped_cantidad, pped_precio_unitario, pped_descuento, pped_total, pped_estado
+       FROM pedidos_productos
+       WHERE ped_id = $1 AND prod_id = $2`,
+      [ped_id, prod_id]
+    );
+    res.json(result.rows[0]);
+  } catch (err) {
+    console.error('Error al obtener producto del pedido:', err);
     res.status(500).send('Error en la base de datos');
   }
 });

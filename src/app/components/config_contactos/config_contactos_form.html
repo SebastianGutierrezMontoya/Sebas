@@ -38,7 +38,7 @@
 
   <div class="form-linear form-center">
     <button type="submit">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
-    <a routerLink="/config_contacto/" class="btn-link">Volver al listado</a>
+    <a (click)="volver()" class="btn-link">Volver al listado</a>
   </div>
 </form>
 

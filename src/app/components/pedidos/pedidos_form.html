@@ -47,7 +47,10 @@
   </div>
 
   
+<div class="form-floating">
+    <label>Productos</label>
 
+  </div>
 
 
   <div formArrayName="productopedido">
@@ -55,17 +58,21 @@
     <div *ngFor="let p of productopedido().controls; let i = index" [formGroupName]="i" class="form-producto">
 
 
-      <select formControlName="prod_id" class="form-control">
+      <select formControlName="prod_id" class="form-control" style="pointer-events: none;">
         <option value="">Seleccione producto</option>
         <option *ngFor="let prod of productos" [value]="prod.prod_id">
           {{ prod.prod_nombre }}
         </option>
       </select>
 
-      <input type="number" formControlName="pped_cantidad" class="form-control" placeholder="Cantidad">
+      <input type="number" formControlName="pped_cantidad" class="form-control" placeholder="Cantidad" readonly>
 
       <button type="button" (click)="eliminarProducto(i)">
         Eliminar
+      </button>
+
+      <button type="button" (click)="editarProducto(i)">
+        Editar
       </button>
 
     </div>
@@ -77,6 +84,9 @@
     <button type="button" (click)="agregarProducto()">
       Agregar producto
     </button>
+
+    
+
 
   <!-- BOTONES -->
   <div class="form-linear form-center">

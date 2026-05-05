@@ -76,7 +76,7 @@ export class PedidosForm implements OnInit {
             this.productopedido().push(
               this.fb.group({
                 prod_id: [pp.prod_id, Validators.required],
-                prod_nombre: ['', Validators.required],
+                prod_nombre: [''],
                 pped_cantidad: [pp.pped_cantidad, Validators.required],
                 ped_id: [this.pedidoId]
               })
@@ -137,7 +137,7 @@ export class PedidosForm implements OnInit {
     this.productopedido().push(
       this.fb.group({
         prod_id: ['', Validators.required],
-        prod_nombre: ['', Validators.required],
+        prod_nombre: [''],
         pped_cantidad: [1, Validators.required],
         ped_id: [this.pedidoId || null]
       })
@@ -145,14 +145,27 @@ export class PedidosForm implements OnInit {
   }
 
   eliminarProducto(index: number) {
+
+    // Si el producto ya existe en la base de datos, eliminarlo también del backend
+    const producto = this.productopedido().at(index).value; 
+    if (producto.prod_id && this.pedidoId) {
+      this.pedidosProductosService.borrar(this.pedidoId, producto.prod_id).subscribe({
+        next: () => {
+          console.log(`Producto ${producto.prod_id} eliminado del pedido ${this.pedidoId}`);
+        }
+      });
+    }
+
     this.productopedido().removeAt(index);
+
+
   }
 
 
   initForm(): void {
     this.form = this.fb.group({
       ped_id: [null, Validators.required],
-      usu_id: ['', Validators.required],
+      usu_id: [null, Validators.required],
       ped_fecha_pedido: [''],
       ped_total: [0],
       ped_estado: [0],
@@ -170,6 +183,8 @@ export class PedidosForm implements OnInit {
 
     const pedidoData = this.form.value;
 
+    console.log('Datos del pedido a guardar:', pedidoData);
+
     if (this.isEditMode) {
       this.service.update(this.pedidoId!, pedidoData).subscribe({
         next: () => {
@@ -180,6 +195,42 @@ export class PedidosForm implements OnInit {
           this.errorMessage = 'Error al actualizar el pedido';
         }
       });
+
+
+      for (const pedido of pedidoData.productopedido) {
+
+        const datos: PedidosProductos = {
+          // quiero que la fecha de entrega por defecto no tenga valor
+          pped_fecha_entrega: undefined,
+          pped_cantidad: pedido.pped_cantidad,
+          pped_precio_unitario: this.productos.find(p => p.prod_id === pedido.prod_id)?.prod_precio_venta || 0,
+          pped_descuento: this.productos.find(p => p.prod_id === pedido.prod_id)?.prod_descuento || 0,
+          pped_total: (this.productos.find(p => p.prod_id === pedido.prod_id)?.prod_precio_venta || 0) * pedido.pped_cantidad,
+          pped_estado: 1,
+          ped_id: this.pedidoId!,
+          prod_id: pedido.prod_id,
+        };
+
+        
+        const pedidoExistente = this.pedidosID.find((pp: any) => pp.prod_id === pedido.prod_id);
+        if (pedidoExistente) {
+          this.pedidosProductosService.actualizar(this.pedidoId!, pedido.prod_id, datos).subscribe({
+            next: () => {
+              console.log(`Producto ${pedido.prod_id} actualizado en el pedido ${this.pedidoId}`);
+            }
+          });
+        } else {
+           this.pedidosProductosService.create(datos).subscribe({
+            next: () => {
+              console.log(`Producto ${pedido.prod_id} agregado al pedido ${this.pedidoId}`);
+            }
+          });
+        }
+          
+        // this.pedidosProductosService.actualizar(this.pedidoId!, pedido.prod_id, datos).subscribe({
+          
+        // });
+      }
     } else {
       this.service.create(pedidoData).subscribe({
         next: () => {
@@ -191,6 +242,11 @@ export class PedidosForm implements OnInit {
         }
       });
     }
+  }
+
+  editarProducto(index: number): void {
+    const producto = this.productopedido().at(index).value;
+    this.router.navigate(['/pedidos_productos/form', this.pedidoId, producto.prod_id]);
   }
 
   volver(): void {

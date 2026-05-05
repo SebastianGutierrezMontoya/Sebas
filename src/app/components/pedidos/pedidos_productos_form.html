@@ -1,0 +1,56 @@
+<form [formGroup]="Form" (ngSubmit)="guardar()" class="form-container">
+  <h2>Actualizar Producto del Pedido</h2>
+
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    {{ errorMessage }}
+  </div>
+
+  <div class="form-floating">
+    <input type="number" formControlName="ped_id" class="form-control" readonly>
+    <label>Pedido ID</label>
+  </div>
+
+    <div class="form-floating">
+        <input type="string" formControlName="prod_id" class="form-control" readonly>
+         <label>Producto ID</label>
+    </div>
+
+    <div class="form-floating">
+        <input type="number" formControlName="pped_cantidad" class="form-control" readonly>
+         <label>Cantidad</label>
+    </div>
+
+    <div class="form-floating">
+        <input type="number" formControlName="pped_precio_unitario" class="form-control" readonly>
+         <label>Precio Unitario</label>
+    </div>
+
+    <div class="form-floating">
+        <input type="number" formControlName="pped_descuento" class="form-control" readonly>
+         <label>Descuento</label>
+    </div>
+
+    <div class="form-floating">
+        <input type="number" formControlName="pped_total" class="form-control" readonly>
+         <label>Total</label>
+    </div>
+
+
+    <div class="form-floating">
+        <input type="date" formControlName="pped_fecha_entrega" class="form-control">
+        <label>Fecha de Entrega</label>
+    </div>
+
+    <div class="form-floating">
+        <select formControlName="pped_estado" class="form-control">
+            <option value="">Seleccione estado</option>
+            <option *ngFor="let estado of estadosPedidos" [value]="estado.est_id">
+                {{ estado.est_nombre }}
+            </option>
+        </select>
+        <label>Estado</label>
+    </div>
+
+    <button type="submit">Guardar</button>
+</form>
+
