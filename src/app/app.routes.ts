@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 import { Users } from './components/users/users';
 import { Home } from './components/home/home';
+import { LoginComponent } from './components/auth/login';
+import { RegistroComponent } from './components/auth/registro';
 import { UsuariosComponent } from './components/usuarios/usuarios';
 import { UsuariosForm } from './components/usuarios/usuarios-form';
 import { Sexos } from './components/sexos/sexos';
@@ -27,6 +29,11 @@ import { ConsultasDinamicasForm } from './components/consultas_dinamicas/consult
 
 
 export const routes: Routes = [
+	// Rutas públicas (sin protección)
+	{ path: 'login', component: LoginComponent },
+	{ path: 'registro', component: RegistroComponent },
+	
+	// Rutas protegidas
 	{ path: '', component: Home },
 	{ path: 'users', component: Users },
 	{ path: 'usuarios', component: UsuariosComponent },

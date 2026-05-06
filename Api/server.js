@@ -2,11 +2,13 @@
 const express = require('express');
 const cors = require('cors');
 const { Pool } = require('pg');
-const { randomUUID } = require('crypto');
+const { randomUUID, createHash } = require('crypto');
+const jwt = require('jsonwebtoken');
 const createCrudRoutes = require('./routes/crud.routes');
 
 const app = express();
 const port = 3000; // Puerto donde correrá la API
+const JWT_SECRET = 'tu_clave_secreta_aqui'; // Cambia esto por una variable de entorno en producción
 
 // Configuración de la conexión a PostgreSQL
 const pool = new Pool({
@@ -19,6 +21,141 @@ const pool = new Pool({
 
 app.use(cors()); // Permite solicitudes desde Angular
 app.use(express.json()); // Para parsear JSON en requests
+
+// Función para hashear contraseña con SHA256 (compatible con Django)
+const hashPassword = (password) => {
+  return createHash('sha256').update(password).digest('hex');
+};
+
+// Middleware para verificar JWT
+const verificarToken = (req, res, next) => {
+  const token = req.headers.authorization?.split(' ')[1];
+  
+  if (!token) {
+    return res.status(401).json({ message: 'Token no proporcionado' });
+  }
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.usuario = decoded;
+    next();
+  } catch (err) {
+    return res.status(401).json({ message: 'Token inválido o expirado' });
+  }
+};
+
+// RUTAS DE AUTENTICACIÓN
+app.post('/api/auth/registro', async (req, res) => {
+  const { id_usuario, nombre, primer_apellido, segundo_apellido, fecha_nacimiento, password, usuario_id_sexo } = req.body;
+
+  try {
+    // Validar que el usuario no exista
+    const usuarioExistente = await pool.query(
+      'SELECT id_usuario FROM usuarios WHERE id_usuario = $1',
+      [id_usuario]
+    );
+
+    if (usuarioExistente.rows.length > 0) {
+      return res.status(400).json({ message: 'El usuario ya existe' });
+    }
+
+    // Hashear la contraseña con SHA256 (compatible con Django)
+    const hashedPassword = hashPassword(password);
+
+    // Crear usuario
+    const resultado = await pool.query(
+      `INSERT INTO usuarios (id_usuario, nombre, primer_apellido, segundo_apellido, fecha_nacimiento, password_hash, usuario_id_sexo, usuario_id_perfil, activo)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, 1, 1)
+       RETURNING id_usuario, nombre, primer_apellido, segundo_apellido, usuario_id_sexo`,
+      [id_usuario, nombre, primer_apellido, segundo_apellido || null, fecha_nacimiento || null, hashedPassword, usuario_id_sexo]
+    );
+
+    const usuario = resultado.rows[0];
+
+    // Generar token JWT
+    const token = jwt.sign(
+      { id_usuario: usuario.id_usuario, nombre: usuario.nombre },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    res.status(201).json({
+      token,
+      usuario,
+      message: 'Registro exitoso'
+    });
+
+  } catch (err) {
+    console.error('Error en registro:', err);
+    res.status(500).json({ message: 'Error al registrar: ' + err.message });
+  }
+});
+
+app.post('/api/auth/login', async (req, res) => {
+  const { id_usuario, password } = req.body;
+
+  try {
+    // Buscar usuario
+    const resultado = await pool.query(
+      'SELECT id_usuario, nombre, primer_apellido, segundo_apellido, password_hash, usuario_id_perfil FROM usuarios WHERE id_usuario = $1',
+      [id_usuario]
+    );
+
+    if (resultado.rows.length === 0) {
+      return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
+    }
+
+    const usuario = resultado.rows[0];
+
+    // Verificar contraseña - hashear y comparar con SHA256
+    const passwordHash = hashPassword(password);
+    const passwordValida = passwordHash === usuario.password_hash;
+
+    if (!passwordValida) {
+      return res.status(401).json({ message: 'Usuario o contraseña incorrectos' });
+    }
+
+    // Obtener permisos del perfil del usuario
+    const permisosResultado = await pool.query(
+      `SELECT perfil_id, mod_id, can_read, can_create, can_update, can_delete 
+       FROM perfilpermisos 
+       WHERE perfil_id = $1`,
+      [usuario.usuario_id_perfil]
+    );
+
+    // Generar token JWT
+    const token = jwt.sign(
+      { id_usuario: usuario.id_usuario, nombre: usuario.nombre },
+      JWT_SECRET,
+      { expiresIn: '24h' }
+    );
+
+    // No devolver la contraseña
+    const usuarioSinPassword = {
+      id_usuario: usuario.id_usuario,
+      nombre: usuario.nombre,
+      primer_apellido: usuario.primer_apellido,
+      segundo_apellido: usuario.segundo_apellido,
+      usuario_id_perfil: usuario.usuario_id_perfil
+    };
+
+    res.json({
+      token,
+      usuario: usuarioSinPassword,
+      permisos: permisosResultado.rows,
+      message: 'Inicio de sesión exitoso'
+    });
+
+  } catch (err) {
+    console.error('Error en login:', err);
+    res.status(500).json({ message: 'Error al iniciar sesión: ' + err.message });
+  }
+});
+
+// Ruta protegida de ejemplo para verificar token
+app.get('/api/auth/verify', verificarToken, (req, res) => {
+  res.json({ message: 'Token válido', usuario: req.usuario });
+});
 
 
 app.get('/api/productos', async (req, res) => {
@@ -219,7 +356,7 @@ app.delete('/api/pedidos_productos/:ped_id/:prod_id', async (req, res) => {
 });
 
 app.get('/api/pedidos_productos/:ped_id/:prod_id', async (req, res) => {
-  const { ped_id, prod_id } = req.params;
+  const { ped_id, prod_id } = req.params; 
   try {
     const result = await pool.query(
       `SELECT ped_id, prod_id, pped_fecha_entrega, pped_cantidad, pped_precio_unitario, pped_descuento, pped_total, pped_estado
@@ -326,6 +463,81 @@ app.get('/api/pedidos_productos/:ped_id/:prod_id', async (req, res) => {
 // });
 
 
+
+
+
+
+
+
+// Rutas especiales para permisos por perfil
+// Obtener permisos de un perfil específico
+app.get('/api/perfil-permisos/perfil/:perfilId', async (req, res) => {
+  const { perfilId } = req.params;
+  try {
+    const result = await pool.query(
+      `SELECT perfil_id, mod_id, can_read, can_create, can_update, can_delete 
+       FROM perfilpermisos 
+       WHERE perfil_id = $1`,
+      [perfilId]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error al obtener permisos del perfil:', err);
+    res.status(500).json({ message: 'Error al obtener permisos' });
+  }
+});
+
+// Guardar múltiples permisos (upsert)
+app.post('/api/perfil-permisos/guardar-permisos', async (req, res) => {
+  const { perfil_id, permisos } = req.body;
+  
+  if (!perfil_id || !Array.isArray(permisos)) {
+    return res.status(400).json({ message: 'Datos inválidos' });
+  }
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    
+    // Primero, eliminar todos los permisos existentes del perfil
+    await client.query(
+      'DELETE FROM perfilpermisos WHERE perfil_id = $1',
+      [perfil_id]
+    );
+    
+    // Luego insertar todos los nuevos permisos
+    const insertPromises = permisos.map(permiso => {
+      return client.query(
+        `INSERT INTO perfilpermisos (perfil_id, mod_id, can_read, can_create, can_update, can_delete)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [
+          perfil_id,
+          permiso.mod_id,
+          permiso.can_read || 'N',
+          permiso.can_create || 'N',
+          permiso.can_update || 'N',
+          permiso.can_delete || 'N'
+        ]
+      );
+    });
+    
+    await Promise.all(insertPromises);
+    await client.query('COMMIT');
+    
+    res.json({ message: 'Permisos guardados exitosamente' });
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('Error al guardar permisos:', err);
+    res.status(500).json({ message: 'Error al guardar permisos: ' + err.message });
+  } finally {
+    client.release();
+  }
+});
+
+
+
+
+
 // Registrar endpoints dinámicos
 createCrudRoutes(app, 'categorias', 'categoria', 'cat_id', [
   'cat_id',
@@ -424,71 +636,6 @@ createCrudRoutes(app, 'perfil-permisos', 'perfilpermisos', 'perfil_id', [
 ]);
 
 
-
-// Rutas especiales para permisos por perfil
-// Obtener permisos de un perfil específico
-app.get('/api/perfil-permisos/perfil/:perfilId', async (req, res) => {
-  const { perfilId } = req.params;
-  try {
-    const result = await pool.query(
-      `SELECT perfil_id, mod_id, can_read, can_create, can_update, can_delete 
-       FROM perfilpermisos 
-       WHERE perfil_id = $1`,
-      [perfilId]
-    );
-    res.json(result.rows);
-  } catch (err) {
-    console.error('Error al obtener permisos del perfil:', err);
-    res.status(500).json({ message: 'Error al obtener permisos' });
-  }
-});
-
-// Guardar múltiples permisos (upsert)
-app.post('/api/perfil-permisos/guardar-permisos', async (req, res) => {
-  const { perfil_id, permisos } = req.body;
-  
-  if (!perfil_id || !Array.isArray(permisos)) {
-    return res.status(400).json({ message: 'Datos inválidos' });
-  }
-
-  const client = await pool.connect();
-  try {
-    await client.query('BEGIN');
-    
-    // Primero, eliminar todos los permisos existentes del perfil
-    await client.query(
-      'DELETE FROM perfilpermisos WHERE perfil_id = $1',
-      [perfil_id]
-    );
-    
-    // Luego insertar todos los nuevos permisos
-    const insertPromises = permisos.map(permiso => {
-      return client.query(
-        `INSERT INTO perfilpermisos (perfil_id, mod_id, can_read, can_create, can_update, can_delete)
-         VALUES ($1, $2, $3, $4, $5, $6)`,
-        [
-          perfil_id,
-          permiso.mod_id,
-          permiso.can_read || 'N',
-          permiso.can_create || 'N',
-          permiso.can_update || 'N',
-          permiso.can_delete || 'N'
-        ]
-      );
-    });
-    
-    await Promise.all(insertPromises);
-    await client.query('COMMIT');
-    
-    res.json({ message: 'Permisos guardados exitosamente' });
-  } catch (err) {
-    await client.query('ROLLBACK');
-    console.error('Error al guardar permisos:', err);
-    res.status(500).json({ message: 'Error al guardar permisos: ' + err.message });
-  } finally {
-    client.release();
-  }
-});
 
 
 

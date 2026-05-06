@@ -1,5 +1,42 @@
-<nav class="navbar">
-	<a class="nav-link" routerLink="">Home</a>
-	<a class="nav-link" routerLink="/users">Users</a>
-	<a class="nav-link" routerLink="/templates">Plantillas</a>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+	<div class="container-fluid">
+		<a class="navbar-brand" routerLink="">Sebas</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse" id="navbarNav">
+			<ul class="navbar-nav ms-auto">
+				<li class="nav-item">
+					<a class="nav-link" routerLink="">Home</a>
+				</li>
+				<li *ngIf="isAuthenticated" class="nav-item">
+					<a class="nav-link" routerLink="/users">Users</a>
+				</li>
+				<li *ngIf="isAuthenticated" class="nav-item">
+					<a class="nav-link" routerLink="/templates">Plantillas</a>
+				</li>
+
+				<!-- Si está autenticado -->
+				<li *ngIf="isAuthenticated" class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+						<i class="fas fa-user"></i> {{ usuario?.nombre || usuario?.id_usuario }}
+					</a>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+						<li><a class="dropdown-item" href="#">Mi Perfil</a></li>
+						<li><hr class="dropdown-divider"></li>
+						<li><a class="dropdown-item" href="#" (click)="logout(); $event.preventDefault()">Cerrar Sesión</a></li>
+					</ul>
+				</li>
+
+				<!-- Si no está autenticado -->
+				<li *ngIf="!isAuthenticated" class="nav-item">
+					<a class="nav-link" routerLink="/login">Iniciar Sesión</a>
+				</li>
+				<li *ngIf="!isAuthenticated" class="nav-item">
+					<a class="nav-link" routerLink="/registro">Registro</a>
+				</li>
+			</ul>
+		</div>
+	</div>
 </nav>
+
