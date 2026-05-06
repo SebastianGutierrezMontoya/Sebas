@@ -399,7 +399,8 @@ createCrudRoutes(app, 'pedidos_productos', 'pedidos_productos', 'ped_id', [
 createCrudRoutes(app, 'perfiles', 'perfiles', 'id_perfil', [
   'id_perfil',
   'nombre',
-  'descripcion'
+  'descripcion',
+  'rol_id'
 ]);
 
 
@@ -413,7 +414,7 @@ createCrudRoutes(app, 'modulos', 'modulos', 'id_mod', [
 ]);
 
 
-createCrudRoutes(app, 'perfilpermisos', 'perfilpermisos', 'perfil_id', [
+createCrudRoutes(app, 'perfil-permisos', 'perfilpermisos', 'perfil_id', [
   'perfil_id',
   'mod_id',
   'can_create',
@@ -421,6 +422,73 @@ createCrudRoutes(app, 'perfilpermisos', 'perfilpermisos', 'perfil_id', [
   'can_update',
   'can_delete'
 ]);
+
+
+
+// Rutas especiales para permisos por perfil
+// Obtener permisos de un perfil específico
+app.get('/api/perfil-permisos/perfil/:perfilId', async (req, res) => {
+  const { perfilId } = req.params;
+  try {
+    const result = await pool.query(
+      `SELECT perfil_id, mod_id, can_read, can_create, can_update, can_delete 
+       FROM perfilpermisos 
+       WHERE perfil_id = $1`,
+      [perfilId]
+    );
+    res.json(result.rows);
+  } catch (err) {
+    console.error('Error al obtener permisos del perfil:', err);
+    res.status(500).json({ message: 'Error al obtener permisos' });
+  }
+});
+
+// Guardar múltiples permisos (upsert)
+app.post('/api/perfil-permisos/guardar-permisos', async (req, res) => {
+  const { perfil_id, permisos } = req.body;
+  
+  if (!perfil_id || !Array.isArray(permisos)) {
+    return res.status(400).json({ message: 'Datos inválidos' });
+  }
+
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+    
+    // Primero, eliminar todos los permisos existentes del perfil
+    await client.query(
+      'DELETE FROM perfilpermisos WHERE perfil_id = $1',
+      [perfil_id]
+    );
+    
+    // Luego insertar todos los nuevos permisos
+    const insertPromises = permisos.map(permiso => {
+      return client.query(
+        `INSERT INTO perfilpermisos (perfil_id, mod_id, can_read, can_create, can_update, can_delete)
+         VALUES ($1, $2, $3, $4, $5, $6)`,
+        [
+          perfil_id,
+          permiso.mod_id,
+          permiso.can_read || 'N',
+          permiso.can_create || 'N',
+          permiso.can_update || 'N',
+          permiso.can_delete || 'N'
+        ]
+      );
+    });
+    
+    await Promise.all(insertPromises);
+    await client.query('COMMIT');
+    
+    res.json({ message: 'Permisos guardados exitosamente' });
+  } catch (err) {
+    await client.query('ROLLBACK');
+    console.error('Error al guardar permisos:', err);
+    res.status(500).json({ message: 'Error al guardar permisos: ' + err.message });
+  } finally {
+    client.release();
+  }
+});
 
 
 

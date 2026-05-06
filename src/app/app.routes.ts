@@ -7,6 +7,9 @@ import { Sexos } from './components/sexos/sexos';
 import { SexosForm } from './components/sexos/sexos_form';
 import { Roles } from './components/roles/roles';
 import { RolesForm } from './components/roles/roles_form';
+import { Perfiles } from './components/perfiles/perfiles';
+import { PerfilesForm } from './components/perfiles/perfiles_form';
+import { PerfilesPermisos } from './components/perfiles/perfiles_permisos';
 import { ConfigContactos } from './components/config_contactos/config_contactos';
 import { ConfigContactosForm } from './components/config_contactos/config_contactos_form';
 import { Categorias } from './components/categorias/categorias';
@@ -37,6 +40,11 @@ export const routes: Routes = [
     { path : 'roles', component: Roles },
     { path : 'roles/form', component: RolesForm },
     { path : 'roles/form/:id', component: RolesForm },
+
+    { path : 'perfiles', component: Perfiles },
+    { path : 'perfiles/form', component: PerfilesForm },
+    { path : 'perfiles/form/:id', component: PerfilesForm },
+    { path : 'perfiles/permisos/:id', component: PerfilesPermisos },
 
     { path : 'config_contactos', component: ConfigContactos },
     { path : 'config_contactos/form', component: ConfigContactosForm },

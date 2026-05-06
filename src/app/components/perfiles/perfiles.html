@@ -1,0 +1,36 @@
+<div class="container">
+<h2>Perfiles</h2>
+<button (click)="crearPerfil()" class="btn-link">Crear nuevo perfil</button>
+
+
+<ul>
+    <li *ngFor="let perfil of perfiles">
+        <a  class="btn-link2">{{ perfil.nombre }}</a>
+        <button (click)="editarPerfil(perfil.id_perfil)" class="btn-link">Editar</button>,
+        <button (click)="gestionarPermisos(perfil.id_perfil)" class="btn-link">Permisos</button>,
+        <button (click)="showDeleteModal(perfil)" class="btn-link">Eliminar</button>
+    </li>
+</ul>
+</div>
+
+<!-- Modal de confirmación de eliminación -->
+<div class="modal" tabindex="-1" [ngClass]="{'show': showModal}" style="display: block;" *ngIf="showModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Confirmar eliminación</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que deseas eliminar el perfil "{{ perfilToDelete?.nombre }}"?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+          <button type="button" class="btn btn-danger" (click)="eliminarPerfil()">Eliminar</button>
+        </div>
+      </div>
+    </div> 
+</div>
+
+
+

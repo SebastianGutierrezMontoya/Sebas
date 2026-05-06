@@ -44,6 +44,7 @@ export interface Perfiles {
   id_perfil: number;
   nombre: string;
   descripcion?: string;
+  rol_id: number; // FK a Roles
 }
 
 export interface Modulos {

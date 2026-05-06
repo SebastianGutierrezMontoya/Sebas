@@ -1,0 +1,99 @@
+
+
+
+
+
+<div class="container mt-4">
+    <h2>Permisos del Perfil: {{ perfilNombre }}</h2>
+
+    <!-- Mensaje de error -->
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ errorMessage }}
+        <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
+    </div>
+
+    <!-- Mensaje de éxito -->
+    <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ successMessage }}
+        <button type="button" class="btn-close" (click)="successMessage = ''" aria-label="Close"></button>
+    </div>
+
+    <!-- Indicador de carga -->
+    <div *ngIf="isLoading" class="text-center">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Cargando...</span>
+        </div>
+        <p>Cargando datos...</p>
+    </div>
+
+    <!-- Tabla de permisos -->
+    <div *ngIf="!isLoading && modulos.length > 0">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Módulo</th>
+                    <th>Leer</th>
+                    <th>Crear</th>
+                    <th>Actualizar</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let modulo of modulos">
+                    <td>{{ modulo.nombre_mod }}</td>
+                    <td>
+                        <input 
+                            type="checkbox" 
+                            [checked]="getPermiso(modulo.id_mod)?.can_read === 'Y'"
+                            (change)="actualizarPermiso(modulo.id_mod, 'can_read', $any($event.target).checked)"
+                        />
+                    </td>
+                    <td>
+                        <input 
+                            type="checkbox" 
+                            [checked]="getPermiso(modulo.id_mod)?.can_create === 'Y'"
+                            (change)="actualizarPermiso(modulo.id_mod, 'can_create', $any($event.target).checked)"
+                        />
+                    </td>
+                    <td>
+                        <input 
+                            type="checkbox" 
+                            [checked]="getPermiso(modulo.id_mod)?.can_update === 'Y'"
+                            (change)="actualizarPermiso(modulo.id_mod, 'can_update', $any($event.target).checked)"
+                        />
+                    </td>
+                    <td>
+                        <input 
+                            type="checkbox" 
+                            [checked]="getPermiso(modulo.id_mod)?.can_delete === 'Y'"
+                            (change)="actualizarPermiso(modulo.id_mod, 'can_delete', $any($event.target).checked)"
+                        />
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Botón de guardar -->
+        <div class="mt-3 form-linear form-center">
+            <button 
+                class="btn btn-primary" 
+                (click)="guardarPermisos()"
+                [disabled]="isSaving"
+            >
+                <span *ngIf="!isSaving">Guardar Permisos</span>
+                <span *ngIf="isSaving">
+                    <span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+                    Guardando...
+                </span>
+            </button>
+            <button class="btn btn-secondary" (click)="volver()">Volver</button>
+        </div>
+    </div>
+
+    <!-- Sin datos -->
+    <div *ngIf="!isLoading && modulos.length === 0" class="alert alert-warning">
+        No hay módulos disponibles.
+    </div>
+</div>
+                
+                

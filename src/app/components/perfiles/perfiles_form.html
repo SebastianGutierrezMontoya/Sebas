@@ -1,0 +1,34 @@
+<form [formGroup]="form" (ngSubmit)="Guardar()" class="form-container">
+
+    <h2 class="form-header">{{ isEditMode ? 'Editar Perfil' : 'Crear Perfil' }}</h2>
+    <!-- ERROR -->
+    <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+    </div>
+    <div class="form-floating">
+        <input type="number" formControlName="id_perfil" class="form-control">
+        <label>ID de Perfil</label>
+    </div>
+    <div class="form-floating">
+        <input type="text" formControlName="nombre" maxlength="100" class="form-control" placeholder=" " required>
+        <label>Nombre de Perfil</label>
+    </div>
+    <div class="form-floating">
+        <select formControlName="rol_id" class="form-control" placeholder=" " required>
+            <option value="">Seleccione rol</option>
+            <option *ngFor="let r of roles" [value]="r.id_rol">
+                {{ r.nombre }}
+            </option>
+        </select>
+        <label>Rol</label>
+    </div>
+    <div class="form-floating">
+        <input type="text" formControlName="descripcion" maxlength="255" class="form-control" placeholder=" ">
+        <label>Descripción de Perfil</label>
+    </div>
+    <div class="form-linear form-center">
+        <button type="submit">{{ isEditMode ? 'Actualizar' : 'Crear' }}</button>
+        <button  class="btn-link" style="margin:auto;" (click)="volver()">Cancelar</button>
+    </div>
+</form>
+
