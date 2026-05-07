@@ -15,23 +15,25 @@ export interface PermisoModulo {
 @Injectable({ providedIn: 'root' })
 export class PermisosService {
 
-    private permisosSubject = new BehaviorSubject<PermisoModulo[]>([]);
+  private permisosSubject: BehaviorSubject<PermisoModulo[]>;
+  public permisos$: Observable<PermisoModulo[]>;
 
  constructor(
     private http: HttpClient,
     private authService: AuthService
   ) {
+    this.permisosSubject = new BehaviorSubject<PermisoModulo[]>(this.authService.getPermisos());
+
     // Actualizar permisos cuando el usuario cambia
     this.authService.permisos$.subscribe(permisos => {
       this.permisosSubject.next(permisos);
     });
-
-    this.permisosSubject = new BehaviorSubject<PermisoModulo[]>(this.authService.getPermisos());
+    this.permisos$ = this.permisosSubject.asObservable();
   }
 
   private apiUrl = 'http://localhost:3000/api/perfil-permisos';
   
-  public permisos$ = this.permisosSubject.asObservable();
+  
 
  
 

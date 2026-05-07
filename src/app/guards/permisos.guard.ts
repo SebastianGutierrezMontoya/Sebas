@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject } from '@angular/core';
 import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { PermisosService } from '../services/permisos.service';
 import { AuthService } from '../services/auth.service';
@@ -14,9 +14,9 @@ import { AuthService } from '../services/auth.service';
  * }
  */
 export const permisosGuard: CanActivateFn = (route, state) => {
-  const permisosService = new PermisosService(null as any, null as any);
-  const authService = new AuthService(null as any);
-  const router = new Router();
+  const permisosService = inject(PermisosService);
+  const authService = inject(AuthService);
+  const router = inject(Router);
 
   // Verificar si está autenticado
   if (!authService.isAuthenticated()) {
@@ -37,6 +37,7 @@ export const permisosGuard: CanActivateFn = (route, state) => {
   const tienePermiso = permisosService.tienePermiso(moduloId, accion);
 
   if (!tienePermiso) {
+    alert('Acceso denegado: No tienes permiso para esta acción');
     console.warn(`Acceso denegado: Sin permiso ${accion} en módulo ${moduloId}`);
     router.navigate(['/']);
     return false;
