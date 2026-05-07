@@ -1,24 +1,125 @@
 
-        
-<div class="container" style="width: auto !important;">
-    <h2>Auditoría de Productos</h2>
+<div class="container mt-5">
+  <h2 class="mb-4">Auditoría de Productos</h2>
+
+  <div *ngIf="auditoria.length === 0" class="alert alert-info">
+    No hay registros de auditoría disponibles.
+  </div>
+
+  <div *ngIf="auditoria.length > 0" class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Fecha</th>
+          <th>Tipo de Cambio</th>
+          <th>Producto</th>
+          <th>Cambios</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let audit of auditoria" [ngClass]="'audit-' + audit.au_type">
+          <td>
+            <small class="text-muted">
+              {{ audit.creation_date | date: 'medium' }}
+            </small>
+          </td>
+          <td>
+            <span [ngClass]="getBadgeClass(audit.au_type)" class="badge">
+              {{ audit.au_type_text }}
+            </span>
+          </td>
+          <td>
+            <strong>{{ audit.product_name || 'N/A' }}</strong>
+          </td>
+          <td>
+            <div *ngIf="audit.differences?.length > 0">
+              <div *ngFor="let change of audit.differences" class="change-item">
+                <span class="field-name">{{ change.field }}:</span>
+                <div class="change-values">
+                  <span class="old-value">{{ change.old }}</span>
+                  <span class="arrow">→</span>
+                  <span class="new-value">{{ change.new }}</span>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!audit.differences || audit.differences.length === 0">
+              <small class="text-muted">Sin cambios detectados</small>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-   <table>
-  <tr *ngFor="let p of auditoria">
-    <td>{{ p.creation_date }}</td>
-    <td>{{ p.au_type_text }}</td>
-    <td>
 
-      <div *ngIf="p.product_name">
-        Producto: {{ p.product_name }}
-      </div>
+<style>
+  .change-item {
+    margin: 8px 0;
+    padding: 8px;
+    background-color: #f8f9fa;
+    border-left: 3px solid #007bff;
+    border-radius: 4px;
+    font-size: 0.9rem;
+  }
 
-      <div *ngIf="p.differences?.length">
-        <div *ngFor="let d of p.differences">
-          {{ d.field }}: {{ d.old }} → {{ d.new }}
-        </div>
-      </div>
+  .field-name {
+    font-weight: bold;
+    color: #495057;
+    display: block;
+    margin-bottom: 4px;
+  }
 
-    </td>
-  </tr>
-</table>
+  .change-values {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .old-value {
+    background-color: #ffebee;
+    color: #c62828;
+    padding: 4px 8px;
+    border-radius: 3px;
+    word-break: break-word;
+  }
+
+  .new-value {
+    background-color: #e8f5e9;
+    color: #2e7d32;
+    padding: 4px 8px;
+    border-radius: 3px;
+    word-break: break-word;
+  }
+
+  .arrow {
+    color: #666;
+    font-weight: bold;
+  }
+
+  .badge {
+    font-size: 0.85rem;
+    padding: 6px 12px;
+  }
+
+  .audit-1 .badge {
+    background-color: #28a745;
+  }
+
+  .audit-2 .badge {
+    background-color: #ffc107;
+    color: #000;
+  }
+
+  .audit-3 .badge {
+    background-color: #dc3545;
+  }
+
+  .table {
+    margin-top: 20px;
+  }
+
+  .container {
+    max-width: 100%;
+    padding: 20px;
+  }
+</style>

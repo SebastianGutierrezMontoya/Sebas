@@ -81,8 +81,8 @@ export class ConsultasDinamicass implements OnInit {
   }
 
   verReporte(consulta: ConsultasDinamicas): void {
-    // Aquí podrías navegar a una página de reporte o mostrar un modal con los resultados
-    alert(`Ejecutar consulta: ${consulta.cons_sql}`);
+    // Navegar al componente de resultados con el ID de la consulta
+    this.router.navigate(['/consultas_dinamicas/resultados', consulta.cons_id]);
   }
 
 

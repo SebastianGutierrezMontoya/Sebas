@@ -534,6 +534,37 @@ app.post('/api/perfil-permisos/guardar-permisos', async (req, res) => {
   }
 });
 
+// Ejecutar consulta dinámica
+app.post('/api/consultas-dinamicas/ejecutar', async (req, res) => {
+  const { sql } = req.body;
+
+  if (!sql || typeof sql !== 'string') {
+    return res.status(400).json({ message: 'SQL no válido' });
+  }
+
+  // Validaciones de seguridad básicas (puedes mejorar esto)
+  const sqlUpper = sql.toUpperCase().trim();
+  if (sqlUpper.includes('DELETE') || sqlUpper.includes('DROP') || sqlUpper.includes('TRUNCATE') || sqlUpper.includes('INSERT') || sqlUpper.includes('UPDATE')) {
+    return res.status(403).json({ message: 'Las operaciones de modificación no están permitidas. Solo SELECT.' });
+  }
+
+  try {
+    const result = await pool.query(sql);
+    res.json({
+      success: true,
+      data: result.rows,
+      columns: result.fields ? result.fields.map(f => f.name) : Object.keys(result.rows[0] || {})
+    });
+  } catch (err) {
+    console.error('Error al ejecutar consulta:', err);
+    res.status(400).json({ 
+      success: false, 
+      message: 'Error en la consulta SQL', 
+      error: err.message 
+    });
+  }
+});
+
 
 
 

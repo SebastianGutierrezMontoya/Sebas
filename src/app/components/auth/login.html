@@ -1,7 +1,7 @@
 <div class="container d-flex align-items-center justify-content-center min-vh-100">
   <div class="card shadow-lg" style="width: 100%; max-width: 400px;">
     <div class="card-body p-5">
-      <h2 class="card-title text-center mb-4">Iniciar Sesión</h2>
+      <h2 class="card-title text-center mb-4 form-header">Iniciar Sesión</h2>
 
       <!-- Mensaje de error -->
       <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -12,39 +12,41 @@
       <!-- Formulario -->
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <!-- Usuario -->
-        <div class="mb-3">
-          <label for="id_usuario" class="form-label">Usuario</label>
+        <div class="mb-3 form-floating">
+          
           <input 
             type="text" 
             class="form-control" 
             id="id_usuario"
             formControlName="id_usuario"
-            placeholder="Ingresa tu usuario"
+            placeholder=""
             [class.is-invalid]="loginForm.get('id_usuario')?.invalid && loginForm.get('id_usuario')?.touched"
           />
+          <label for="id_usuario" class="form-label">Usuario</label>
           <div class="invalid-feedback" *ngIf="loginForm.get('id_usuario')?.invalid && loginForm.get('id_usuario')?.touched">
             El usuario es requerido
           </div>
         </div>
 
         <!-- Contraseña -->
-        <div class="mb-3">
-          <label for="password" class="form-label">Contraseña</label>
+        <div class=" form-floating">
+          
           <div class="input-group">
             <input 
               [type]="showPassword ? 'text' : 'password'" 
               class="form-control" 
               id="password"
               formControlName="password"
-              placeholder="Ingresa tu contraseña"
+              placeholder=""
               [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
             />
+            <label for="password" class="form-label">Contraseña</label>
             <button 
               class="btn btn-outline-secondary" 
               type="button"
               (click)="togglePasswordVisibility()"
             >
-              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+              <i [class]="showPassword ? 'fas fa-eye-slash' : 'fas fa-eye'">Mostrar Contraseña</i>
             </button>
           </div>
           <div class="invalid-feedback" *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched">
@@ -68,12 +70,12 @@
       </form>
 
       <!-- Enlace a registro -->
-      <p class="text-center mb-0">
+      <!-- <p class="text-center mb-0">
         ¿No tienes cuenta? 
         <a href="#" (click)="goToRegistro(); $event.preventDefault()" class="text-decoration-none">
           Regístrate aquí
         </a>
-      </p>
+      </p> -->
     </div>
   </div>
 </div>

@@ -1,0 +1,93 @@
+<div class="container mt-5">
+  <h2 class="mb-4">Ejecutor de Consultas Dinámicas</h2>
+
+  <div class="row">
+    <div class="col-md-12 mb-4">
+      <div class="card">
+        <div class="card-header bg-primary text-white">
+          <h5 class="mb-0">Ingresa tu Consulta SQL (Solo SELECT)</h5>
+        </div>
+        <div class="card-body">
+          <textarea
+            [(ngModel)]="sqlQuery"
+            class="form-control mb-3"
+            rows="6"
+            placeholder="Ej: SELECT p.prod_nombre AS producto, c.cat_nombre AS categoria, p.prod_stock AS stock FROM productos p JOIN categoria c ON p.cat_id = c.cat_id WHERE p.prod_stock < 20 ORDER BY p.prod_stock ASC LIMIT 5">
+          </textarea>
+
+          <div class="btn-group" role="group">
+            <button
+              (click)="ejecutarConsulta()"
+              [disabled]="isLoading"
+              class="btn btn-success">
+              <span *ngIf="!isLoading">▶ Ejecutar Consulta</span>
+              <span *ngIf="isLoading">Ejecutando...</span>
+            </button>
+            <button (click)="limpiarResultados()" class="btn btn-secondary">
+              🗑 Limpiar
+            </button>
+            <button
+              (click)="exportarCSV()"
+              [disabled]="resultados.length === 0"
+              class="btn btn-info">
+              📥 Exportar CSV
+            </button>
+            <button (click)="volver()" class="btn btn-outline-secondary">
+              ← Volver
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensajes de estado -->
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+    <strong>Error:</strong> {{ errorMessage }}
+    <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+    <strong>Éxito:</strong> {{ successMessage }}
+    <button type="button" class="btn-close" (click)="successMessage = ''"></button>
+  </div>
+
+  <!-- Resultados -->
+  <div *ngIf="resultados.length > 0" class="row mt-4">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">Resultados ({{ resultados.length }} fila{{ resultados.length !== 1 ? 's' : '' }})</h5>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-striped table-hover table-bordered">
+            <thead class="table-light">
+              <tr>
+                <th>#</th>
+                <th *ngFor="let col of columnas">{{ col }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of resultados; let i = index">
+                <td class="fw-bold text-muted">{{ i + 1 }}</td>
+                <td *ngFor="let col of columnas">
+                  <span *ngIf="row[col] !== null && row[col] !== undefined; else noData">
+                    {{ row[col] }}
+                  </span>
+                  <ng-template #noData>
+                    <span class="text-muted">NULL</span>
+                  </ng-template>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sin resultados -->
+  <div *ngIf="!isLoading && !errorMessage && resultados.length === 0 && sqlQuery" class="alert alert-info mt-4">
+    Presiona "Ejecutar Consulta" para ver los resultados
+  </div>
+</div>

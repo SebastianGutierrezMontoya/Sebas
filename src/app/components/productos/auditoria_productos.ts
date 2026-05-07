@@ -14,10 +14,8 @@ import { CommonModule } from '@angular/common';
 export class AuditoriaProductos implements OnInit {
   auditoria: any[] = [];
 
-
   constructor(private service: ProductosAuditoriaService) {}
   
-
   ngOnInit() {
     this.service.getAuditoria().subscribe({
       next: (data) => {
@@ -28,5 +26,16 @@ export class AuditoriaProductos implements OnInit {
     });
   }
 
-
+  getBadgeClass(auType: number): string {
+    switch (auType) {
+      case 1:
+        return 'bg-success';
+      case 2:
+        return 'bg-warning';
+      case 3:
+        return 'bg-danger';
+      default:
+        return 'bg-secondary';
+    }
+  }
 }

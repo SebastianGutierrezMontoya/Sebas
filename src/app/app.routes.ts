@@ -26,6 +26,7 @@ import { Estados } from './components/estados/estados';
 import { EstadosForm } from './components/estados/estados_form';
 import { ConsultasDinamicass } from './components/consultas_dinamicas/consultas_dinamicass';
 import { ConsultasDinamicasForm } from './components/consultas_dinamicas/consultas_dinamicas_form';
+import { ConsultasDinamicasResultado } from './components/consultas_dinamicas/consultas_dinamicas_resultado';
 
 import { permisosGuard } from './guards/permisos.guard';
 
@@ -79,5 +80,7 @@ export const routes: Routes = [
     { path : 'consultas_dinamicas', component: ConsultasDinamicass, canActivate: [permisosGuard], data: { moduloId: 11, accion: 'read' } },
     { path : 'consultas_dinamicas/form', component: ConsultasDinamicasForm, canActivate: [permisosGuard], data: { moduloId: 11, accion: 'create' } },
     { path : 'consultas_dinamicas/form/:id', component: ConsultasDinamicasForm, canActivate: [permisosGuard], data: { moduloId: 11, accion: 'update' } },
+    { path : 'consultas_dinamicas/resultados', component: ConsultasDinamicasResultado, canActivate: [permisosGuard], data: { moduloId: 11, accion: 'read' } },
+    { path : 'consultas_dinamicas/resultados/:id', component: ConsultasDinamicasResultado, canActivate: [permisosGuard], data: { moduloId: 11, accion: 'read' } },
 ];
  
