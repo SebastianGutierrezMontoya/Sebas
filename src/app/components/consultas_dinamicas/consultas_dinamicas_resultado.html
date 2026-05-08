@@ -5,13 +5,14 @@
     <div class="col-md-12 mb-4">
       <div class="card">
         <div class="card-header bg-primary text-white">
-          <h5 class="mb-0">Ingresa tu Consulta SQL (Solo SELECT)</h5>
+          <h5 class="mb-0">Consulta SQL (Solo SELECT)</h5>
         </div>
         <div class="card-body">
           <textarea
             [(ngModel)]="sqlQuery"
             class="form-control mb-3"
             rows="6"
+            readonly
             placeholder="Ej: SELECT p.prod_nombre AS producto, c.cat_nombre AS categoria, p.prod_stock AS stock FROM productos p JOIN categoria c ON p.cat_id = c.cat_id WHERE p.prod_stock < 20 ORDER BY p.prod_stock ASC LIMIT 5">
           </textarea>
 

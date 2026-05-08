@@ -79,6 +79,11 @@ export class UsuariosComponent implements OnInit {
     this.showDeleteModal = true;
   }
 
+  cancelarEliminar() {
+    this.usuarioToDelete = null;
+    this.showDeleteModal = false;
+  }
+
   eliminarUsuario() {
     if (!this.usuarioToDelete) return;
 

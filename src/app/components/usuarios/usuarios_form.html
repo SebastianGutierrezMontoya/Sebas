@@ -1,6 +1,7 @@
 <form [formGroup]="form" (ngSubmit)="guardar()" class="form-container">
+  <h1 class="form-title">{{ isEditMode ? 'Editar Usuario' : 'Crear Usuario' }}</h1>
 
-  <input formControlName="id_usuario" placeholder="ID" readonly>
+  <input formControlName="id_usuario" placeholder="ID" >
   <input formControlName="nombre" placeholder="Nombre">
   <input formControlName="primer_apellido" placeholder="Primer apellido">
   <input formControlName="segundo_apellido" placeholder="Segundo apellido">

@@ -145,6 +145,14 @@ export class UsuariosForm implements OnInit {
   guardar() {
     const data = this.form.value;
     console.log('Datos a guardar:', data);
+
+    if (data.usuario_id_perfil === '') data.usuario_id_perfil = null;
+    if (data.activo === true) {
+      data.activo = 1;
+    } else {
+      data.activo = 0;
+    }
+
     const contactosData = data.contactos;
     console.log('Contactos a guardar:', contactosData);
     delete data.contactos; // Eliminar la propiedad contactos del objeto data
@@ -156,6 +164,7 @@ export class UsuariosForm implements OnInit {
           this.router.navigate(['/usuarios']);
         });
 
+        if (contactosData) {
 
         contactosData.forEach((contacto: any) => {
           if (contacto.id_contacto && contacto.id_contacto !== 0) {
@@ -168,15 +177,22 @@ export class UsuariosForm implements OnInit {
             this.ContactosService.create(contacto).subscribe();
           }
         });
+
+      }
       
 
     } else {
       this.service.create(data).subscribe((usuarioCreado) => {
         data.id_usuario = usuarioCreado.id_usuario;
+        if (contactosData) {
+
         contactosData.forEach((contacto: any) => {
           contacto.id_usuario = data.id_usuario;
           this.ContactosService.create(contacto).subscribe();
         });
+
+      }
+
         this.router.navigate(['/usuarios']);
       });
     }

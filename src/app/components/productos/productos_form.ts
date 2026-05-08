@@ -120,6 +120,7 @@ export class ProductosForm implements OnInit {
     this.errorMessage = '';
 
     const data = this.form.value;
+    console.log('Datos a enviar:', data);
 
     if (this.isEditMode && this.productoId) {
       this.service.update(this.productoId, data).subscribe({

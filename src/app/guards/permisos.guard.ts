@@ -3,16 +3,7 @@ import { CanActivateFn, Router, ActivatedRouteSnapshot } from '@angular/router';
 import { PermisosService } from '../services/permisos.service';
 import { AuthService } from '../services/auth.service';
 
-/**
- * Guardia que verifica permisos antes de acceder a una ruta
- * Uso en rutas:
- * {
- *   path: 'usuarios',
- *   component: UsuariosComponent,
- *   canActivate: [permisosGuard],
- *   data: { moduloId: 1, accion: 'read' }
- * }
- */
+
 export const permisosGuard: CanActivateFn = (route, state) => {
   const permisosService = inject(PermisosService);
   const authService = inject(AuthService);
@@ -38,7 +29,7 @@ export const permisosGuard: CanActivateFn = (route, state) => {
 
   if (!tienePermiso) {
     alert('Acceso denegado: No tienes permiso para esta acción');
-    console.warn(`Acceso denegado: Sin permiso ${accion} en módulo ${moduloId}`);
+    // console.warn(`Acceso denegado: Sin permiso ${accion} en módulo ${moduloId}`);
     router.navigate(['/']);
     return false;
   }

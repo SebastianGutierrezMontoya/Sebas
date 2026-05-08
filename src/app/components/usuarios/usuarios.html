@@ -25,20 +25,19 @@
 </div>
 
 <!-- Modal de confirmación de borrado -->
-<div id="deleteModal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.4); z-index:2000;">
-    <div style="background:#fff; padding:30px; max-width:400px; margin:100px auto; border-radius:8px; position:relative;">
-        <h3>Eliminar Usuario</h3>
-        <p id="deleteMessage"></p>
-        <form id="deleteForm" method="post" style="display:inline;">
-            <!-- {% csrf_token %} -->
-            <div class="form-linear form-center">
-                <button type="submit">Sí, eliminar</button>
-                <button type="button" onclick="hideDeleteModal()">Cancelar</button>
-            </div>
-        </form>
+
+<div *ngIf="showDeleteModal" class="modal-overlay">
+  <div class="modal-content">
+    <h3>Eliminar Usuario</h3>
+    <p>¿Estás seguro de que deseas eliminar "{{ usuarioToDelete?.nombre }}"?</p>
+    <div class="form-linear form-center">
+      <button (click)="eliminarUsuario()" class="btn-danger">Sí, eliminar</button>
+      <button (click)="cancelarEliminar()">Cancelar</button>
     </div>
+  </div>
 </div>
-<script>
+
+<!-- <script>
     function showDeleteModal(pk, nombre) {
         document.getElementById('deleteMessage').textContent = '¿Estás seguro de que deseas eliminar "' + nombre + '"?';
         var form = document.getElementById('deleteForm');
@@ -48,7 +47,7 @@
     function hideDeleteModal() {
         document.getElementById('deleteModal').style.display = 'none';
     }
-</script>
+</script> -->
 
 <router-outlet></router-outlet>
 
