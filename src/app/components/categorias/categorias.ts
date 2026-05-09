@@ -3,10 +3,14 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, Router } from '@angular/router';
 import { CategoriaService, Categoria } from '../../services/categoria.service';
 
+import { TienePermisoDirective } from '../../directives/tiene-permiso.directive';
+import { DeshabilitarSinPermisoDirective } from '../../directives/deshabilitar-sin-permiso.directive';
+import { PermisosService } from '../../services/permisos.service';
+
 @Component({
   selector: 'app-categorias',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, TienePermisoDirective, DeshabilitarSinPermisoDirective],
   templateUrl: './categorias.html',
 })
 export class Categorias implements OnInit {
@@ -16,10 +20,13 @@ export class Categorias implements OnInit {
   showDeleteModal = false;
   categoriaToDelete: Categoria | null = null;
 
+  MODULO_ID = 7; // Reemplaza con el ID del módulo de categorías en tu sistema de permisos
+
   constructor(
     private categoriaService: CategoriaService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private permisosService: PermisosService
   ) {}
 
   ngOnInit(): void {
@@ -61,6 +68,10 @@ export class Categorias implements OnInit {
 
   // Mostrar modal de confirmación para eliminar
   confirmarEliminar(categoria: Categoria): void {
+    if (!this.permisosService.puedeEliminar(this.MODULO_ID)) {
+      alert('No tienes permiso para eliminar');
+      return;
+    }
     this.categoriaToDelete = categoria;
     this.showDeleteModal = true;
   }

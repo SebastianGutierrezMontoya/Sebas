@@ -4,10 +4,14 @@ import { ConsultasDinamicasService } from '../../services/consultasdinamicas.ser
 import { CommonModule } from '@angular/common';
 import { ConsultasDinamicas } from '../../models/models';
 
+import { TienePermisoDirective } from '../../directives/tiene-permiso.directive';
+import { DeshabilitarSinPermisoDirective } from '../../directives/deshabilitar-sin-permiso.directive';
+import { PermisosService } from '../../services/permisos.service';
+
 @Component({
   selector: 'app-consultas_dinamicas',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, TienePermisoDirective, DeshabilitarSinPermisoDirective],
   templateUrl: './consultas_dinamicas.html',
 })
 export class ConsultasDinamicass implements OnInit {
@@ -19,11 +23,13 @@ export class ConsultasDinamicass implements OnInit {
   showDeleteModal = false;
   consultaToDelete: ConsultasDinamicas | null = null;
 
+  MODULO_ID = 11; // Reemplaza con el ID del módulo de consultas dinámicas en tu sistema de permisos
 
   constructor(
     private service: ConsultasDinamicasService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private permisosService: PermisosService
   ) { }
 
   ngOnInit(): void {
@@ -55,6 +61,10 @@ export class ConsultasDinamicass implements OnInit {
     this.router.navigate(['/consultas_dinamicas/form', consulta.cons_id]);
   }
   confirmarEliminar(consulta: ConsultasDinamicas): void { 
+    if (!this.permisosService.puedeEliminar(this.MODULO_ID)) { // Reemplaza 11 con el ID del módulo de consultas dinámicas
+      alert('No tienes permiso para eliminar');
+      return;
+    }
     this.consultaToDelete = consulta;
     this.showDeleteModal = true;
   }

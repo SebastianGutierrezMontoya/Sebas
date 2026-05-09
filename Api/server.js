@@ -567,6 +567,19 @@ app.post('/api/consultas-dinamicas/ejecutar', async (req, res) => {
 
 
 
+app.post('/api/config_contacto/crear', async (req, res) => {
+  const { nombre_contacto, descripcion, regex_val, min_length, max_length, mensaje_error } = req.body;
+  try {    const result = await pool.query(
+      `INSERT INTO config_contacto (nombre_contacto, descripcion, regex_val, min_length, max_length, mensaje_error)
+       VALUES ($1, $2, $3, $4, $5, $6) RETURNING id_regla, nombre_contacto, descripcion, regex_val, min_length, max_length, mensaje_error`,
+      [nombre_contacto, descripcion, regex_val, min_length, max_length, mensaje_error]
+    );
+    res.status(201).json(result.rows[0]);
+  } catch (err) {
+    console.error('Error al crear regla de contacto:', err);
+    res.status(500).send('Error al insertar');
+  } 
+});
 
 
 // Registrar endpoints dinámicos

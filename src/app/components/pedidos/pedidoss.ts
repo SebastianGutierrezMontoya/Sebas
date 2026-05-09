@@ -5,11 +5,15 @@ import { CommonModule } from '@angular/common';
 import { Pedidos } from '../../models/models';
 import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
+import { TienePermisoDirective } from '../../directives/tiene-permiso.directive';
+import { DeshabilitarSinPermisoDirective } from '../../directives/deshabilitar-sin-permiso.directive';
+import { PermisosService } from '../../services/permisos.service';
+
 
 @Component({
   selector: 'app-pedidos',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, ReactiveFormsModule],
+  imports: [RouterOutlet, CommonModule, ReactiveFormsModule, TienePermisoDirective, DeshabilitarSinPermisoDirective],
   templateUrl: './pedidos.html',
 })
 export class Pedidoss implements OnInit {
@@ -24,6 +28,8 @@ export class Pedidoss implements OnInit {
 
   page = 1;
 
+  MODULO_ID = 9; // Reemplaza con el ID del módulo de pedidos en tu sistema de permisos
+
   form = new FormGroup({
     search: new FormControl('')
   });
@@ -31,7 +37,8 @@ export class Pedidoss implements OnInit {
   constructor(
     private service: PedidosService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private permisosService: PermisosService
   ) {}
 
   ngOnInit(): void {
@@ -71,6 +78,10 @@ export class Pedidoss implements OnInit {
   }
 
   confirmarEliminar(pedido: Pedidos): void {
+      if (!this.permisosService.puedeEliminar(this.MODULO_ID)) {
+        alert('No tienes permiso para eliminar');
+        return;
+      }
     this.pedidoToDelete = pedido;
     this.showDeleteModal = true;
   }

@@ -1,10 +1,10 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
   <h2 class="form-header">{{ isEditMode ? 'Editar Regla de Contacto' : 'Crear Regla de Contacto' }}</h2>
   
-  <div class="form-floating">
+  <!-- <div class="form-floating">
     <input type="number" formControlName="id_regla" required id="id_id_regla">
     <label for="id_id_regla">Id regla</label>
-  </div>
+  </div> -->
 
   <div class="form-floating">
     <input type="text" formControlName="nombre_contacto" maxlength="50" id="id_nombre_contacto">

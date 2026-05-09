@@ -6,10 +6,14 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { ProductosService } from '../../services/productos.service';
 import { Productos } from '../../models/models';
 
+import { TienePermisoDirective } from '../../directives/tiene-permiso.directive';
+import { DeshabilitarSinPermisoDirective } from '../../directives/deshabilitar-sin-permiso.directive';
+import { PermisosService } from '../../services/permisos.service';
+
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, ReactiveFormsModule],
+  imports: [RouterOutlet, CommonModule, ReactiveFormsModule, TienePermisoDirective, DeshabilitarSinPermisoDirective],
   templateUrl: './productos.html',
 })
 export class Producto implements OnInit {
@@ -24,6 +28,8 @@ export class Producto implements OnInit {
 
   page = 1;
 
+  MODULO_ID = 8; // Reemplaza con el ID del módulo de productos en tu sistema de permisos
+
   form = new FormGroup({
     search: new FormControl('')
   });
@@ -31,7 +37,8 @@ export class Producto implements OnInit {
   constructor(
     private service: ProductosService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private permisosService: PermisosService
   ) {}
 
   ngOnInit(): void {
@@ -89,6 +96,10 @@ export class Producto implements OnInit {
   // DELETE MODAL
   // ========================
   confirmarEliminar(producto: Productos): void {
+    if (!this.permisosService.puedeEliminar(this.MODULO_ID)) {
+      alert('No tienes permiso para eliminar');
+      return;
+    }
     this.productoToDelete = producto;
     this.showDeleteModal = true;
   }

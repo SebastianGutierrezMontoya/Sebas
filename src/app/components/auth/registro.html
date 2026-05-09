@@ -18,7 +18,7 @@
           </div>
 
           <!-- Formulario -->
-          <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" autocomplete="off">
             <!-- Usuario -->
             <div class="mb-3">
               <label for="id_usuario" class="form-label">Usuario *</label>

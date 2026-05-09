@@ -45,7 +45,8 @@ export class CategoriasForm implements OnInit, OnDestroy {
 
   // Inicializar el formulario
   private initializeForm(): void {
-    this.form = this.formBuilder.group({
+    this.form = this.formBuilder.group({ 
+      cat_id : ['', Validators.required],
       cat_nombre: ['', [Validators.required, Validators.maxLength(50)]],
       cat_descripcion: ['', [Validators.maxLength(200)]]
     });
@@ -60,6 +61,7 @@ export class CategoriasForm implements OnInit, OnDestroy {
         next: (data) => {
           console.log('Categoría cargada correctamente:', data);
           this.form.patchValue({
+            cat_id: data.cat_id,
             cat_nombre: data.cat_nombre,
             cat_descripcion: data.cat_descripcion
           });

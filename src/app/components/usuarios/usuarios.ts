@@ -6,11 +6,15 @@ import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 import { UsuariosService } from '../../services/usuarios.service';
 import { Usuarios } from '../../models/models';
 
+import { TienePermisoDirective } from '../../directives/tiene-permiso.directive';
+import { DeshabilitarSinPermisoDirective } from '../../directives/deshabilitar-sin-permiso.directive';
+import { PermisosService } from '../../services/permisos.service';
+
 
 @Component({
   selector: 'app-usuarios',
   standalone: true,
-  imports: [RouterOutlet, CommonModule, ReactiveFormsModule],
+  imports: [RouterOutlet, CommonModule, ReactiveFormsModule, TienePermisoDirective, DeshabilitarSinPermisoDirective],
   templateUrl: './usuarios.html',
 })
 
@@ -24,6 +28,8 @@ export class UsuariosComponent implements OnInit {
   showDeleteModal = false;
   usuarioToDelete: Usuarios | null = null;
 
+  MODULO_ID = 1; // ID del módulo de usuarios para permisos
+
   page = 1;
 
   form = new FormGroup({
@@ -34,7 +40,8 @@ export class UsuariosComponent implements OnInit {
   constructor(
     private service: UsuariosService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private permisosService: PermisosService
   ) {}
  
   ngOnInit() {
@@ -75,6 +82,10 @@ export class UsuariosComponent implements OnInit {
   }
 
   confirmarEliminar(u: Usuarios) {
+    if (!this.permisosService.puedeEliminar(this.MODULO_ID)) {
+      alert('No tienes permiso para eliminar');
+      return;
+    }
     this.usuarioToDelete = u;
     this.showDeleteModal = true;
   }

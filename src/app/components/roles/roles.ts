@@ -3,10 +3,14 @@ import { RouterOutlet, Router } from '@angular/router';
 import { RolesService } from '../../services/roles.service';
 import { CommonModule } from '@angular/common';
 
+import { TienePermisoDirective } from '../../directives/tiene-permiso.directive';
+import { DeshabilitarSinPermisoDirective } from '../../directives/deshabilitar-sin-permiso.directive';
+import { PermisosService } from '../../services/permisos.service';
+
 @Component({
   selector: 'app-roles',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, TienePermisoDirective, DeshabilitarSinPermisoDirective],
   templateUrl: './roles.html',
 })
 
@@ -20,9 +24,12 @@ export class Roles implements OnInit {
 
   roles: any[] = [];
 
+  MODULO_ID = 3; // Reemplaza con el ID del módulo de roles en tu sistema de permisos
+
   constructor(private rolesService: RolesService,
               private router: Router,
-              private cdr: ChangeDetectorRef
+              private cdr: ChangeDetectorRef,
+              private permisosService: PermisosService
   ) { }
 
   ngOnInit(): void {
@@ -57,6 +64,10 @@ export class Roles implements OnInit {
     this.router.navigate(['/roles/form', role.id_rol]);
   }
   confirmarEliminarRol(role: any): void {
+    if (!this.permisosService.puedeEliminar(this.MODULO_ID)) {
+      alert('No tienes permiso para eliminar');
+      return;
+    }
     this.roleToDelete = role;
     this.showDeleteModal = true;
   }

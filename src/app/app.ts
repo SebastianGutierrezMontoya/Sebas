@@ -1,6 +1,7 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
+import { Sidebar } from './components/navbar/sidebar';
 import { Users } from './components/users/users';
 // import { Usuarios } from './components/usuarios/usuarios';
 import { UsuariosForm } from './components/usuarios/usuarios-form'; 
@@ -12,7 +13,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, Navbar, Users, UsuariosForm],
+  imports: [RouterOutlet, Navbar, Sidebar, Users, UsuariosForm],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

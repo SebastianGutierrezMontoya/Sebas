@@ -4,11 +4,15 @@ import { EstadoPedidosService } from '../../services/estadopedidos.service';
 import { CommonModule } from '@angular/common';
 import { EstadoPedidos } from '../../models/models';
 
+import { TienePermisoDirective } from '../../directives/tiene-permiso.directive';
+import { DeshabilitarSinPermisoDirective } from '../../directives/deshabilitar-sin-permiso.directive';
+import { PermisosService } from '../../services/permisos.service';
+
 
 @Component({
   selector: 'app-estados',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, TienePermisoDirective, DeshabilitarSinPermisoDirective],
   templateUrl: './estados.html',
 })
 
@@ -21,10 +25,13 @@ export class Estados implements OnInit {
   showDeleteModal = false;
   estadoToDelete: EstadoPedidos | null = null;
 
+  MODULO_ID = 10; // Reemplaza con el ID del módulo de estados en tu sistema de permisos
+
   constructor(
     private service: EstadoPedidosService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private permisosService: PermisosService
   ) {}
 
   ngOnInit(): void {
@@ -59,6 +66,10 @@ export class Estados implements OnInit {
   }
 
   confirmarEliminar(estado: EstadoPedidos): void {
+    if (!this.permisosService.puedeEliminar(this.MODULO_ID)) {
+      alert('No tienes permiso para eliminar');
+      return;
+    }
     this.estadoToDelete = estado;
     this.showDeleteModal = true;
   }

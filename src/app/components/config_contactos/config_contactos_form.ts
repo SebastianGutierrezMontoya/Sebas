@@ -32,7 +32,7 @@ export class ConfigContactosForm implements OnInit {
  
   initForm(): void {
     this.form = this.fb.group({
-      id_regla: ['', Validators.required],
+      // id_regla: [''],
       nombre_contacto: ['', Validators.required],
       descripcion: [''],
       regex_val: [''],
@@ -80,6 +80,16 @@ onSubmit(): void {
     }
     
     const contactoData = this.form.value;
+    console.log('Datos del formulario:', contactoData);
+
+    if (contactoData.min_length === '') {
+      contactoData.min_length = null;
+    }
+
+    if (contactoData.max_length === '') {
+      contactoData.max_length = null;
+    } 
+
 
     if (this.isEditMode) {
       this.configContactoService.update(this.contactoId!, contactoData).subscribe({
@@ -92,9 +102,9 @@ onSubmit(): void {
         }
       });
     } else {
-      this.configContactoService.create(contactoData).subscribe({
+      this.configContactoService.crearContacto(contactoData).subscribe({
         next: () => {
-          this.router.navigate(['/config-contactos']);
+          this.router.navigate(['/config_contactos']);
         },
         error: (err) => {
           console.error(err);

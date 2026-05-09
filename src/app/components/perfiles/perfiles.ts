@@ -7,10 +7,14 @@ import { RouterOutlet } from '@angular/router';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChangeDetectorRef } from '@angular/core';
 
+import { TienePermisoDirective } from '../../directives/tiene-permiso.directive';
+import { DeshabilitarSinPermisoDirective } from '../../directives/deshabilitar-sin-permiso.directive';
+import { PermisosService } from '../../services/permisos.service';
+
 @Component({
   selector: 'app-perfiles',
   templateUrl: './perfiles.html',
-  imports: [RouterOutlet, CommonModule, ReactiveFormsModule],
+  imports: [RouterOutlet, CommonModule, ReactiveFormsModule, TienePermisoDirective, DeshabilitarSinPermisoDirective],
 
 })
 export class Perfiles implements OnInit {
@@ -22,9 +26,12 @@ export class Perfiles implements OnInit {
     isloading = false;
     errorMessage = '';
 
+    MODULO_ID = 4; // Reemplaza con el ID del módulo de perfiles en tu sistema de permisos
+
   constructor(private perfilesService: PerfilesService,
      private router: Router,
-     private cdr: ChangeDetectorRef) { }
+     private cdr: ChangeDetectorRef,
+     private permisosService: PermisosService) { }
 
   ngOnInit(): void {
     this.cargarPerfiles();
@@ -59,6 +66,10 @@ export class Perfiles implements OnInit {
     }
 
     eliminarPerfil(): void {
+    if (!this.permisosService.puedeEliminar(this.MODULO_ID)) {
+      alert('No tienes permiso para eliminar');
+      return;
+    }
     this.perfilesService.delete(this.perfilToDelete.id_perfil).subscribe(() => {
         this.perfiles = this.perfiles.filter(p => p.id_perfil !== this.perfilToDelete.id_perfil);
         this.closeModal();
@@ -66,6 +77,10 @@ export class Perfiles implements OnInit {
 }
 
     showDeleteModal(perfil: any): void {
+      if (!this.permisosService.puedeEliminar(this.MODULO_ID)) {
+      alert('No tienes permiso para eliminar');
+      return;
+    }
     this.perfilToDelete = perfil;
     this.showModal = true;
     }

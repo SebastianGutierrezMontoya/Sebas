@@ -3,10 +3,14 @@ import { RouterOutlet, Router } from '@angular/router';
 import { SexosService } from '../../services/sexos.service';
 import { CommonModule } from '@angular/common';
 
+import { TienePermisoDirective } from '../../directives/tiene-permiso.directive';
+import { DeshabilitarSinPermisoDirective } from '../../directives/deshabilitar-sin-permiso.directive';
+import { PermisosService } from '../../services/permisos.service';
+
 @Component({
   selector: 'app-sexos',
   standalone: true,
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule, TienePermisoDirective, DeshabilitarSinPermisoDirective],
   templateUrl: './sexos.html',
 })
 export class Sexos implements OnInit {
@@ -15,9 +19,12 @@ export class Sexos implements OnInit {
   isLoading = false
   errorMessage = '';
 
+  MODULO_ID = 2; // Reemplaza con el ID
+
   constructor(private service: SexosService
     , private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private permisosService: PermisosService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +49,10 @@ export class Sexos implements OnInit {
   }
 
   deleteSexo(sexo: any): void {
+    if (!this.permisosService.puedeEliminar(this.MODULO_ID)) {
+      alert('No tienes permiso para eliminar');
+      return;
+    }
     if (confirm(`¿Estás seguro de que deseas eliminar el sexo "${sexo.descripcion}"?`)) {
       this.service.delete(sexo.id_sexo).subscribe({
         next: () => {
