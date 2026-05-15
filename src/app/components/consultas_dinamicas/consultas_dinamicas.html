@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 <h2>Consultas</h2>
 
 <div *ngIf="errorMessage" class="alert alert-danger">
@@ -49,3 +49,33 @@
     </div>
 
 </div>
+ -->
+
+
+<div class="panel-content-header">
+    <div><h2>Consultas Dinámicas</h2><p>Listado de consultas guardadas.</p></div>
+    <div class="panel-actions">
+        <a href="consultas_dinamicas/form" class="panel-btn panel-btn-primary">+ Crear Consulta</a>
+        <!-- <a href="home" class="panel-btn panel-btn-secondary">↩️ Admin Clásico</a> -->
+    </div>
+</div>
+
+<div *ngIf="consultas.length > 0" class="panel-table-wrapper">
+    <table class="panel-table">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Descripcion</th><th>Acciones</th></tr></thead>
+        <tbody>
+
+            <tr *ngFor="let c of consultas">
+                <td style="color:#64748b; font-family:monospace;">{{ c.cons_id }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ c.cons_nombre }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ c.cons_descripcion }}</td>
+                <td>
+                    <a href="consultas_dinamicas/form/{{ c.cons_id }}" class="panel-btn panel-btn-sm panel-btn-primary">Editar</a>
+                    <a href="consultas_dinamicas/resultados/{{ c.cons_id }}" class="panel-btn panel-btn-sm panel-btn-secondary">Reporte</a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<div *ngIf="consultas.length === 0" class="panel-alert panel-alert-info">No hay consultas.</div>

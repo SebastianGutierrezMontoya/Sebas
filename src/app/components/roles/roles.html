@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 <h2>Roles</h2>
 
 <div *ngIf="errorMessage" class="alert alert-danger">
@@ -20,6 +20,11 @@
 <p *ngIf="!isLoading && roles.length === 0">No se encontraron roles.</p>
 
 
+
+
+</div> -->
+
+
 <div *ngIf="showDeleteModal" class="modal">
   <div class="modal-content">
     <h3>Confirmar eliminación</h3>
@@ -29,5 +34,30 @@
   </div>
 </div>
 
-
+<div class="panel-content-header">
+    <div><h2>Roles</h2><p>Gestión de roles del sistema.</p></div>
+    <div class="panel-actions">
+        <a href="roles/form" class="panel-btn panel-btn-primary">+ Nuevo Rol</a>
+        <!-- <a href="admin_home" class="panel-btn panel-btn-secondary">↩️ Admin Clásico</a> -->
+    </div>
 </div>
+
+<div *ngIf="roles.length > 0" class="panel-table-wrapper">
+    <table class="panel-table">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Acciones</th></tr></thead>
+        <tbody>
+
+            <tr *ngFor="let r of roles">
+                <td style="color:#64748b; font-family:monospace;">{{ r.id_rol }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ r.nombre }}</td>
+                <td>{{ r.descripcion }}</td>
+                <td>
+                    <a href="roles/form/{{ r.id_rol }}" class="panel-btn panel-btn-sm panel-btn-primary">Editar</a>
+                    <a (click)="confirmarEliminarRol(r)" class="panel-btn panel-btn-sm panel-btn-danger">Eliminar</a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<div *ngIf="roles.length === 0" class="panel-alert panel-alert-info">No hay roles.</div>

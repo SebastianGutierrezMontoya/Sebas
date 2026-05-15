@@ -1,38 +1,4 @@
-<div class="container">
-  <h2>Categorías</h2>
 
-  <!-- Mostrar mensaje de error si existe -->
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
-  </div>
-
-  <!-- Botón para crear nueva categoría -->
-  <button (click)="crearCategoria()" class="btn-link">Crear nueva categoría</button>
-
-  <!-- Indicador de carga -->
-  <div *ngIf="isLoading" class="loading">
-    Cargando categorías...
-  </div>
-
-  <!-- Lista de categorías -->
-  <div *ngIf="!isLoading">
-    <!-- <p>"categorias.length" = {{ categorias.length }}</p>
-    <pre *ngIf="categorias.length > 0">{{ categorias | json }}</pre> -->
-
-    <ul *ngIf="categorias.length > 0">  
-      <li *ngFor="let categoria of categorias">
-        <a class="btn-link2">{{ categoria.cat_nombre }}</a>
-        <a (click)="editarCategoria(categoria)" class="btn-link">Editar</a>,
-        <a (click)="confirmarEliminar(categoria); $event.preventDefault()" class="btn-link">Eliminar</a>
-      </li>
-    </ul>
-
-    <!-- Mensaje si no hay categorías -->
-    <p *ngIf="categorias.length === 0">
-      No hay categorías disponibles.
-    </p>
-  </div>
-</div>
 
 <!-- Modal de confirmación de borrado -->
 <div *ngIf="showDeleteModal" class="modal-overlay">
@@ -52,4 +18,34 @@
   </div>
 </div>
              <!-- <a href="#" onclick="showDeleteModal('ROA', 'Ropa y Accesorios'); return false;" class="btn-link">Eliminar</a>) -->
-       
+
+
+
+<div class="panel-content-header">
+    <div><h2>Categorías</h2><p>Gestión de categorías de productos.</p></div>
+    <div class="panel-actions">
+        <button (click)="crearCategoria()" class="panel-btn panel-btn-secondary">↩️ Admin Clásico</button>
+    </div>
+</div>
+
+<div *ngIf="categorias.length > 0" class="panel-table-wrapper">
+    <table class="panel-table">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Descripción</th><th>Acciones</th></tr></thead>
+        <tbody>
+
+            <tr *ngFor="let c of categorias">
+                <td style="color:#64748b; font-family:monospace;">{{ c.cat_id }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ c.cat_nombre }}</td>
+                <td>{{ c.cat_descripcion }}</td>
+                <td>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <a href="categorias/form/{{ c.cat_id }}" class="panel-btn panel-btn-primary panel-btn-sm">Editar</a>
+                        <a (click)="confirmarEliminar(c)" class="panel-btn panel-btn-danger panel-btn-sm">Eliminar</a>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<div *ngIf="categorias.length === 0" class="panel-alert panel-alert-info">No hay categorías.</div>

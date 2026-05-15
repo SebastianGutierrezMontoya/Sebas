@@ -1,45 +1,104 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	<div class="container-fluid">
-		<a class="navbar-brand" routerLink=""></a>
-		<!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-			<span class="navbar-toggler-icon"></span>
-		</button> -->
-		<!-- <li *ngIf="isAuthenticated" class="nav-item dropdown">
-		<ul><a class="dropdown-item" href="#" (click)="logout(); $event.preventDefault()" class="btn-link">Cerrar Sesión</a></ul>
-		</li> -->
-		<!-- <div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav ms-auto">
-				<li class="nav-item">
-					<a class="nav-link" routerLink="">Home</a>
-				</li>
-				<li *ngIf="isAuthenticated" class="nav-item">
-					<a class="nav-link" routerLink="/users">Users</a>
-				</li>
-				<li *ngIf="isAuthenticated" class="nav-item">
-					<a class="nav-link" routerLink="/templates">Plantillas</a>
-				</li> -->
 
-				<!-- Si está autenticado -->
-				<!-- <li *ngIf="isAuthenticated" class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-						<i class="fas fa-user"></i> {{ usuario?.nombre || usuario?.id_usuario }}
-					</a>
-					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
-						<li><a class="dropdown-item" href="#">Mi Perfil</a></li>
-						<li><hr class="dropdown-divider"></li>
-						<li><a class="dropdown-item" href="#" (click)="logout(); $event.preventDefault()">Cerrar Sesión</a></li>
-					</ul>
-				</li> -->
 
-				<!-- Si no está autenticado -->
-				<!-- <li *ngIf="!isAuthenticated" class="nav-item">
-					<a class="nav-link" routerLink="/login">Iniciar Sesión</a>
-				</li>
-				<li *ngIf="!isAuthenticated" class="nav-item">
-					<a class="nav-link" routerLink="/registro">Registro</a>
-				</li>
-			</ul>
-		</div> -->
-	</div>
+<nav class="navbar">
+  <div class="navbar-container">
+
+    <a href="#" class="navbar-logo">
+      <div class="navbar-logo-icon"></div>
+      <div class="navbar-logo-text">
+        <h1 class="navbar-title">Multiverse</h1>
+        <span class="navbar-subtitle">Anime Store</span>
+      </div>
+    </a>
+
+    <div class="navbar-menu" id="navbarMenu">
+      <a class="navbar-link" href="#">Inicio</a>
+      <a class="navbar-link" href="catalogo">Catálogo</a>
+      <a *ngIf="isAuthenticated" class="navbar-link" href="mis_pedidos">Mis Pedidos</a>
+      <a *ngIf="isAuthenticated && usuario?.usuario_id_perfil" class="navbar-link navbar-link-muted" href="panel_dashboard">Gestión</a>
+    </div>
+
+    <form class="navbar-search" method="GET" action="catalogo">
+      <input
+        type="text"
+        name="prod_nombre"
+        class="navbar-search-input"
+        placeholder="Buscar productos..."
+        value=""
+        aria-label="Buscar productos"
+      />
+      <button type="submit" class="navbar-search-btn" aria-label="Buscar">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      </button>
+    </form>
+
+    <div class="navbar-actions">
+      <button class="navbar-cart" onclick="toggleCart()" title="Ver carrito">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+      </button>
+
+
+        <div *ngIf="isAuthenticated" class="navbar-user-badge">
+            <svg class="user-icon-orange" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            <span class="navbar-user-name">{{ usuario?.nombre || usuario?.id_usuario }}</span>
+        </div>
+        <a *ngIf="isAuthenticated" class="navbar-link navbar-link-muted navbar-logout" href="#" (click)="logout(); 
+                        $event.preventDefault()">Salir</a>
+
+        <a *ngIf="!isAuthenticated" class="navbar-link navbar-login-link" href="login">Ingresar</a>
+
+
+      <button class="navbar-hamburger" id="navbarHamburger" onclick="toggleMobileMenu()" aria-label="Menú">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+
+  </div>
 </nav>
 
+<div class="mobile-drawer" id="mobileDrawer">
+  <div class="mobile-drawer-header">
+    <span class="mobile-drawer-title">Menú</span>
+    <button class="mobile-drawer-close" onclick="toggleMobileMenu()">&times;</button>
+  </div>
+  <div class="mobile-drawer-search">
+    <form method="GET" action="catalogo">
+      <input type="text" name="prod_nombre" class="mobile-search-input" placeholder="Buscar productos..." aria-label="Buscar productos" />
+      <button type="submit" class="mobile-search-btn">Buscar</button>
+    </form>
+  </div>
+  <div class="mobile-drawer-links">
+    <a class="mobile-link" href="home" onclick="closeMobileMenu()">Inicio</a>
+    <a class="mobile-link" href="catalogo" onclick="closeMobileMenu()">Catálogo</a>
+    <a *ngIf="isAuthenticated" class="mobile-link" href="mis_pedidos" onclick="closeMobileMenu()">Mis Pedidos</a>
+    <div *ngIf="isAuthenticated" class="mobile-divider"></div>
+    <div *ngIf="isAuthenticated" class="mobile-user-info">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+      <span>{{ usuario?.nombre || usuario?.id_usuario }}</span>
+    </div>
+    <a *ngIf="isAuthenticated" class="mobile-link mobile-link-logout" href="logout" onclick="closeMobileMenu()">Cerrar Sesión</a>
+    <a *ngIf="!isAuthenticated" class="mobile-link mobile-link-login" href="login" onclick="closeMobileMenu()">Iniciar Sesión</a>
+    <a *ngIf="!isAuthenticated" class="mobile-link mobile-link-register" href="register" onclick="closeMobileMenu()">Crear Cuenta</a>
+
+    <div *ngIf="isAuthenticated && usuario?.id_perfil === 1" class="mobile-divider"></div>
+    <a *ngIf="isAuthenticated && usuario?.id_perfil === 1" class="mobile-link" href="panel_dashboard" onclick="closeMobileMenu()">Gestión</a>
+
+  </div>
+</div>
+<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+
+<script>
+function toggleMobileMenu() {
+  document.getElementById('mobileDrawer').classList.toggle('open');
+  document.getElementById('mobileOverlay').classList.toggle('open');
+  document.body.classList.toggle('no-scroll');
+}
+
+function closeMobileMenu() {
+  document.getElementById('mobileDrawer').classList.remove('open');
+  document.getElementById('mobileOverlay').classList.remove('open');
+  document.body.classList.remove('no-scroll');
+}
+</script>

@@ -1,4 +1,66 @@
-<div id="sidebar" class="sidebar">
+<div class="panel-wrapper">
+    <aside class="panel-sidebar">
+        <div class="panel-sidebar-header">
+            <h3>Panel de Control</h3>
+            <span>Multiverse Admin</span>
+        </div>
+
+        <div class="panel-nav-section">
+            <div class="panel-nav-section-title">Gestión</div>
+                <a href="usuarios" class="panel-nav-link">
+                    <span class="nav-icon">👥</span> Usuarios  </a>
+                <!-- <a href="sexos" class="panel-nav-link">
+                    <span class="nav-icon">👤</span> Sexos  </a> -->
+                <a href="categorias" class="panel-nav-link">
+                    <span class="nav-icon">🏷️</span> Categorías  </a>
+                <a href="productos" class="panel-nav-link">
+                    <span class="nav-icon">📦</span> Productos  </a>
+                <a href="pedidos" class="panel-nav-link">
+                    <span class="nav-icon">📋</span> Pedidos  </a>
+                <a href="consultas_dinamicas" class="panel-nav-link">
+                    <span class="nav-icon">🔍</span> Consultas Dinámicas  </a>
+        </div>
+
+        <div class="panel-nav-section">
+            <div class="panel-nav-section-title">Configuración</div>
+
+                <a href="roles" class="panel-nav-link">
+                    <span class="nav-icon">🔐</span> Roles  </a>
+                <a href="perfiles" class="panel-nav-link">
+                    <span class="nav-icon">👤</span> Perfiles  </a>
+                <a href="config_contactos" class="panel-nav-link">
+                    <span class="nav-icon">📞</span> Config. Contactos </a>
+                <a href="estado_pedidos" class="panel-nav-link">
+                    <span class="nav-icon">⚙️</span> Estados de Pedido  </a>
+                
+        </div>
+
+        <div class="panel-nav-section" style="border-top: 1px solid rgba(255,255,255,0.06); padding-top: 16px; margin-top: 8px;">
+            <a href="#" class="panel-nav-link">
+                <span class="nav-icon">↩️</span> Admin Clásico  </a>
+            <a href="catalogo" class="panel-nav-link">
+                <span class="nav-icon">🛒</span> Volver a la Tienda  </a>
+        </div>
+    </aside>
+
+    <div class="panel-content">
+        
+        <div class="panel-alert panel-alert-"></div>
+
+        <div class="panel-main-content">
+            <router-outlet></router-outlet>
+        </div>
+        
+    </div>
+
+</div>
+
+
+
+
+
+
+<!-- <div id="sidebar" class="sidebar">
         <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
         <h1><a href="#">Multiverse Anime Store</a></h1>
         <nav>
@@ -9,14 +71,10 @@
                 <li><a href="roles">Roles</a></li>
                 <li><a href="perfiles">Perfiles</a></li>
                 <li><a href="config_contactos">Config Contactos</a></li>
-                <!-- <li><a href="{% url 'contactos_list' %}">Contactos</a></li> -->
-                <!-- <li></li> -->
-
                 <li><a href="categorias">Categorías</a></li>
                 <li><a href="productos">Productos</a></li>
                 <li><a href="pedidos">Pedidos</a></li>
                 <li><a href="estado_pedidos">Estados</a></li>
-                <!-- <li><a href="{% url 'productos_auditoria' %}">Auditoría Productos</a></li> -->
                 <li><a href="consultas_dinamicas">Consultas Dinámicas</a></li>
                 <li *ngIf="isAuthenticated" class="nav-item dropdown">
 		            <ul><a class="dropdown-item" href="#" (click)="logout(); 
@@ -25,7 +83,8 @@
 		        </li>
 
             </ul>
-            <!-- Agrega más enlaces de navegación aquí si lo necesitas -->
+
         </nav>
         <hr>
-    </div>
+    </div> -->
+

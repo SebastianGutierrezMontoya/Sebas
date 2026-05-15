@@ -26,10 +26,23 @@
               }
             ],
             "styles": [
-              "src/styles.css",
-              "src/assets/css/app.css",
+
+              
               "src/assets/css/forms.css",
-              "src/assets/css/sidebar.css"
+              "src/assets/css/sidebar.css",
+              "src/assets/css/navbar.css",
+              "src/assets/css/navbar2.css",
+              "src/assets/css/cart-sidebar.css",
+              "src/assets/css/public-base.css",
+              "src/assets/css/admin/admin.css",
+              "src/assets/css/catalogo.css"
+              
+            ],
+            "scripts": [
+              "src/assets/Js/cart-sidebar.js",
+              "src/assets/Js/pedidos_form.js",
+              "src/assets/js/register.js",
+              "src/assets/js/usuarios_form.js"
             ]
           },
           "configurations": {

@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 <h2>Estado Pedidos</h2>
 
 <div *ngIf="errorMessage" class="alert alert-danger">
@@ -35,7 +35,7 @@
   <p *ngIf="estados.length === 0">
     No se encontraron estados de pedido.
   </p>
-</div>
+</div> -->
 
 <div *ngIf="showDeleteModal" class="modal">
   <div class="modal-content">
@@ -74,4 +74,30 @@
     </li>
   
 </ul> -->
+<!-- </div> -->
+
+
+<div class="panel-content-header">
+    <div><h2>Estados de Pedido</h2><p>Catálogo de estados.</p></div>
+    <div class="panel-actions">
+        <button class="panel-btn panel-btn-primary" (click)="crearEstado()">Crear nuevo estado</button>
+    </div>
 </div>
+
+<div *ngIf="estados.length > 0" class="panel-table-wrapper">
+    <table class="panel-table">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Acciones</th></tr></thead>
+        <tbody>
+            <tr *ngFor="let e of estados">
+                <td style="color:#64748b; font-family:monospace;">{{ e.est_id }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ e.est_nombre }}</td>
+                <td>
+                    <a (click)="editarEstado(e)" class="panel-btn panel-btn-sm panel-btn-primary">Editar</a>
+                    <button (click)="confirmarEliminar(e)" class="panel-btn panel-btn-sm panel-btn-danger">Eliminar</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<div *ngIf="estados.length === 0" class="panel-alert panel-alert-info">No hay estados.</div>

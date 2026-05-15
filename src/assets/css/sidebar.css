@@ -50,11 +50,11 @@ body {
     text-align: left;
     font-size: 1.2em;
 }
-main {
+/* main {
     margin-left: 240px;
     padding: 20px;
     transition: margin-left 0.3s ease;
-}
+} */
 .sidebar.closed ~ main {
     margin-left: 60px;
 }

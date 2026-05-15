@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 <h2>Perfiles</h2>
 <button (click)="crearPerfil()" class="btn-link">Crear nuevo perfil</button>
 
@@ -11,7 +11,7 @@
         <button (click)="showDeleteModal(perfil)" class="btn-link">Eliminar</button>
     </li>
 </ul>
-</div>
+</div> -->
 
 <!-- Modal de confirmación de eliminación -->
 <div class="modal" tabindex="-1" [ngClass]="{'show': showModal}" style="display: block;" *ngIf="showModal">
@@ -33,4 +33,33 @@
 </div>
 
 
+
+
+<div class="panel-content-header">
+    <div><h2>Perfiles</h2><p>Gestión de perfiles y permisos.</p></div>
+    <div class="panel-actions">
+        <button class="panel-btn panel-btn-primary" (click)="crearPerfil()">+ Nuevo Perfil</button>
+        <!-- <a href="admin_home" class="panel-btn panel-btn-secondary">↩️ Admin Clásico</a> -->
+    </div>
+</div>
+
+<div *ngIf="perfiles.length > 0" class="panel-table-wrapper">
+    <table class="panel-table">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Rol</th><th>Descripción</th><th>Acciones</th></tr></thead>
+        <tbody>
+            <tr *ngFor="let p of perfiles">
+                <td style="color:#64748b; font-family:monospace;">{{ p.id_perfil }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ p.nombre }}</td>
+                <td>{{ p.rol_id }}</td>
+                <td>{{ p.descripcion }}</td>
+                <td>
+                    <a href="perfiles/form/{{ p.id_perfil }}" class="panel-btn panel-btn-primary panel-btn-sm">Editar</a>
+                    <button (click)="gestionarPermisos(p.id_perfil)" class="panel-btn panel-btn-secondary panel-btn-sm">Permisos</button>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<div *ngIf="perfiles.length === 0" class="panel-alert panel-alert-info">No hay perfiles.</div>
 

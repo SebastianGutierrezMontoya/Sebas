@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
 <h2>Configuración de Contactos</h2>
 
 <div *ngIf="errorMessage" class="alert alert-danger">
@@ -22,11 +22,11 @@
         {{ regla.nombre_contacto }}
       </span>
 
-      <a (click)="editarContacto(regla)" class="btn-link">
+      <a (click)="editarContacto(regla)" class="panel-btn panel-btn-primary panel-btn-sm">
         Editar
       </a>
 
-      <a (click)="confirmarEliminar(regla)" class="btn-link">
+      <a (click)="confirmarEliminar(regla)" class="panel-btn panel-btn-danger panel-btn-sm">
         Eliminar
       </a>
 
@@ -35,7 +35,7 @@
 
   <p *ngIf="contactos.length === 0">
     No se encontraron reglas de contacto.
-  </p>
+  </p> -->
 
   <div *ngIf="showDeleteModal" class="modal">
     <div class="modal-content">
@@ -75,4 +75,39 @@
     </li>
   
 </ul> -->
+<!-- </div> -->
+
+
+
+<div class="panel-content-header">
+    <div><h2>Configuracion de Contactos</h2><p>Listado de reglas de contacto</p></div>
+    <div class="panel-actions">
+        <button (click)="crearContacto()" class="panel-btn panel-btn-primary">+ Nueva Regla</button>
+        <!-- <button  class="panel-btn panel-btn-secondary">↩️ Admin Clásico</button> -->
+    </div>
 </div>
+
+<div *ngIf="contactos.length > 0" class="panel-table-wrapper">
+    <table class="panel-table">
+        <thead><tr><th>ID</th><th>Tipo</th><th>Valor</th><th>Acciones</th></tr></thead>
+        <tbody>
+
+            <tr *ngFor="let c of contactos">
+                <td style="color:#64748b; font-family:monospace;">{{ c.id_regla }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ c.nombre_contacto }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ c.regex_val }}</td>
+                <td>
+                  <a (click)="editarContacto(c)" class="panel-btn panel-btn-primary panel-btn-sm">
+                    Editar
+                  </a>
+                
+                  <a (click)="confirmarEliminar(c)" class="panel-btn panel-btn-danger panel-btn-sm">
+                    Eliminar
+                  </a>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<div *ngIf="contactos.length === 0" class="panel-alert panel-alert-info">No hay reglas de contacto.</div>

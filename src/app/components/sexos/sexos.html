@@ -1,6 +1,6 @@
-<div class="container">
+<!-- <div class="container">
 <h2>Sexos</h2>
-<!-- <a href="/sexos/form/" class="btn-link">Crear nuevo</a> -->
+<a href="/sexos/form/" class="btn-link">Crear nuevo</a>
 
 
   <div *ngIf="errorMessage" class="alert alert-danger">
@@ -37,4 +37,33 @@
       No se encontraron sexos.
     </p>
   </div>
+</div> -->
+
+
+<div class="panel-content-header">
+    <div><h2>Sexos</h2><p>Catálogo de sexos.</p></div>
+    <div class="panel-actions">
+        <a href="sexos/form" class="panel-btn panel-btn-primary">+ Nuevo Sexo</a>
+        <!-- <a href="admin_home" class="panel-btn panel-btn-secondary">↩️ Admin Clásico</a> -->
+    </div>
 </div>
+
+<div *ngIf="sexos.length > 0" class="panel-table-wrapper">
+    <table class="panel-table">
+        <thead><tr><th>ID</th><th>Nombre</th><th>Acciones</th></tr></thead>
+        <tbody>
+
+            <tr *ngFor="let s of sexos">
+                <td style="color:#64748b; font-family:monospace;">{{ s.id_sexo }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ s.nombre_sexo }}</td>
+                <td>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <a href="sexos/form/{{ s.id_sexo }}" class="panel-btn panel-btn-primary panel-btn-sm">Editar</a>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+<div *ngIf="sexos.length === 0" class="panel-alert panel-alert-info">No hay sexos.</div>

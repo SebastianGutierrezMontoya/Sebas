@@ -1,4 +1,4 @@
-
+<!-- 
 <div class="container">
 <h2>Usuarios</h2>
 
@@ -37,17 +37,71 @@
   </div>
 </div>
 
-<!-- <script>
-    function showDeleteModal(pk, nombre) {
-        document.getElementById('deleteMessage').textContent = '¿Estás seguro de que deseas eliminar "' + nombre + '"?';
-        var form = document.getElementById('deleteForm');
-        form.action = '/usuarios/' + pk + '/eliminar/';
-        document.getElementById('deleteModal').style.display = 'block';
-    }
-    function hideDeleteModal() {
-        document.getElementById('deleteModal').style.display = 'none';
-    }
-</script> -->
+ -->
 
-<router-outlet></router-outlet>
+
+
+<div class="panel-content-header">
+    <div>
+        <h2>Usuarios</h2>
+        <p>Gestión de usuarios del sistema.</p>
+    </div>
+    <div class="panel-actions">
+        <a href="sexos" class="panel-btn panel-btn-secondary"> Lista de Sexos</a>
+        <a href="usuarios/form" class="panel-btn panel-btn-primary">+ Nuevo Usuario</a>
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="buscar()">
+    <input type="text" name="q" class="panel-search-input" formControlName="search" placeholder="Buscar usuario">
+    <button type="submit" class="panel-btn panel-btn-secondary panel-btn-sm">Buscar</button>
+
+</form>
+
+
+<div class="panel-table-wrapper" *ngIf="usuarios.length > 0">
+    <table class="panel-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Sexo</th>
+                <th>Perfil</th>
+                <th>Activo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr *ngFor="let u of usuarios">
+                <td style="color:#64748b; font-family:monospace;">{{ u.id_usuario }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ u.nombre }}</td>
+                <td>{{ u.primer_apellido }} {{ u.segundo_apellido  }}</td>
+                <td>{{ u.usuario_id_sexo }}</td>
+                <td>{{ u.usuario_id_perfil }}</td>
+                <td>
+
+                        <span *ngIf="u.activo == 1 " style="color:#4ade80;">✅ Activo</span>
+
+                        <span *ngIf="u.activo == 0 " style="color:#f87171;">❌ Inactivo</span>
+
+                </td>
+                <td>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <a href="usuarios/form/{{ u.id_usuario }}" class="panel-btn panel-btn-primary panel-btn-sm">Editar</a>
+                        <a href="usuarios/{{ u.id_usuario }}" class="panel-btn panel-btn-secondary panel-btn-sm">Ver</a>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+    </table>
+
+    
+</div>
+<div *ngIf="usuarios.length == 0" class="panel-alert panel-alert-info">No se encontraron usuarios.</div>
+
+
+
 
