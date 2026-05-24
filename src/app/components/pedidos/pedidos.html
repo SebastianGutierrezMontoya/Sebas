@@ -1,58 +1,60 @@
-<div class="container">
-<h2>Pedidos</h2>
 
-<div *ngIf="errorMessage" class="alert alert-danger">
-  {{ errorMessage }}
-  </div>
 
-<div class="form-linear">
-  <button (click)="crearPedido()" class="btn-link">
-    Crear nuevo pedido
-    </button>
+
+<div class="panel-content-header">
+    <div><h2>Pedidos</h2></div>
+    <div class="panel-actions">
+
+    </div>
 </div>
 
-<form [formGroup]="form" (ngSubmit)="buscar()" style="margin-top:1rem;">
-  <input formControlName="search" placeholder="Buscar pedido">
-  <button type="submit">Buscar</button>
+
+<form [formGroup]="form" (ngSubmit)="buscar()"  class="panel-search">
+  <input formControlName="search" placeholder="Buscar pedido" class="panel-search-input" style="flex:1; min-width:180px;">
+  <button type="submit" class="panel-btn panel-btn-primary panel-btn-sm">Buscar</button>
+  <a href="pedidos" class="panel-search-clear">Limpiar</a>
 </form>
 
 <div *ngIf="isLoading">Cargando pedidos...</div>
-<div *ngIf="!isLoading">
 
-  <ul *ngIf="pedidos.length > 0">
-    <li *ngFor="let pedido of pedidos">
 
-      <span class="btn-link2">
-        Pedido #{{ pedido.ped_id }} - {{ pedido.ped_fecha_pedido }}
-      </span>
+<div *ngIf="pedidos.length > 0" class="panel-table-wrapper" >
+    <table class="panel-table">
+        <thead><tr><th>ID</th><th>Usuario</th><th>Fecha</th><th>Total</th><th>Estado</th><th></th></tr></thead>
+        <tbody>
 
-      <a (click)="editarPedido(pedido)" class="btn-link">
-        Editar
-      </a>
+            <tr *ngFor="let p of pedidos">
+                <td>#{{ p.ped_id }}</td>
+                <td><a href="usuarios/form/{{ p.usu_id }}">{{ p.usu_id }}</a></td>
+                <td>{{ p.ped_fecha_pedido }}</td>
+                <td style="font-weight:600;">${{ p.ped_total }}</td>
+                <td>
+                    <span style="display:inline-block; padding:2px 10px; border-radius:12px; font-size:11px; font-weight:700;
+                        ">{{ p.ped_estado }}</span>
+                </td>
+                <td>
+                  
+                  <a (click)="editarPedido(p)" class="panel-btn panel-btn-primary panel-btn-sm">
+                    Editar
+                  </a>
+                
+                  <a (click)="confirmarEliminar(p)" class="panel-btn panel-btn-danger panel-btn-sm">
+                    Eliminar
+                  </a>
+                </td>
+            </tr>
 
-      <a (click)="confirmarEliminar(pedido)" class="btn-link">
-        Eliminar
-      </a>
+        </tbody>
+    </table>
 
-    </li>
-  </ul>
+    
+</div>
 
-  <p *ngIf="pedidos.length === 0">
-    No se encontraron pedidos.
-  </p>
 
-  <div style="margin-top: 1rem;">
-    <button (click)="anterior()" [disabled]="page === 1">Anterior</button>
+<div *ngIf="pedidos.length === 0" class="panel-alert panel-alert-info">No se encontraron pedidos con esos filtros.</div>
+
+<div style="margin-top: 1rem;" class="panel-pagination">
+    <button (click)="anterior()" [disabled]="page === 1" class="panel-btn panel-btn-sm">Anterior</button>
     <span>Página {{ page }}</span>
-    <button (click)="siguiente()">Siguiente</button>
+    <button (click)="siguiente()" class="panel-btn panel-btn-sm">Siguiente</button>
   </div>
-</div>
-
-<div *ngIf="showDeleteModal" class="modal">
-  <div class="modal-content">
-    <p>¿Confirma que desea eliminar el pedido #{{ pedidoToDelete?.ped_id }}?</p>
-    <button (click)="eliminarPedido()">Sí, eliminar</button>
-    <button (click)="cancelarEliminar()">No, cancelar</button>
-  </div>
-</div>
-</div>

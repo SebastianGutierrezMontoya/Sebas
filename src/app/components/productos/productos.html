@@ -1,83 +1,76 @@
-<div class="container">
-  <h2>Productos</h2>
 
-  <!-- ERROR -->
-  <div *ngIf="errorMessage" class="alert alert-danger">
-    {{ errorMessage }}
-  </div>
 
-  <!-- ACCIONES -->
-  <div class="form-linear">
-    <button (click)="crearProducto()" class="btn-link">
-      Crear nuevo producto
-    </button>
 
-    <button (click)="Auditoria()" class="btn-link">
-      Auditoría
-    </button>
-  </div>
+<div class="panel-content-header">
+    <div>
+        <h2>Productos</h2>
+        <p>Gestión del catálogo de productos.</p>
+    </div>
+    <div class="panel-actions">
+        <button (click)="crearProducto()" class="panel-btn panel-btn-primary">+ Nuevo Producto</button>
+        <button (click)="Auditoria()" class="panel-btn panel-btn-secondary">📜 Auditoría</button>
+    </div>
+</div>
 
-  <!-- BUSQUEDA -->
-  <form [formGroup]="form" (ngSubmit)="buscar()" style="margin-top:1rem;">
-    <input formControlName="search" placeholder="Buscar producto">
-    <button type="submit">Buscar</button>
+
+<form [formGroup]="form" (ngSubmit)="buscar()" class="panel-search" id="productos-filter">
+    <input formControlName="search" placeholder="Buscar producto" type="text" name="q" class="panel-search-input">
+    <button type="submit" class="panel-btn panel-btn-secondary panel-btn-sm">Buscar</button>
   </form>
 
-  <!-- LOADING -->
-  <div *ngIf="isLoading">Cargando productos...</div>
 
-  <!-- LISTA -->
-  <div *ngIf="!isLoading">
+<div *ngIf="isLoading">Cargando productos...</div>
 
-    <ul *ngIf="productos.length > 0">
-      <li *ngFor="let producto of productos">
+<div *ngIf="!isLoading" class="panel-table-wrapper">
+    <table class="panel-table">
+        <thead>
+            <tr>
+                <th>Código</th>
+                <th>Nombre</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Desc.</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="productos.length > 0">
 
-        <span class="btn-link2">
-          {{ producto.prod_nombre }}
-        </span>
+            <tr *ngFor="let p of productos">
+                <td style="color: #64748b; font-family: monospace;">{{ p.prod_id }}</td>
+                <td style="color:#ffffff; font-weight:600;">{{ p.prod_nombre }}</td>
+                <td>{{ p.cat_id }}</td>
 
-        <a (click)="editarProducto(producto)" class="btn-link">
-          Editar
-        </a>
+                <td style="font-weight:600;">${{ p.prod_precio_venta }}</td>
+                <td *ngIf="p.prod_stock !== null && p.prod_stock !== undefined">
+                    <span >
+                        {{ p.prod_stock }}
+                    </span>
+                </td>
+                <td>{{ p.prod_descuento }}%</td>
+                <td>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <button (click)="editarProducto(p)" class="panel-btn panel-btn-primary panel-btn-sm">Editar</button>
+                        <button (click)="confirmarEliminar(p)" class="panel-btn panel-btn-danger panel-btn-sm">Eliminar</button>
+                    </div>
+                </td>
+            </tr>
 
-        <a (click)="confirmarEliminar(producto)" class="btn-link">
-          Eliminar
-        </a>
+        </tbody>
+    </table>
 
-      </li>
-    </ul>
-
-    <p *ngIf="productos.length === 0">
+    <div *ngIf="productos.length === 0" class="panel-alert panel-alert-info">
       No se encontraron productos.
-    </p>
+    </div>
 
     <!-- PAGINACION -->
-    <div style="margin-top: 1rem;">
-      <button (click)="anterior()" [disabled]="page === 1">Anterior</button>
+    <div style="margin-top: 1rem;" class="panel-pagination">
+      <button (click)="anterior()" [disabled]="page === 1" class="panel-btn panel-btn-secondary panel-btn-sm">Anterior</button>
       <span>Página {{ page }}</span>
-      <button (click)="siguiente()">Siguiente</button>
+      <button (click)="siguiente()" class="panel-btn panel-btn-secondary panel-btn-sm">Siguiente</button>
     </div>
 
   </div>
-</div>
 
-<!-- MODAL -->
-<div *ngIf="showDeleteModal" class="modal-overlay">
-  <div class="modal-content">
-    <h3>Eliminar Producto</h3>
+    
 
-    <p *ngIf="productoToDelete">
-      ¿Eliminar "{{ productoToDelete.prod_nombre }}"?
-    </p>
-
-    <div class="form-linear form-center">
-      <button (click)="eliminarProducto()" [disabled]="isLoading">
-        {{ isLoading ? 'Eliminando...' : 'Sí, eliminar' }}
-      </button>
-
-      <button (click)="cancelarEliminar()">
-        Cancelar
-      </button>
-    </div>
-  </div>
-</div>
