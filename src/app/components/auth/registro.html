@@ -7,7 +7,7 @@
 
           <!-- Mensaje de error -->
           <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
-            {{ errorMessage }}
+            
             <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
           </div>
 
@@ -191,3 +191,185 @@
     </div>
   </div>
 </div>
+
+
+
+
+
+
+
+
+
+<div id="register-page-body">
+    <div class="register-card">
+        <div class="register-logo">
+            <img [src]="logoPath" alt="Logo">
+        </div>
+        <h2 class="register-title">Crear Cuenta Multiverso</h2>
+
+        
+        <div *ngIf="errorMessage" style="margin-bottom: 20px;">
+            
+            <div class="error-item">{{ errorMessage }}</div>
+
+        </div>
+
+
+        <form [formGroup]="registroForm" (ngSubmit)="onSubmit()" autocomplete="off" id="registerForm" novalidate>
+
+
+            <div class="form-grid">
+                <div class="form-group full-width">
+                    <label for="id_usuario">Nombre de usuario</label>
+                    <input type="text" name="usuario" id="id_usuario" 
+                    class="form-input" placeholder="ej: 
+                    sky_ryan" required maxlength="50"
+                    formControlName="id_usuario"
+                    [class.is-invalid]="registroForm.get('id_usuario')?.invalid && registroForm.get('id_usuario')?.touched"
+                    >
+                    <div class="error-msg" id="err-usuario" *ngIf="registroForm.get('id_usuario')?.invalid && registroForm.get('id_usuario')?.touched">
+                <span *ngIf="registroForm.get('id_usuario')?.errors?.['required']">El usuario es requerido</span>
+                <span *ngIf="registroForm.get('id_usuario')?.errors?.['minlength']">Mínimo 3 caracteres</span>
+              </div>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="id_nombre">Nombre</label>
+                    <input type="text" name="nombre" 
+                    id="id_nombre" class="form-input" 
+                    placeholder="Juan" maxlength="300"
+                    formControlName="nombre"
+                    [class.is-invalid]="registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched"
+                    >
+                    <div class="error-msg" id="err-nombre" *ngIf="registroForm.get('nombre')?.invalid && registroForm.get('nombre')?.touched">
+                        <span *ngIf="registroForm.get('nombre')?.errors?.['required']">El nombre es requerido</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_primer_apellido">Primer apellido</label>
+                    <input type="text" name="primer_apellido" id="id_primer_apellido" class="form-input" placeholder="Pérez" maxlength="50"
+                    formControlName="primer_apellido"
+                    [class.is-invalid]="registroForm.get('primer_apellido')?.invalid && registroForm.get('primer_apellido')?.touched"
+                    >
+                    <div class="error-msg" id="err-primer_apellido" *ngIf="registroForm.get('primer_apellido')?.invalid && registroForm.get('primer_apellido')?.touched">
+                        <span *ngIf="registroForm.get('primer_apellido')?.errors?.['required']">El primer apellido es requerido</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_segundo_apellido">Segundo apellido</label>
+                    <input type="text" name="segundo_apellido" id="id_segundo_apellido" class="form-input" placeholder="García" maxlength="50"
+                    formControlName="segundo_apellido"
+                    [class.is-invalid]="registroForm.get('segundo_apellido')?.invalid && registroForm.get('segundo_apellido')?.touched"
+                    >
+                    <div class="error-msg" id="err-segundo_apellido" *ngIf="registroForm.get('segundo_apellido')?.invalid && registroForm.get('segundo_apellido')?.touched">
+                        <span *ngIf="registroForm.get('segundo_apellido')?.errors?.['required']">El segundo apellido es requerido</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="id_fecha_nacimiento">Fecha de nacimiento</label>
+                    <input type="date" name="fecha_nacimiento" 
+                    id="id_fecha_nacimiento" class="form-input"
+                    formControlName="fecha_nacimiento"
+                    [class.is-invalid]="registroForm.get('fecha_nacimiento')?.invalid && registroForm.get('fecha_nacimiento')?.touched"
+                    >
+                    <div class="error-msg" id="err-fecha_nacimiento" *ngIf="registroForm.get('fecha_nacimiento')?.invalid && registroForm.get('fecha_nacimiento')?.touched">
+                        <span *ngIf="registroForm.get('fecha_nacimiento')?.errors?.['required']">La fecha de nacimiento es requerida</span>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="id_usuario_id_sexo">Sexo</label>
+                    <select name="sexo" id="id_usuario_id_sexo" 
+                    class="form-input" required
+                    [disabled]="isSexosLoading"
+                    formControlName="usuario_id_sexo"
+                    [class.is-invalid]="registroForm.get('usuario_id_sexo')?.invalid && registroForm.get('usuario_id_sexo')?.touched"
+                  >
+                        <option value="">Seleccionar</option>
+
+                        <option *ngFor="let sexo of sexos" [value]="sexo.id_sexo">{{ sexo.nombre_sexo }}</option>
+
+                    </select>
+                    <div class="error-msg" id="err-sexo" *ngIf="registroForm.get('usuario_id_sexo')?.invalid && registroForm.get('usuario_id_sexo')?.touched">
+                        <span *ngIf="registroForm.get('usuario_id_sexo')?.errors?.['required']">El sexo es requerido</span>
+                    </div>
+                </div>
+
+                <!-- <div class="form-group full-width">
+                    <label for="id_telefono">Teléfono</label>
+                    <input type="tel" name="telefono" 
+                    id="id_telefono" class="form-input" 
+                    placeholder="Ej. 3001234567" 
+                    required maxlength="20">
+                    <div class="error-msg" id="err-telefono" *ngIf="registroForm.get('telefono')?.invalid && registroForm.get('telefono')?.touched">
+                        <span *ngIf="registroForm.get('telefono')?.errors?.['required']">El teléfono es requerido</span>
+                    </div>
+                </div> -->
+
+                <!-- <div class="form-group full-width">
+                    <label for="id_direccion_calle">Dirección — Calle</label>
+                    <input type="text" name="direccion_calle" id="id_direccion_calle" class="form-input" placeholder="Ej. Calle 123 #45-67" required maxlength="100">
+                    <div class="error-msg" id="err-direccion_calle">Campo obligatorio</div>
+                </div> -->
+
+                <!-- <div class="form-group">
+                    <label for="id_direccion_ciudad">Ciudad</label>
+                    <input type="text" name="direccion_ciudad" id="id_direccion_ciudad" class="form-input" placeholder="Ej. Bogotá" required maxlength="50">
+                    <div class="error-msg" id="err-direccion_ciudad">Campo obligatorio</div>
+                </div> -->
+
+                <!-- <input type="hidden" name="direccion_pais" id="id_direccion_pais" value="Colombia"> -->
+
+                <!-- <div class="form-group full-width">
+                    <label for="id_direccion_barrio">Barrio <span style="font-weight:400;text-transform:none;color:#9ca3af;">(opcional)</span></label>
+                    <input type="text" name="direccion_barrio" id="id_direccion_barrio" class="form-input" placeholder="Ej. Chapinero" maxlength="50">
+                </div> -->
+
+                <!-- <input type="hidden" name="direccion" id="id_direccion" value=""> -->
+
+                <div class="form-group full-width">
+                    <label for="id_password_hash">Contraseña</label>
+                    <input type="password" name="contraseña" 
+                    id="id_password_hash" class="form-input" 
+                    placeholder="Mínimo 6 caracteres" 
+                    required minlength="6"
+                    formControlName="password"
+                    [class.is-invalid]="registroForm.get('password')?.invalid && registroForm.get('password')?.touched"
+                    >
+                     <div class="invalid-feedback" *ngIf="registroForm.get('password')?.invalid && registroForm.get('password')?.touched">
+                        <span *ngIf="registroForm.get('password')?.errors?.['minlength']">Mínimo 6 caracteres</span>
+                    </div>
+                </div>
+
+                <div class="form-group full-width">
+                    <label for="id_confirmar_contraseña">Confirmar contraseña</label>
+                    <input type="password" name="confirmar_contraseña" 
+                    id="id_confirmar_contraseña" class="form-input" 
+                    placeholder="Repite la contraseña" required
+                    formControlName="confirmPassword"
+                    [class.is-invalid]="registroForm.get('confirmPassword')?.invalid && registroForm.get('confirmPassword')?.touched"
+                    >
+                    <div class="invalid-feedback" *ngIf="registroForm.get('confirmPassword')?.invalid && registroForm.get('confirmPassword')?.touched">
+                        <span *ngIf="registroForm.get('confirmPassword')?.errors?.['required']">Campo obligatorio</span>
+                    </div>
+                </div>
+                <div class="password-match-error" id="err-password-match">Las contraseñas no coinciden</div>
+            </div>
+
+            <button type="submit" class="register-btn" 
+            id="registerSubmitBtn"
+            [disabled]="isLoading || registroForm.invalid">Crear Cuenta</button>
+        </form>
+
+        <div class="register-footer">
+            ¿Ya tienes cuenta? <a href="#" (click)="goToLogin(); $event.preventDefault()">Inicia sesión</a>
+        </div>
+    </div>
+</div>
+
+<script src="/Js/register.js"></script>
+

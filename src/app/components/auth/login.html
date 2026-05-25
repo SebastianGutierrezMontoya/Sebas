@@ -1,18 +1,18 @@
-<div class="container d-flex align-items-center justify-content-center min-vh-100">
+<!-- <div class="container d-flex align-items-center justify-content-center min-vh-100">
   <div class="card shadow-lg" style="width: 100%; max-width: 400px;">
     <div class="card-body p-5">
-      <h2 class="card-title text-center mb-4 form-header">Iniciar Sesión</h2>
+      <h2 class="card-title text-center mb-4 form-header">Iniciar Sesión</h2> -->
 
       <!-- Mensaje de error -->
-      <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+      <!-- <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
         {{ errorMessage }}
         <button type="button" class="btn-close" (click)="errorMessage = ''" aria-label="Close"></button>
-      </div>
+      </div> -->
 
       <!-- Formulario -->
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
+      <!-- <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off"> -->
         <!-- Usuario -->
-        <div class="mb-3 form-floating">
+        <!-- <div class="mb-3 form-floating">
           
           <input 
             type="text" 
@@ -26,10 +26,10 @@
           <div class="invalid-feedback" *ngIf="loginForm.get('id_usuario')?.invalid && loginForm.get('id_usuario')?.touched">
             El usuario es requerido
           </div>
-        </div>
+        </div> -->
 
         <!-- Contraseña -->
-        <div class=" form-floating">
+        <!-- <div class=" form-floating">
           
           <div class="input-group">
             <input 
@@ -53,10 +53,10 @@
             <span *ngIf="loginForm.get('password')?.errors?.['required']">La contraseña es requerida</span>
             <span *ngIf="loginForm.get('password')?.errors?.['minlength']">La contraseña debe tener mínimo 6 caracteres</span>
           </div>
-        </div>
+        </div> -->
 
         <!-- Botón Submit -->
-        <button 
+        <!-- <button 
           type="submit" 
           class="btn btn-primary w-100 mb-3"
           [disabled]="isLoading || loginForm.invalid"
@@ -67,7 +67,7 @@
             Iniciando...
           </span>
         </button>
-      </form>
+      </form> -->
 
       <!-- Enlace a registro -->
       <!-- <p class="text-center mb-0">
@@ -76,6 +76,45 @@
           Regístrate aquí
         </a>
       </p> -->
-    </div>
+    <!-- </div>
   </div>
+</div> -->
+
+
+
+
+
+
+<div id="login-page-body">
+    <div class="login-card">
+        <div class="login-logo">
+            <img [src]="logoPath" alt="Logo">
+        </div>
+        <h2 class="login-title">Acceso Multiverso</h2>
+
+
+        <div *ngIf="errorMessage" style="margin-bottom: 20px;">
+            {{ errorMessage }}
+        </div>
+
+        
+        <form  [formGroup]="loginForm" (ngSubmit)="onSubmit()" autocomplete="off">
+
+            <input type="text" name="usuario" 
+            class="form-input" placeholder="Usuario" required
+            formControlName="id_usuario"
+            [class.is-invalid]="loginForm.get('id_usuario')?.invalid && loginForm.get('id_usuario')?.touched"
+            />
+            <input type="password" name="contraseña" 
+            class="form-input" placeholder="Contraseña" required
+            formControlName="password"
+            [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+            />
+            <button type="submit" class="btn-login">Entrar</button>
+        </form>
+        
+        <p style="text-align:center; margin-top:20px; font-size:13px; color:#6b7280;">
+            ¿No tienes cuenta? <a href="#" (click)="goToRegistro(); $event.preventDefault()" style="color:#f37d15; text-decoration:none; font-weight:700;">Regístrate</a>
+        </p>
+    </div>
 </div>

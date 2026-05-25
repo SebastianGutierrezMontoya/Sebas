@@ -22,6 +22,8 @@ export class RegistroComponent implements OnInit {
   showConfirmPassword = false;
   sexos: any[] = [];
 
+  logoPath = 'icono_tienda.png';
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,

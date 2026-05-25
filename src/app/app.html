@@ -10,13 +10,13 @@
 <app-navbar></app-navbar>
 
     <main>
-        <app-sidebar></app-sidebar>
-        
+        <app-sidebar *ngIf="showSidebar"></app-sidebar>
+        <router-outlet *ngIf="!showSidebar"></router-outlet>
 
 
-<!-- <router-outlet /> -->
+<!-- <router-outlet></router-outlet> -->
     </main>
-
+ 
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * The content above * * * * * * * * * * * * -->

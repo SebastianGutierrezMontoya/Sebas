@@ -638,3 +638,8 @@ main {
 .no-scroll {
   overflow: hidden;
 }
+
+
+.login-logo  {
+ background: url('../img/icono_tienda.png') no-repeat center center;
+}
