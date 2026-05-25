@@ -1,79 +1,94 @@
-<form [formGroup]="form" (ngSubmit)="Guardar()" class="form-container">
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Pedido' : 'Crear Pedido' }}</h2>
+        <p>{{ isEditMode ? 'Modificando Pedido: ' : 'Nuevo pedido del sistema.' }}</p>
+    </div>
+</div>
 
-  <h2 class="form-header">{{ isEditMode ? 'Editar Pedido' : 'Crear Pedido' }}</h2>
+<div class="panel-form-card">
+<form [formGroup]="form" (ngSubmit)="Guardar()">
+
+  <!-- <h2 class="form-header">{{ isEditMode ? 'Editar Pedido' : 'Crear Pedido' }}</h2> -->
 
   <!-- ERROR -->
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
 
-  <div class="form-floating">
-    <input type="number" formControlName="ped_id" class="form-control">
+  <div class="panel-form-group">
     <label>ID</label>
+    <input type="number" formControlName="ped_id" class="form-control">
+    
   </div>
 
   <!-- USUARIO (FK) -->
-  <div class="form-floating">
+  <div class="panel-form-group">
+    <label>Usuario</label>
     <select formControlName="usu_id" class="form-control">
       <option value="">Seleccione usuario</option>
       <option *ngFor="let u of usuarios" [value]="u.id_usuario">
         {{ u.nombre }} {{ u.primer_apellido }}
       </option>
     </select>
-    <label>Usuario</label>
+    
   </div>
 
   <!-- FECHA PEDIDO -->
-  <div class="form-floating">
-    <input type="date" formControlName="ped_fecha_pedido" class="form-control">
+  <div class="panel-form-group">
     <label>Fecha de pedido</label>
+    <input type="date" formControlName="ped_fecha_pedido" class="form-control">
+    
   </div>
 
   <!-- DIRECCION ENVIO -->
-  <div class="form-floating">
-    <input type="text" formControlName="ped_direccion_envio" class="form-control">
+  <div class="panel-form-group">
     <label>Dirección de envío</label>
+    <input type="text" formControlName="ped_direccion_envio" class="form-control">
+    
   </div>
 
-  <div class="form-floating">
-    <input type="number" formControlName="ped_total" class="form-control" readonly>
+  <div class="panel-form-group">
     <label>Total</label>
+    <input type="number" formControlName="ped_total" class="form-control" readonly>
+    
   </div>
 
   <!-- NOTAS -->
-  <div class="form-floating">
+  <div class="panel-form-group">
+    <label>Notas</label>>
     <textarea formControlName="ped_notas" class="form-control"></textarea>
-    <label>Notas</label>
+    
   </div>
 
   
-<div class="form-floating">
+<div class="panel-form-group">
     <label>Productos</label>
 
   </div>
 
 
-  <div formArrayName="productopedido">
+  <div formArrayName="productopedido" class="panel-form-group" style="margin-top:24px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.06);">
     <!-- <div *ngFor="let p of pedidosID; let i = index" [formGroupName]="i" class="form-producto"> -->
     <div *ngFor="let p of productopedido().controls; let i = index" [formGroupName]="i" class="form-producto">
 
-
-      <select formControlName="prod_id" class="form-control" style="pointer-events: none;">
+      <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+      <select formControlName="prod_id" class="form-control" style="pointer-events: none;" style="flex:1; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#ffffff;">
         <option value="">Seleccione producto</option>
         <option *ngFor="let prod of productos" [value]="prod.prod_id">
           {{ prod.prod_nombre }}
         </option>
       </select>
 
-      <input type="number" formControlName="pped_cantidad" class="form-control" placeholder="Cantidad" readonly>
+      <input type="number" formControlName="pped_cantidad" class="form-control" placeholder="Cantidad" readonly style="flex:2; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#ffffff;">
 
-      <button type="button" (click)="eliminarProducto(i)">
+      <button type="button" (click)="eliminarProducto(i)" class="panel-btn panel-btn-danger">
         Eliminar
       </button>
 
-      <button type="button" (click)="editarProducto(i)">
+      <button type="button" (click)="editarProducto(i)" class="panel-btn panel-btn-primary">
         Editar
       </button>
+      </div>
 
     </div>
 
@@ -81,7 +96,7 @@
 
   </div>
 
-    <button type="button" (click)="agregarProducto()">
+    <button type="button" (click)="agregarProducto()" class="panel-btn panel-btn-primary">
       Agregar producto
     </button>
 
@@ -90,10 +105,11 @@
 
   <!-- BOTONES -->
   <div class="form-linear form-center">
-    <button (click)="volver()" type="button">Volver</button>
-    <button type="submit">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+    <button (click)="volver()" type="button" class="panel-btn panel-btn-secondary">Volver</button>
+    <button type="submit"class="panel-btn panel-btn-primary">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
   </div>
 
 
 </form> 
 
+</div>  

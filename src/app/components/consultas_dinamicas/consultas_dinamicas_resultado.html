@@ -1,11 +1,11 @@
-<div class="container mt-5">
+<div class="panel-form-card" style="max-width: none !important; ">
   <h2 class="mb-4">Ejecutor de Consultas Dinámicas</h2>
 
   <div class="row">
     <div class="col-md-12 mb-4">
       <div class="card">
         <div class="card-header bg-primary text-white">
-          <h5 class="mb-0">Consulta SQL (Solo SELECT)</h5>
+          <h5 class="mb-0" style="color:white;">Consulta SQL (Solo SELECT)</h5>
         </div>
         <div class="card-body">
           <textarea
@@ -20,20 +20,21 @@
             <button
               (click)="ejecutarConsulta()"
               [disabled]="isLoading"
-              class="btn btn-success">
+              class="btn btn-success panel-btn panel-btn-secondary"
+              >
               <span *ngIf="!isLoading">▶ Ejecutar Consulta</span>
               <span *ngIf="isLoading">Ejecutando...</span>
             </button>
-            <button (click)="limpiarResultados()" class="btn btn-secondary">
+            <button (click)="limpiarResultados()" class="panel-btn panel-btn-secondary">
               🗑 Limpiar
             </button>
             <button
               (click)="exportarCSV()"
               [disabled]="resultados.length === 0"
-              class="btn btn-info">
+              class="btn btn-info panel-btn panel-btn-secondary">
               📥 Exportar CSV
             </button>
-            <button (click)="volver()" class="btn btn-outline-secondary">
+            <button (click)="volver()" class="btn btn-outline-secondary panel-btn panel-btn-secondary">
               ← Volver
             </button>
           </div>
@@ -43,29 +44,29 @@
   </div>
 
   <!-- Mensajes de estado -->
-  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert">
+  <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show" role="alert" style="color:white;">
     <strong>Error:</strong> {{ errorMessage }}
     <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
   </div>
 
-  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+  <div *ngIf="successMessage" class="alert alert-success alert-dismissible fade show" role="alert" style="color:white;">
     <strong>Éxito:</strong> {{ successMessage }}
     <button type="button" class="btn-close" (click)="successMessage = ''"></button>
   </div>
 
   <!-- Resultados -->
-  <div *ngIf="resultados.length > 0" class="row mt-4">
+  <div *ngIf="resultados.length > 0" class="row mt-4" style="color:white;">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header bg-success text-white">
-          <h5 class="mb-0">Resultados ({{ resultados.length }} fila{{ resultados.length !== 1 ? 's' : '' }})</h5>
+          <h5 class="mb-0" >Resultados ({{ resultados.length }} fila{{ resultados.length !== 1 ? 's' : '' }})</h5>
         </div>
         <div class="card-body table-responsive">
           <table class="table table-striped table-hover table-bordered">
-            <thead class="table-light">
-              <tr>
-                <th>#</th>
-                <th *ngFor="let col of columnas">{{ col }}</th>
+            <thead class="table-light" style="background-color:#FFFFFF08 !important;">
+              <tr style="background-color:#FFFFFF08 !important;">
+                <th style="background-color:#FFFFFF08 !important;">#</th>
+                <th *ngFor="let col of columnas" style="background-color:#FFFFFF08 !important;">{{ col }}</th>
               </tr>
             </thead>
             <tbody>

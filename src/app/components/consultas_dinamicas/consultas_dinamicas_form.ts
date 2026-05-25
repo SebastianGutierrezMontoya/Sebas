@@ -20,6 +20,7 @@ export class ConsultasDinamicasForm implements OnInit {
 
   isLoading = false
   errorMessage = '';
+  Consultanombre: string = '';
 
 
   constructor(
@@ -61,6 +62,7 @@ export class ConsultasDinamicasForm implements OnInit {
       next: (data) => {
         this.form.patchValue(data);
         this.isLoading = false;
+        this.Consultanombre = data.cons_nombre;
         this.cdr.detectChanges();
       },
       error: (err) => {

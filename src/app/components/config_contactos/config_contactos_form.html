@@ -1,44 +1,58 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
-  <h2 class="form-header">{{ isEditMode ? 'Editar Regla de Contacto' : 'Crear Regla de Contacto' }}</h2>
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Configuracion del contacto' : 'Crear Configuracion' }}</h2>
+        <p>{{ isEditMode ? 'Modificando: ' + Confignombre : 'Nuevo Configuracion del sistema.' }}</p>
+    </div>
+</div>
+
+<div class="panel-form-card">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <!-- <h2 class="form-header">{{ isEditMode ? 'Editar Regla de Contacto' : 'Crear Regla de Contacto' }}</h2> -->
   
   <!-- <div class="form-floating">
     <input type="number" formControlName="id_regla" required id="id_id_regla">
     <label for="id_id_regla">Id regla</label>
   </div> -->
 
-  <div class="form-floating">
-    <input type="text" formControlName="nombre_contacto" maxlength="50" id="id_nombre_contacto">
+  <div class="panel-form-group">
     <label for="id_nombre_contacto">Nombre contacto</label>
+    <input type="text" formControlName="nombre_contacto" maxlength="50" id="id_nombre_contacto">
+    
   </div>
 
-  <div class="form-floating">
-    <input type="text" formControlName="descripcion" maxlength="100" id="id_descripcion">
+  <div class="panel-form-group">
     <label for="id_descripcion">Descripcion</label>
+    <input type="text" formControlName="descripcion" maxlength="100" id="id_descripcion">
+    
   </div>
 
-  <div class="form-floating">
-    <input type="text" formControlName="regex_val" maxlength="200" id="id_regex_val">
+  <div class="panel-form-group">
     <label for="id_regex_val">Regex val</label>
+    <input type="text" formControlName="regex_val" maxlength="200" id="id_regex_val">
+    
   </div>
 
-  <div class="form-floating">
-    <input type="number" formControlName="min_length" step="any" id="id_min_length">
+  <div class="panel-form-group">
     <label for="id_min_length">Min length</label>
+    <input type="number" formControlName="min_length" step="any" id="id_min_length">
+    
   </div>
 
-  <div class="form-floating">
-    <input type="number" formControlName="max_length" step="any" id="id_max_length">
+  <div class="panel-form-group">
     <label for="id_max_length">Max length</label>
+    <input type="number" formControlName="max_length" step="any" id="id_max_length">
+    
   </div>
 
-  <div class="form-floating">
-    <input type="text" formControlName="mensaje_error" maxlength="200" id="id_mensaje_error">
+  <div class="panel-form-group">
     <label for="id_mensaje_error">Mensaje error</label>
+    <input type="text" formControlName="mensaje_error" maxlength="200" id="id_mensaje_error">
+    
   </div>
 
   <div class="form-linear form-center">
-    <button type="submit">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
-    <a (click)="volver()" class="btn-link">Volver al listado</a>
+    <button type="submit" class="panel-btn panel-btn-primary">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+    <a (click)="volver()" class="panel-btn panel-btn-secondary">Volver</a>
   </div>
 </form>
-
+</div>

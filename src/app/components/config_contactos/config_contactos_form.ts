@@ -18,6 +18,7 @@ export class ConfigContactosForm implements OnInit {
   contactoId: number | null = null;
   isLoading = false;
   errorMessage = '';
+  Confignombre = '';
 
   constructor(
     private fb: FormBuilder,
@@ -62,6 +63,7 @@ export class ConfigContactosForm implements OnInit {
       next: (data) => {
         this.form.patchValue(data);
         this.isLoading = false;
+        this.Confignombre = data.nombre_contacto;
         this.changeDetectorRef.detectChanges();
       },
       error: (err) => {

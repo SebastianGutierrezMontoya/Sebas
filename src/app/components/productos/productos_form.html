@@ -1,74 +1,91 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Producto' : 'Crear Producto' }}</h2>
+        <p>{{ isEditMode ? 'Modificando: ' + Productonombre : 'Nuevo producto del sistema.' }}</p>
+    </div>
+</div>
 
-  <h2 class="form-header">
+<div class="panel-form-card">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" >
+
+  <!-- <h2 class="form-header">
     {{ isEditMode ? 'Editar' : 'Crear' }} Producto
-  </h2>
+  </h2> -->
 
   <!-- ERROR -->
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
 
-  <div class="form-floating">
-    <input type="text" formControlName="prod_id" class="form-control">
+  <div class="panel-form-group">
     <label>ID</label>
+    <input type="text" formControlName="prod_id" class="form-control">
+    
   </div>
   <!-- NOMBRE -->
-  <div class="form-floating">
-    <input type="text" formControlName="prod_nombre" class="form-control">
+  <div class="panel-form-group">
     <label>Nombre</label>
+    <input type="text" formControlName="prod_nombre" class="form-control">
+    
   </div>
 
   <!-- CATEGORIA (FK) -->
-  <div class="form-floating">
+  <div class="panel-form-group">
+    <label>Categoría</label>
     <select formControlName="cat_id" class="form-control">
       <option value="">Seleccione categoría</option>
       <option *ngFor="let c of categorias" [value]="c.cat_id">
         {{ c.cat_nombre }}
       </option>
     </select>
-    <label>Categoría</label>
+    
   </div>
 
   <!-- DESCRIPCION -->
-  <div class="form-floating">
-    <input type="text" formControlName="prod_descripcion" class="form-control">
+  <div class="panel-form-group">
     <label>Descripción</label>
+    <input type="text" formControlName="prod_descripcion" class="form-control">
+    
   </div>
 
   <!-- PRECIO -->
-  <div class="form-floating">
-    <input type="number" formControlName="prod_precio_venta" class="form-control">
+  <div class="panel-form-group">
     <label>Precio</label>
+    <input type="number" formControlName="prod_precio_venta" class="form-control">
+    
   </div>
 
   <!-- STOCK -->
-  <div class="form-floating">
-    <input type="number" formControlName="prod_stock" class="form-control">
+  <div class="panel-form-group">
     <label>Stock</label>
+    <input type="number" formControlName="prod_stock" class="form-control">
+    
   </div>
 
   <!-- IMAGEN -->
-  <div class="form-floating">
-    <input type="text" formControlName="prod_imagen_url" class="form-control">
+  <div class="panel-form-group">
     <label>URL Imagen</label>
+    <input type="text" formControlName="prod_imagen_url" class="form-control">
+    
   </div>
 
   <!-- DESCUENTO -->
-  <div class="form-floating">
-    <input type="number" formControlName="prod_descuento" class="form-control">
+  <div class="panel-form-group">
     <label>Descuento</label>
+    <input type="number" formControlName="prod_descuento" class="form-control">
+    
   </div>
 
   <!-- BOTONES -->
   <div class="form-linear form-center">
-    <button type="submit" [disabled]="isLoading || form.invalid">
+    <button type="submit" [disabled]="isLoading || form.invalid" class="panel-btn panel-btn-primary">
       {{ isLoading ? 'Guardando...' : 'Guardar' }}
     </button>
 
-    <button type="button" (click)="volver()">
+    <button type="button" (click)="volver()" class="panel-btn panel-btn-secondary">
       Volver
     </button>
   </div>
 
 </form>
+</div>

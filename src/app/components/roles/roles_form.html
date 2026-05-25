@@ -1,34 +1,48 @@
-<form [formGroup]="roleForm" (ngSubmit)="onSubmit()" class="form-container">
-    <h2 class="form-header">
+
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Rol' : 'Crear Rol' }}</h2>
+        <p>{{ isEditMode ? 'Modificando: ' + Rolnombre : 'Nuevo rol del sistema.' }}</p>
+    </div>
+</div>
+
+
+<div class="panel-form-card">
+<form [formGroup]="roleForm" (ngSubmit)="onSubmit()" >
+    <!-- <h2 class="form-header">
       {{ isEditMode ? 'Editar Rol' : 'Crear Rol' }}
-    </h2>
+    </h2> -->
 
     <!-- ERROR -->
     <div *ngIf="errorMessage" class="alert alert-danger">
       {{ errorMessage }}
     </div>
 
-    <div class="form-floating">
-      <input type="text" formControlName="id_rol" class="form-control">
+    <div class="panel-form-group">
       <label>ID</label>
+      <input type="text" formControlName="id_rol" class="form-control">
+      
     </div>
 
-    <div class="form-floating">
-      <input type="text" formControlName="nombre" class="form-control">
+    <div class="panel-form-group">
       <label>Nombre</label>
+      <input type="text" formControlName="nombre" class="form-control">
+      
     </div>
 
-    <div class="form-floating">
-      <input type="text" formControlName="descripcion" class="form-control">
+    <div class="panel-form-group">
       <label>Descripción</label>
+      <input type="text" formControlName="descripcion" class="form-control">
+      
     </div>
 
     <div class="form-linear form-center">
-      <button type="submit">
+      <button type="submit" class="panel-btn panel-btn-primary">
         {{ isEditMode ? 'Actualizar' : 'Crear' }}
       </button>
-      <a href="/roles/" class="btn-link" style="margin:auto;">Cancelar</a>
+      <a href="/roles/" class="panel-btn panel-btn-secondary">Volver</a>
 
 
     </div>
 </form>
+</div>

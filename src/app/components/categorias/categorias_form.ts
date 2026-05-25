@@ -16,6 +16,7 @@ export class CategoriasForm implements OnInit, OnDestroy {
   categoriaId: string | null = null;
   isLoading = false;
   errorMessage = '';
+  Categorianombre = '';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -66,6 +67,7 @@ export class CategoriasForm implements OnInit, OnDestroy {
             cat_descripcion: data.cat_descripcion
           });
           this.isLoading = false;
+          this.Categorianombre = data.cat_nombre;
           this.cdr.detectChanges();
         },
         error: (err) => {

@@ -1,34 +1,48 @@
-<form [formGroup]="form" (ngSubmit)="Guardar()" class="form-container">
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Perfil' : 'Crear Perfil' }}</h2>
+        <p>{{ isEditMode ? 'Modificando: ' + Perfilnombre : 'Nuevo perfil del sistema.' }}</p>
+    </div>
+</div>
 
-    <h2 class="form-header">{{ isEditMode ? 'Editar Perfil' : 'Crear Perfil' }}</h2>
+<div class="panel-form-card">
+
+<form [formGroup]="form" (ngSubmit)="Guardar()">
+
+    <!-- <h2 class="form-header">{{ isEditMode ? 'Editar Perfil' : 'Crear Perfil' }}</h2> -->
     <!-- ERROR -->
     <div *ngIf="errorMessage" class="alert alert-danger">
         {{ errorMessage }}
     </div>
-    <div class="form-floating">
-        <input type="number" formControlName="id_perfil" class="form-control">
+    <div class="panel-form-group">
         <label>ID de Perfil</label>
+        <input type="number" formControlName="id_perfil" class="form-control">
+        
     </div>
-    <div class="form-floating">
-        <input type="text" formControlName="nombre" maxlength="100" class="form-control" placeholder=" " required>
+    <div class="panel-form-group">
         <label>Nombre de Perfil</label>
+        <input type="text" formControlName="nombre" maxlength="100" class="form-control" placeholder=" " required>
+        
     </div>
-    <div class="form-floating">
+    <div class="panel-form-group">
+        <label>Rol</label>
         <select formControlName="rol_id" class="form-control" placeholder=" " required>
             <option value="">Seleccione rol</option>
             <option *ngFor="let r of roles" [value]="r.id_rol">
                 {{ r.nombre }}
             </option>
         </select>
-        <label>Rol</label>
+        
     </div>
-    <div class="form-floating">
-        <input type="text" formControlName="descripcion" maxlength="255" class="form-control" placeholder=" ">
+    <div class="panel-form-group">
         <label>Descripción de Perfil</label>
+        <input type="text" formControlName="descripcion" maxlength="255" class="form-control" placeholder=" ">
     </div>
     <div class="form-linear form-center">
-        <button type="submit">{{ isEditMode ? 'Actualizar' : 'Crear' }}</button>
-        <button  class="btn-link" style="margin:auto;" (click)="volver()">Cancelar</button>
+        <button type="submit" class="panel-btn panel-btn-primary">
+            {{ isEditMode ? 'Actualizar' : 'Crear' }}
+        </button>
+        <button  class="panel-btn panel-btn-secondary" style="margin:auto;" (click)="volver()">Cancelar</button>
     </div>
 </form>
 

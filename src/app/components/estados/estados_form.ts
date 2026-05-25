@@ -20,6 +20,7 @@ export class EstadosForm implements OnInit {
 
   isLoading = false;
   errorMessage = '';
+  Estadonombre: string = '';
 
   constructor(
     private fb: FormBuilder,
@@ -55,7 +56,9 @@ export class EstadosForm implements OnInit {
       next: (data) => {
         this.form.patchValue(data);
         this.isLoading = false;
+        this.Estadonombre = data.est_nombre;
         this.cdr.detectChanges();
+        
         console.log('Estado cargado:', data);
       },
       error: (err) => {

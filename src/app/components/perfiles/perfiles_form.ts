@@ -29,6 +29,7 @@ export class PerfilesForm implements OnInit {
     perfilId: number | null = null;
     isLoading = false;
     errorMessage = '';
+    Perfilnombre = '';
 
     constructor(
         private perfilesService: PerfilesService,
@@ -74,6 +75,7 @@ export class PerfilesForm implements OnInit {
             this.isLoading = true;
             this.perfilesService.getById(this.perfilId).subscribe({
                 next: (data) => {
+                    this.Perfilnombre = data.nombre;
                     this.form.patchValue(data);
                     this.isLoading = false;
                     this.cdr.detectChanges();

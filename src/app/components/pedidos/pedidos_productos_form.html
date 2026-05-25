@@ -1,56 +1,72 @@
-<form [formGroup]="Form" (ngSubmit)="guardar()" class="form-container">
-  <h2>Actualizar Producto del Pedido</h2>
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Pedido' : 'Crear Pedido' }}</h2>
+        <p>{{ isEditMode ? 'Modificando Pedido: ' : 'Nuevo pedido del sistema.' }}</p>
+    </div>
+</div>
+
+<div class="panel-form-card">
+    <form [formGroup]="Form" (ngSubmit)="guardar()">
+  <!-- <h2>Actualizar Producto del Pedido</h2> -->
 
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
 
-  <div class="form-floating">
-    <input type="number" formControlName="ped_id" class="form-control" readonly>
+  <div class="panel-form-group">
     <label>Pedido ID</label>
+    <input type="number" formControlName="ped_id" class="form-control" readonly>
+    
   </div>
 
-    <div class="form-floating">
+    <div class="panel-form-group">
+        <label>Producto ID</label>
         <input type="string" formControlName="prod_id" class="form-control" readonly>
-         <label>Producto ID</label>
+         
     </div>
 
-    <div class="form-floating">
+    <div class="panel-form-group">
+        <label>Cantidad</label>
         <input type="number" formControlName="pped_cantidad" class="form-control" readonly>
-         <label>Cantidad</label>
+         
     </div>
 
-    <div class="form-floating">
+    <div class="panel-form-group">
+        <label>Precio Unitario</label>
         <input type="number" formControlName="pped_precio_unitario" class="form-control" readonly>
-         <label>Precio Unitario</label>
+         
     </div>
 
-    <div class="form-floating">
+    <div class="panel-form-group">
+        <label>Descuento</label>
         <input type="number" formControlName="pped_descuento" class="form-control" readonly>
-         <label>Descuento</label>
+         
     </div>
 
-    <div class="form-floating">
+    <div class="panel-form-group">
+        <label>Total</label>
         <input type="number" formControlName="pped_total" class="form-control" readonly>
-         <label>Total</label>
+         
     </div>
 
 
-    <div class="form-floating">
-        <input type="date" formControlName="pped_fecha_entrega" class="form-control">
+    <div class="panel-form-group">
         <label>Fecha de Entrega</label>
+        <input type="date" formControlName="pped_fecha_entrega" class="form-control">
+        
     </div>
 
-    <div class="form-floating">
+    <div class="panel-form-group">
+        <label>Estado</label>
         <select formControlName="pped_estado" class="form-control">
             <option value="">Seleccione estado</option>
             <option *ngFor="let estado of estadosPedidos" [value]="estado.est_id">
                 {{ estado.est_nombre }}
             </option>
         </select>
-        <label>Estado</label>
+        
     </div>
 
-    <button type="submit">Guardar</button>
+    <button type="submit" class="panel-btn panel-btn-primary">Guardar</button>
 </form>
-
+</div>

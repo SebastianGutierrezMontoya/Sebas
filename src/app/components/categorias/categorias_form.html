@@ -1,12 +1,19 @@
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Categoria' : 'Crear Categoria' }}</h2>
+        <p>{{ isEditMode ? 'Modificando: ' + Categorianombre : 'Nueva categoria del sistema.' }}</p>
+    </div>
+</div>
 
+<div class="panel-form-card">
   
 
   <!-- Formulario reactivo -->
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
-    <h2 class="form-header">
-    <!-- {% if isEditMode %}Editar{% else %}Crear{% endif %} Categoría -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" >
+    <!-- <h2 class="form-header">
+
     {{ isEditMode ? 'Editar' : 'Crear' }} Categoría
-  </h2>
+  </h2> -->
 
   <!-- Mostrar mensaje de error si existe -->
   <div *ngIf="errorMessage" class="alert alert-danger">
@@ -14,7 +21,8 @@
   </div>
     <!-- Campo: Cat nombre -->
 
-    <div class="form-floating">
+    <div class="panel-form-group">
+      <label for="cat_id">Cat ID</label>
       <input 
         type="text" 
         formControlName="cat_id"
@@ -24,10 +32,11 @@
         id="cat_id"
         
       >
-      <label for="cat_id">Cat ID</label>
+      
       </div>
 
-    <div class="form-floating">
+    <div class="panel-form-group">
+      <label for="cat_nombre">Cat nombre</label>
       <input 
         type="text" 
         formControlName="cat_nombre"
@@ -37,7 +46,7 @@
         id="cat_nombre"
         [class.is-invalid]="cat_nombre && cat_nombre.invalid && cat_nombre.touched"
       >
-      <label for="cat_nombre">Cat nombre</label>
+      
       <div *ngIf="cat_nombre && cat_nombre.invalid && cat_nombre.touched" class="invalid-feedback">
         <small *ngIf="cat_nombre.errors?.['required']">Este campo es requerido</small>
         <small *ngIf="cat_nombre.errors?.['maxlength']">Máximo 50 caracteres</small>
@@ -45,7 +54,8 @@
     </div>
 
     <!-- Campo: Cat descripción -->
-    <div class="form-floating">
+    <div class="panel-form-group">
+      <label for="cat_descripcion">Cat descripcion</label>
       <input 
         type="text" 
         formControlName="cat_descripcion"
@@ -55,7 +65,7 @@
         id="cat_descripcion"
         [class.is-invalid]="cat_descripcion && cat_descripcion.invalid && cat_descripcion.touched"
       >
-      <label for="cat_descripcion">Cat descripcion</label>
+      
       <div *ngIf="cat_descripcion && cat_descripcion.invalid && cat_descripcion.touched" class="invalid-feedback">
         <small *ngIf="cat_descripcion.errors?.['maxlength']">Máximo 200 caracteres</small>
       </div>
@@ -66,7 +76,7 @@
       <button 
         type="submit" 
         [disabled]="!form.valid || isLoading"
-        class="btn btn-primary"
+        class="panel-btn panel-btn-primary"
       >
         {{ isLoading ? 'Guardando...' : 'Guardar' }}
       </button>
@@ -74,9 +84,10 @@
         type="button" 
         (click)="volver()"
         [disabled]="isLoading"
-        class="btn-link"
+        class="panel-btn panel-btn-secondary"
       >
-        Volver al listado
+        Volver
       </button>
     </div>
   </form>
+</div>

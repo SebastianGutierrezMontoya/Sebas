@@ -1,23 +1,34 @@
-<form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-container">
-  <h2 class="form-header">{{ isEditMode ? 'Editar Sexo' : 'Crear Sexo' }}</h2>
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Sexo' : 'Crear Sexo' }}</h2>
+        <p>{{ isEditMode ? 'Modificando: ' + Sexonombre : 'Nuevo sexo del sistema.' }}</p>
+    </div>
+</div>
+
+<div class="panel-form-card">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" >
+  <!-- <h2 class="form-header">{{ isEditMode ? 'Editar Sexo' : 'Crear Sexo' }}</h2> -->
 
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
 
-  <div class="form-floating">
-    <input type="number" formControlName="id_sexo" class="form-control">
+  <div class="panel-form-group">
     <label>ID Sexo</label>
+    <input type="number" formControlName="id_sexo" class="form-control">
+    
   </div>
 
-  <div class="form-floating">
-    <input type="text" formControlName="nombre_sexo" class="form-control">
+  <div class="panel-form-group">
     <label>Nombre Sexo</label>
+    <input type="text" formControlName="nombre_sexo" class="form-control">
+    
   </div>
 
   <div class="form-linear form-center">
-    <button type="button" (click)="volver()">Volver</button>
-    <button type="submit">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
+    <button type="button" (click)="volver()" class="panel-btn panel-btn-secondary">Volver</button>
+    <button type="submit" class="panel-btn panel-btn-primary">{{ isEditMode ? 'Actualizar' : 'Guardar' }}</button>
   </div>
 </form>
-
+ 
+<div>

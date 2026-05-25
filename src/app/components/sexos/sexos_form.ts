@@ -16,7 +16,7 @@ export class SexosForm implements OnInit {
 
   isEditMode = false
   sexoId: number | null = null;
-
+  Sexonombre: string = '';
   isLoading = false;
   errorMessage = '';
   constructor(
@@ -51,6 +51,7 @@ export class SexosForm implements OnInit {
     this.isLoading = true;
     this.service.getById(this.sexoId).subscribe({
       next: (data) => {
+        this.Sexonombre = data.nombre_sexo;
         this.form.patchValue(data);
         this.isLoading = false;
         this.cdr.detectChanges();

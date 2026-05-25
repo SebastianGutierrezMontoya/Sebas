@@ -1,54 +1,86 @@
-<form [formGroup]="form" (ngSubmit)="guardar()" class="form-container">
-  <h1 class="form-title">{{ isEditMode ? 'Editar Usuario' : 'Crear Usuario' }}</h1>
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Usuario' : 'Crear Usuario' }}</h2>
+        <p>{{ isEditMode ? 'Modificando: ' + Usuarionombre : 'Nuevo usuario del sistema.' }}</p>
+    </div>
+</div>
 
-  <input formControlName="id_usuario" placeholder="ID" >
-  <input formControlName="nombre" placeholder="Nombre">
-  <input formControlName="primer_apellido" placeholder="Primer apellido">
-  <input formControlName="segundo_apellido" placeholder="Segundo apellido">
-  <input formControlName="fecha_nacimiento" type="date" placeholder="Fecha de nacimiento">
-  <input formControlName="password_hash" type="password" placeholder="Contraseña">
-  <select formControlName="usuario_id_sexo">
-    <option value="">Sexo</option>
-    <option *ngFor="let s of sexos" [value]="s.id_sexo">{{ s.nombre_sexo }}</option>
-  </select>
-  <select formControlName="usuario_id_perfil">
-    <option value="">Perfil</option>
-    <option *ngFor="let p of perfiles" [value]="p.id_perfil">{{ p.nombre }}</option>
-  </select>
-  <label>
-    <input type="checkbox" formControlName="activo">
-    Activo
-  </label>
-
+<div class="panel-form-card">
+<form [formGroup]="form" (ngSubmit)="guardar()" >
+  <!-- <h1 class="form-title">{{ isEditMode ? 'Editar Usuario' : 'Crear Usuario' }}</h1> -->
+  
+  <div class="panel-form-group">
+    <label for="id_usuario">ID Usuario</label>
+    <input id="id_usuario" formControlName="id_usuario" placeholder="ID" >
+  </div>
+  <div class="panel-form-group">
+    <label for="nombre">Nombre</label>
+    <input id="nombre" formControlName="nombre" placeholder="Nombre">
+  </div>
+  <div class="panel-form-group">
+    <label for="primer_apellido">Primer apellido</label>
+    <input id="primer_apellido" formControlName="primer_apellido" placeholder="Primer apellido">
+  </div>
+  <div class="panel-form-group">
+    <label for="segundo_apellido">Segundo apellido</label>
+    <input id="segundo_apellido" formControlName="segundo_apellido" placeholder="Segundo apellido">
+  </div>
+  <div class="panel-form-group">
+    <label for="fecha_nacimiento">Fecha de nacimiento</label>
+    <input id="fecha_nacimiento" formControlName="fecha_nacimiento" type="date" placeholder="Fecha de nacimiento">
+  </div>
+  <div class="panel-form-group">
+    <label for="password_hash">Contraseña</label>
+    <input id="password_hash" formControlName="password_hash" type="password" placeholder="Contraseña">
+  </div>
+  <div class="panel-form-group">
+    <label for="usuario_id_sexo">Sexo</label>
+    <select id="usuario_id_sexo" formControlName="usuario_id_sexo">
+      <option value="">Sexo</option>
+      <option *ngFor="let s of sexos" [value]="s.id_sexo">{{ s.nombre_sexo }}</option>
+    </select>
+  </div>
+  <div class="panel-form-group">
+    <label for="usuario_id_perfil">Perfil</label>
+    <select id="usuario_id_perfil" formControlName="usuario_id_perfil">
+      <option value="">Perfil</option>
+      <option *ngFor="let p of perfiles" [value]="p.id_perfil">{{ p.nombre }}</option>
+    </select>
+  </div>
+  <div class="panel-form-group">
+    <label> Activo </label>
+      <input type="checkbox" formControlName="activo">
+  </div>
 
   <!-- CONTACTOS -->
-  <div formArrayName="contactos">
-
-    <div *ngFor="let t of contactos().controls; let i = index" [formGroupName]="i">
+  <div formArrayName="contactos" class="panel-form-group" style="margin-top:24px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.06);">
+    <label style="margin-bottom:12px;">📞 Contactos</label>
+    <div *ngFor="let t of contactos().controls; let i = index" [formGroupName]="i" id="contactosContainer">
     <!-- <div *ngFor="let t of contactoID; let i = index" [formGroupName]="i"> -->
-
-      <select formControlName="tipo_contacto">
+      <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
+      <select formControlName="tipo_contacto" style="flex:1; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#ffffff;">
         <option value="">Tipo</option>
         <option *ngFor="let config of configContacto" [value]="config.id_regla">{{ config.nombre_contacto }}</option>
       </select>
 
-      <input formControlName="dato_contacto" placeholder="Dato">
+      <input formControlName="dato_contacto" placeholder="Dato" style="flex:2; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#ffffff;">
 
-      <button type="button" (click)="eliminarContacto(i)">
+      <button type="button" (click)="eliminarContacto(i)" class="panel-btn panel-btn-secondary">
         Eliminar
       </button>
-
+      </div>
     </div>
 
   </div>
 
-  <button type="button" (click)="agregarContacto()">
+  <button type="button" (click)="agregarContacto()" class="panel-btn panel-btn-primary">
     Agregar contacto
   </button>
 
   <div class="form-linear form-center">
-    <button (click)="volver()" type="button">Volver</button>
-    <button (click)="guardar()" type="button">Guardar</button>
+    <button (click)="volver()" type="button" class="panel-btn panel-btn-secondary">Volver</button>
+    <button (click)="guardar()" type="button" class="panel-btn panel-btn-primary">Guardar</button>
   </div>
 
 </form>
+</div>

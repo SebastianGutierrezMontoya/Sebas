@@ -1,25 +1,35 @@
-<form [formGroup]="form" (ngSubmit)="saveEstado()" class="form-container">
-  <h2 class="form-header">
+<div class="panel-content-header">
+    <div>
+        <h2>{{ isEditMode ? 'Editar Estado' : 'Crear Estado' }}</h2>
+        <p>{{ isEditMode ? 'Modificando: ' + Estadonombre : 'Nuevo estado del sistema.' }}</p>
+    </div>
+</div>
+
+<div class="panel-form-card">
+  
+  <form [formGroup]="form" (ngSubmit)="saveEstado()" >
+  <!-- <h2 class="form-header">
     {{ isEditMode ? 'Editar Estado de Pedido' : 'Crear Estado de Pedido' }}
-  </h2>
+  </h2> -->
 
   <div *ngIf="errorMessage" class="alert alert-danger">
     {{ errorMessage }}
   </div>
 
-  <div class="form-floating">
-    <input type="number" formControlName="est_id" class="form-control"  title="La id del estado de Entregado debe ser la mayor de todas">
+  <div class="panel-form-group">
     <label>ID</label>
+    <input type="number" formControlName="est_id" class="form-control"  title="La id del estado de Entregado debe ser la mayor de todas">
+    
   </div>
 
-  <div class="form-floating">
-    <input type="text" formControlName="est_nombre" maxlength="50" class="form-control">
+  <div class="panel-form-group">
     <label>Nombre</label>
+    <input type="text" formControlName="est_nombre" maxlength="50" class="form-control">
   </div>
 
   <div class="form-linear form-center">
-    <button type="submit">Guardar</button>
-    <a href="/estado_pedidos/" class="btn-link">Volver al listado</a>
+    <button type="submit" class="panel-btn panel-btn-primary">Guardar</button>
+    <a href="/estado_pedidos/" class="panel-btn panel-btn-secondary">Volver</a>
   </div>
 </form>
 

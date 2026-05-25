@@ -27,6 +27,7 @@ export class ProductosForm implements OnInit {
 
   isLoading = false;
   errorMessage = '';
+  Productonombre = '';
 
   constructor(
     private fb: FormBuilder,
@@ -94,6 +95,7 @@ export class ProductosForm implements OnInit {
       next: (data) => {
         this.form.patchValue(data);
         this.isLoading = false;
+        this.Productonombre = data.prod_nombre;
         this.cdr.detectChanges();
         // console.log('Producto cargado:', data);
       },

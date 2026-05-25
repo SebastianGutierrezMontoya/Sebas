@@ -41,6 +41,7 @@ export class UsuariosForm implements OnInit {
   usuarioId: string | null = null;
   isLoading = false;
   errorMessage = '';
+  Usuarionombre: string = '';
 
   ngOnInit(): void {
     this.loadSexos();
@@ -55,7 +56,6 @@ export class UsuariosForm implements OnInit {
         this.usuarioId = params['id'];
         this.loadContactosID();
         this.loadUsuario();
-        
         // console.log(this.contactoID);
         // Aquí podrías cargar los datos del usuario para editar
       }
@@ -100,6 +100,7 @@ export class UsuariosForm implements OnInit {
       next: (data) => {
         data.fecha_nacimiento = data.fecha_nacimiento ? data.fecha_nacimiento.split('T')[0] : '';
         this.form.patchValue(data);
+        this.Usuarionombre = data.nombre;
         if (this.contactoID) {
           this.contactoID.forEach((contacto: any) => {
             this.contactos().push(

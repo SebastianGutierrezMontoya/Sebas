@@ -19,6 +19,7 @@ export class RolesForm implements OnInit {
 
   isEditMode = false;
   roleId: string | null = null;
+  Rolnombre: string = '';
 
   idLoading = false;
   errorMessage = '';
@@ -46,6 +47,8 @@ export class RolesForm implements OnInit {
       if (id) {
         this.rolesService.getById(id).subscribe({
           next: (role) => {
+            this.Rolnombre = role.nombre;
+            this.isEditMode = true;
             this.roleForm.patchValue(role);
           }
         });
