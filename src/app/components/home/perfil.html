@@ -6,7 +6,7 @@
         <h1 class="perfil-title">Mi Perfil</h1>
         <p class="perfil-subtitle">Gestiona tus datos personales y medios de contacto</p>
 
-        <form [formGroup]="perfilform" novalidate>
+        <form [formGroup]="perfilform" (ngSubmit)="guardar()" novalidate autocomplete="off">
 
 
             <div class="perfil-section">
@@ -64,7 +64,7 @@
             <div  formArrayName="contactos" class="perfil-section">
                 <h2 class="perfil-section-title">Contactos</h2>
 
-                <div *ngFor="let tipo of contactosCombinados" >
+                <div *ngFor="let tipo of contactosCombinados; let i = index" [formGroupName]="i">
 
                         <div class="perfil-contacto-row">
                             <span class="perfil-contacto-label">

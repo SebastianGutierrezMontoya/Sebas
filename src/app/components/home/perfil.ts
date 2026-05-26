@@ -6,13 +6,14 @@ import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { FormArray } from '@angular/forms';
-import { forkJoin } from 'rxjs';
+import { forkJoin, of } from 'rxjs';
 
 import { UsuariosService } from '../../services/usuarios.service';
 import { ContactosService } from '../../services/contactos.service';
 import { ConfigContactoService } from '../../services/configcontacto.service';
 import { SexosService } from '../../services/sexos.service';
 import { PerfilesService } from '../../services/perfiles.service';
+import { Contactos } from '../../models/models';
 
 @Component({
   selector: 'app-home',
@@ -50,6 +51,8 @@ export class Perfil implements OnInit {
   passwordSuccess = '';
   Usuarionombre: string = '';
 
+  contacto_id: number = 0;
+
   constructor(
     private fb: FormBuilder,
         private service: UsuariosService,
@@ -66,6 +69,7 @@ export class Perfil implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadid();
     this.loadSexos();
     this.loadContactos();
     this.loadConfigContacto();
@@ -90,22 +94,20 @@ export class Perfil implements OnInit {
             this.perfilform.patchValue(userData);
             this.Usuarionombre = userData.nombre;
             
-            // Agregar contactos al formulario
-            if (this.contactoID && this.contactoID.length > 0) {
-              this.contactoID.forEach((contacto: any) => {
-                this.contactos().push(
-                  this.fb.group({
-                    id_contacto: [contacto.id_contacto],
-                    tipo_contacto: [contacto.tipo_contacto],
-                    dato_contacto: [contacto.dato_contacto],
-                    id_usuario: [this.usuarioId]
-                  })
-                );
-              });
-            }
-            
-            // Ahora sí puedes combinar datos con seguridad
+            // Combinar datos primero para saber cuantos contactos hay
             this.Combinar();
+            
+            // Agregar un FormGroup por cada contacto combinado
+            this.contactosCombinados.forEach((contacto: any) => {
+              this.contactos().push(
+                this.fb.group({
+                  id_contacto: [contacto.id_contacto || null],
+                  tipo_contacto: [contacto.id_regla],
+                  dato_contacto: [contacto.dato_contacto || ''],
+                  id_usuario: [this.usuarioId]
+                })
+              );
+            });
             
             this.isLoading = false;
             this.cdr.detectChanges();
@@ -149,6 +151,13 @@ export class Perfil implements OnInit {
       nueva_contraseña2: ['', Validators.required]
 
     })
+  }
+
+  async loadid(): Promise<void> {
+    this.obtenerProximoIdContacto().then(id => {
+      this.contacto_id = id;
+    });
+
   }
 
   private loadUsuario(): void {
@@ -213,11 +222,135 @@ export class Perfil implements OnInit {
 
   }
 
+  private obtenerProximoIdContacto(): Promise<number> {
+    return new Promise((resolve) => {
+      this.ContactosService.getAll().subscribe({
+        next: (contactos: any[]) => {
+          if (!contactos || contactos.length === 0) {
+            resolve(1);
+          } else {
+            const maxId = Math.max(...contactos.map(c => c.id_contacto || 0));
+            resolve(maxId);
+          }
+        },
+        error: () => {
+          // Si hay error, retorna 1
+          resolve(1);
+        }
+      });
+    });
+  }
+
   logout(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }
 
+  guardar() {
+    // Validar que el formulario sea válido
+    if (!this.perfilform.valid) {
+      this.errorMessage = 'Por favor completa los campos requeridos';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.isLoading = true;
+    this.errorMessage = '';
+    this.successMessage = '';
+
+    // Obtener datos del formulario
+    const data = this.perfilform.value;
+    const contactosData = data.contactos;
+    console.log(contactosData)
+    delete data.contactos;
+    // Actualizar usuario
+    this.service.update(this.usuarioId!, data).subscribe({
+      next: () => {
+        // Una vez actualizado el usuario, procesar los contactos
+        this.procesarContactos(contactosData);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.errorMessage = 'Error al actualizar el usuario';
+        console.error('Error al actualizar usuario:', err);
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
+  private procesarContactos(contactosData: any[]): void {
+    // Crear un arreglo de observables para todas las operaciones de contactos
+    const contactoOperations = contactosData.map((datosFormulario, index) => {
+      const contacto = this.contactosCombinados[index];
+      const valorContacto = datosFormulario.dato_contacto?.trim() || '';
+
+      
+
+      if (!valorContacto) {
+        // Si está vacío y existe un contacto, eliminarlo
+        if (datosFormulario.id_contacto) {
+          return this.ContactosService.delete(datosFormulario.id_contacto);
+        }
+        // Si está vacío y no existe, no hacer nada
+        return of(null);
+      } else {
+        // Si no está vacío
+        if (datosFormulario.id_contacto) {
+          // Actualizar contacto existente
+          return this.ContactosService.update(datosFormulario.id_contacto, {
+            id_contacto: datosFormulario.id_contacto,
+            tipo_contacto: contacto.id_regla,
+            dato_contacto: valorContacto,
+            id_usuario: this.usuarioId!
+          });
+        } else {
+          // Crear nuevo contacto
+          this.contacto_id = this.contacto_id + 1;
+          //contacto_id + 1
+          return this.ContactosService.create({
+            id_contacto: this.contacto_id, // El servidor asignará el ID real
+            tipo_contacto: contacto.id_regla,
+            dato_contacto: valorContacto,
+            id_usuario: this.usuarioId!
+          } as Contactos);
+
+          
+        }
+      }
+    });
+
+    // Ejecutar todas las operaciones de contactos
+    if (contactoOperations.length > 0) {
+      forkJoin(contactoOperations).subscribe({
+        next: () => {
+          this.isLoading = false;
+          this.successMessage = 'Cambios guardados exitosamente';
+          
+          // Limpiar el mensaje de éxito después de 5 segundos
+          setTimeout(() => {
+            this.successMessage = '';
+          }, 5000);
+          
+          this.cdr.detectChanges();
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorMessage = 'Error al procesar los contactos';
+          console.error('Error al procesar contactos:', err);
+          this.cdr.detectChanges();
+        }
+      });
+    } else {
+      this.isLoading = false;
+      this.successMessage = 'Cambios guardados exitosamente';
+      
+      setTimeout(() => {
+        this.successMessage = '';
+      }, 5000);
+      
+      this.cdr.detectChanges();
+    }
+  }
 
   guardarpw() {
     // Limpiar mensajes previos
