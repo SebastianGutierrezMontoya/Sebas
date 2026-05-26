@@ -41,13 +41,8 @@
               "src/assets/css/admin/admin.css",
               "src/assets/css/catalogo.css"
               
-            ],
-            "scripts": [
-              "src/assets/Js/cart-sidebar.js",
-              "src/assets/Js/pedidos_form.js",
-              "src/assets/js/register.js",
-              "src/assets/js/usuarios_form.js"
             ]
+            
           },
           "configurations": {
             "production": {

@@ -20,5 +20,15 @@ export class UsuariosService extends BaseService<Usuarios, string> {
   });
 }
 
+  updatepass(id_usuario: string, password: string, new_password: string) {
+    return this.http.put<any>(`${this.apiUrl}/changepassword`, {
+      id_usuario,
+      password,
+      new_password
+    });
+  }
+
+
+
 
 }

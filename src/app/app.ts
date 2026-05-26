@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { Navbar } from './components/navbar/navbar';
 import { Sidebar } from './components/navbar/sidebar';
+import { Carsidebar } from './components/navbar/carsidebar';
 import { Users } from './components/users/users';
 // import { Usuarios } from './components/usuarios/usuarios';
 import { UsuariosForm } from './components/usuarios/usuarios-form'; 
@@ -15,7 +16,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, Navbar, Sidebar, Users, UsuariosForm],
+  imports: [CommonModule, RouterOutlet, Navbar, Sidebar, Carsidebar, Users, UsuariosForm],
   templateUrl: './app.html',
   styleUrl: './app.css',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -44,8 +45,8 @@ export class App implements OnInit{
     this.layoutService.showSidebar$.subscribe(showSidebar => {
       this.showSidebar = showSidebar;
     });
-    console.log('Usuario en AppComponent:', this.usuario);
-    console.log('Sidebar visible en AppComponent:', this.showSidebar);
+    // console.log('Usuario en AppComponent:', this.usuario);
+    // console.log('Sidebar visible en AppComponent:', this.showSidebar);
   }
 
   logout(): void {

@@ -30,7 +30,7 @@ export const permisosGuard: CanActivateFn = (route, state) => {
   if (!tienePermiso) {
     alert('Acceso denegado: No tienes permiso para esta acción');
     // console.warn(`Acceso denegado: Sin permiso ${accion} en módulo ${moduloId}`);
-    router.navigate(['/']);
+    router.navigate(['/Home']);
     return false;
   }
 

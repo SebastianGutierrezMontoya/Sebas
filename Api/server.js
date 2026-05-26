@@ -152,6 +152,56 @@ app.post('/api/auth/login', async (req, res) => {
   }
 });
 
+
+app.put('/api/usuarios/changepassword', async (req, res) => {
+  const { id_usuario, password, new_password } = req.body;
+
+  try {
+    // Buscar usuario
+    const resultado = await pool.query(
+      'SELECT id_usuario, nombre, primer_apellido, segundo_apellido, password_hash, usuario_id_perfil FROM usuarios WHERE id_usuario = $1',
+      [id_usuario]
+    );
+
+    const usuario = resultado.rows[0];
+
+
+    const passwordHash = hashPassword(password);
+    const passwordValida = passwordHash === usuario.password_hash;
+
+    if (!passwordValida) {
+      return res.status(401).json({ message: 'Contraseña incorrecta' });
+    }
+
+
+    // Hashear la nueva contraseña
+    const hashedNewPassword = hashPassword(new_password);
+
+    const result = await pool.query(
+      `UPDATE usuarios
+       SET password_hash = $2
+       WHERE id_usuario = $1
+       RETURNING id_usuario, nombre, primer_apellido`,
+      [id_usuario, hashedNewPassword]
+    );
+
+    if (result.rows.length === 0) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    res.json({ message: 'Contraseña actualizada exitosamente', usuario: result.rows[0] });
+
+
+    } catch (err) {
+    console.error('Error al cambiar contraseña:', err);
+    res.status(500).json({ message: 'Error al cambiar contraseña: ' + err.message });
+  }
+
+});
+
+
+
+
 // Ruta protegida de ejemplo para verificar token
 app.get('/api/auth/verify', verificarToken, (req, res) => {
   res.json({ message: 'Token válido', usuario: req.usuario });

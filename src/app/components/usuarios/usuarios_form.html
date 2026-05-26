@@ -58,16 +58,16 @@
     <div *ngFor="let t of contactos().controls; let i = index" [formGroupName]="i" id="contactosContainer">
     <!-- <div *ngFor="let t of contactoID; let i = index" [formGroupName]="i"> -->
       <div style="display:flex; gap:12px; align-items:center; margin-bottom:12px;">
-      <select formControlName="tipo_contacto" style="flex:1; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#ffffff;">
-        <option value="">Tipo</option>
-        <option *ngFor="let config of configContacto" [value]="config.id_regla">{{ config.nombre_contacto }}</option>
-      </select>
-
-      <input formControlName="dato_contacto" placeholder="Dato" style="flex:2; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#ffffff;">
-
-      <button type="button" (click)="eliminarContacto(i)" class="panel-btn panel-btn-secondary">
-        Eliminar
-      </button>
+        <select formControlName="tipo_contacto" style="flex:1; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#ffffff;">
+          <option value="">Tipo</option>
+          <option *ngFor="let config of configContacto" [value]="config.id_regla">{{ config.nombre_contacto }}</option>
+        </select>
+      
+        <input formControlName="dato_contacto" placeholder="Dato" style="flex:2; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.1); background:rgba(255,255,255,0.05); color:#ffffff;">
+      
+        <button type="button" (click)="eliminarContacto(i)" class="panel-btn panel-btn-secondary">
+          Eliminar
+        </button>
       </div>
     </div>
 

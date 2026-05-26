@@ -1,0 +1,143 @@
+<div id="perfil-page-body">
+    <div class="perfil-card">
+        <div class="perfil-logo">
+            <img [src]="logoPath" alt="Logo">
+        </div>
+        <h1 class="perfil-title">Mi Perfil</h1>
+        <p class="perfil-subtitle">Gestiona tus datos personales y medios de contacto</p>
+
+        <form [formGroup]="perfilform" novalidate>
+
+
+            <div class="perfil-section">
+                <h2 class="perfil-section-title">Datos personales</h2>
+
+
+
+
+                <!-- <div class="panel-form-group">
+    <label for="id_usuario">ID Usuario</label>
+    <input id="id_usuario" formControlName="id_usuario" placeholder="ID" >
+  </div> -->
+  <div class="perfil-field">
+    <label for="nombre">Nombre</label>
+    <input id="nombre" formControlName="nombre" placeholder="Nombre">
+  </div>
+  <div class="perfil-field">
+    <label for="primer_apellido">Primer apellido</label>
+    <input id="primer_apellido" formControlName="primer_apellido" placeholder="Primer apellido">
+  </div>
+  <div class="perfil-field">
+    <label for="segundo_apellido">Segundo apellido</label>
+    <input id="segundo_apellido" formControlName="segundo_apellido" placeholder="Segundo apellido">
+  </div>
+  <div class="perfil-field">
+    <label for="fecha_nacimiento">Fecha de nacimiento</label>
+    <input id="fecha_nacimiento" formControlName="fecha_nacimiento" type="date" placeholder="Fecha de nacimiento">
+  </div>
+  <!-- <div class="panel-form-group">
+    <label for="password_hash">Contraseña</label>
+    <input id="password_hash" formControlName="password_hash" type="password" placeholder="Contraseña">
+  </div> -->
+  <div class="perfil-field">
+    <label for="usuario_id_sexo">Sexo</label>
+    <select id="usuario_id_sexo" formControlName="usuario_id_sexo">
+      <option value="">Sexo</option>
+      <option *ngFor="let s of sexos" [value]="s.id_sexo">{{ s.nombre_sexo }}</option>
+    </select>
+  </div>
+  <!-- <div class="panel-form-group">
+    <label for="usuario_id_perfil">Perfil</label>
+    <select id="usuario_id_perfil" formControlName="usuario_id_perfil">
+      <option value="">Perfil</option>
+      <option *ngFor="let p of perfiles" [value]="p.id_perfil">{{ p.nombre }}</option>
+    </select>
+  </div> -->
+  <!-- <div class="panel-form-group">
+    <label> Activo </label>
+      <input type="checkbox" formControlName="activo">
+  </div> -->
+
+
+            </div>
+
+            <div  formArrayName="contactos" class="perfil-section">
+                <h2 class="perfil-section-title">Contactos</h2>
+
+                <div *ngFor="let tipo of contactosCombinados" >
+
+                        <div class="perfil-contacto-row">
+                            <span class="perfil-contacto-label">
+                                {{ tipo.nombre_contacto }}
+                                <span class="perfil-contacto-badge">({{ tipo.min_length }}–{{ tipo.max_length }} caracteres)</span>
+                            </span>
+                            <input
+                                type="text"
+                                name="contacto_dato_{{ tipo.id_regla }}"
+                                formControlName="dato_contacto"
+                                class="perfil-contacto-input"
+                                value="{{ tipo.dato_contacto }}"
+                                placeholder="{{ tipo.descripcion }}"
+                                maxlength="{{ tipo.max_length }}"
+                            />
+                        </div>
+
+                </div>
+
+            </div>
+
+            <div class="perfil-actions">
+                <button type="submit" class="perfil-btn-save">Guardar cambios</button>
+                <a href="Home" class="perfil-btn-secondary">Cancelar</a>
+            </div>
+        </form>
+
+        <div class="perfil-divider"></div>
+
+        <form [formGroup]="contrasenaform" (ngSubmit)="guardarpw()" novalidate>
+
+            <!-- Error -->
+  <div *ngIf="passwordError" class="alert alert-danger">
+    {{ passwordError }}
+  </div>
+
+  <!-- Éxito -->
+  <div *ngIf="passwordSuccess" class="alert alert-success">
+    {{ passwordSuccess }}
+  </div>
+
+            <input type="hidden" name="cambiar_contrasena" value="1">
+            <div class="perfil-section">
+                <h2 class="perfil-section-title">Cambiar contraseña</h2>
+                <div class="perfil-field">
+                    <label for="id_contrasena_actual">Contraseña actual</label>
+                    <input type="password" name="contrasena_actual" 
+                    id="id_contrasena_actual" class="form-control" 
+                    placeholder="Contraseña actual" required minlength="6"
+                    formControlName="contraseña"
+                    >
+                </div>
+                <div class="perfil-field">
+                    <label for="id_contrasena_nueva">Nueva contraseña</label>
+                    <input type="password" name="contrasena_nueva" 
+                    id="id_contrasena_nueva" class="form-control" 
+                    placeholder="Nueva contraseña" required minlength="6"
+                    formControlName="nueva_contraseña">
+                </div>
+                <div class="perfil-field">
+                    <label for="id_contrasena_confirmar">Confirmar contraseña</label>
+                    <input type="password" name="contrasena_confirmar" 
+                    id="id_contrasena_confirmar" class="form-control" 
+                    placeholder="Confirmar nueva contraseña" required minlength="6"
+                    formControlName="nueva_contraseña2">
+                </div>
+            </div>
+            <div class="perfil-actions">
+                <button (click)="guardarpw()"
+                class="perfil-btn-pass"
+                [disabled]="passwordLoading || contrasenaform.invalid"
+                >Cambiar contraseña</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -15,7 +15,7 @@
       <a class="navbar-link" href="#">Inicio</a>
       <a class="navbar-link" href="catalogo">Catálogo</a>
       <a *ngIf="isAuthenticated" class="navbar-link" href="mis_pedidos">Mis Pedidos</a>
-      <a *ngIf="isAuthenticated && usuario?.usuario_id_perfil" class="navbar-link navbar-link-muted" href="panel_dashboard">Gestión</a>
+      <a *ngIf="hasPermissions$" class="navbar-link navbar-link-muted" href="usuarios">Gestión</a>
     </div>
 
     <form class="navbar-search" method="GET" action="catalogo">
@@ -38,12 +38,36 @@
       </button>
 
 
-        <div *ngIf="isAuthenticated" class="navbar-user-badge">
+
+
+        <!-- <div *ngIf="isAuthenticated" class="navbar-user-badge">
             <svg class="user-icon-orange" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
             <span class="navbar-user-name">{{ usuario?.nombre || usuario?.id_usuario }}</span>
+        </div> -->
+
+
+        <div *ngIf="isAuthenticated" class="navbar-user-dropdown">
+          <div class="navbar-user-badge">
+              <svg class="user-icon-orange" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+              <span class="navbar-user-name">{{ usuario?.nombre || usuario?.id_usuario }}</span>
+              <i class="fas fa-chevron-down dropdown-arrow"></i>
+          </div>
+          <div class="user-dropdown-menu">
+            <a class="user-dropdown-item" (click)="mi_perfil()">
+              <i class="fas fa-user"></i> Mi Perfil
+            </a>
+            <a class="user-dropdown-item user-dropdown-logout" (click)="logout(); 
+                        $event.preventDefault()">
+              <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </a>
+          </div>
         </div>
-        <a *ngIf="isAuthenticated" class="navbar-link navbar-link-muted navbar-logout" href="#" (click)="logout(); 
-                        $event.preventDefault()">Salir</a>
+
+
+
+
+        <!-- <a *ngIf="isAuthenticated" class="navbar-link navbar-link-muted navbar-logout" href="#" (click)="logout(); 
+                        $event.preventDefault()">Salir</a> -->
 
         <a *ngIf="!isAuthenticated" class="navbar-link navbar-login-link" href="login">Ingresar</a>
 
@@ -82,8 +106,8 @@
     <a *ngIf="!isAuthenticated" class="mobile-link mobile-link-login" href="login" onclick="closeMobileMenu()">Iniciar Sesión</a>
     <a *ngIf="!isAuthenticated" class="mobile-link mobile-link-register" href="register" onclick="closeMobileMenu()">Crear Cuenta</a>
 
-    <div *ngIf="isAuthenticated && usuario?.id_perfil === 1" class="mobile-divider"></div>
-    <a *ngIf="isAuthenticated && usuario?.id_perfil === 1" class="mobile-link" href="panel_dashboard" onclick="closeMobileMenu()">Gestión</a>
+    <div *ngIf="hasPermissions$" class="mobile-divider"></div>
+    <a *ngIf="hasPermissions$" class="mobile-link" href="panel_dashboard" onclick="closeMobileMenu()">Gestión</a>
 
   </div>
 </div>

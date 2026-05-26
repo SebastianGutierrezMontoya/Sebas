@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { Users } from './components/users/users';
 import { Home } from './components/home/home';
+import { Perfil } from './components/home/perfil';
 import { LoginComponent } from './components/auth/login';
 import { RegistroComponent } from './components/auth/registro';
 import { UsuariosComponent } from './components/usuarios/usuarios';
@@ -36,8 +37,12 @@ export const routes: Routes = [
 	{ path: 'registro', component: RegistroComponent },
 	
 	// Rutas protegidas
-	{ path: '', component: Home },
-	{ path: 'users', component: Users},
+	{ path: 'Home', component: Home },
+	{ path: 'mi_perfil/:id', component: Perfil},
+
+
+
+
 	{ path: 'usuarios', component: UsuariosComponent, canActivate: [permisosGuard], data: { moduloId: 1, accion: 'read' } },
     { path: 'usuarios/form', component: UsuariosForm, canActivate: [permisosGuard], data: { moduloId: 1, accion: 'create' } },
     { path: 'usuarios/form/:id', component: UsuariosForm, canActivate: [permisosGuard], data: { moduloId: 1, accion: 'update' } },
@@ -82,5 +87,8 @@ export const routes: Routes = [
     { path : 'consultas_dinamicas/form/:id', component: ConsultasDinamicasForm, canActivate: [permisosGuard], data: { moduloId: 11, accion: 'update' } },
     { path : 'consultas_dinamicas/resultados', component: ConsultasDinamicasResultado, canActivate: [permisosGuard], data: { moduloId: 11, accion: 'read' } },
     { path : 'consultas_dinamicas/resultados/:id', component: ConsultasDinamicasResultado, canActivate: [permisosGuard], data: { moduloId: 11, accion: 'read' } },
+
+    // Ruta por defecto para URLs no existentes
+    { path: '**', redirectTo: '/Home' }
 ];
  

@@ -145,7 +145,7 @@ export class UsuariosForm implements OnInit {
 
   guardar() {
     const data = this.form.value;
-    console.log('Datos a guardar:', data);
+    // console.log('Datos a guardar:', data);
 
     if (data.usuario_id_perfil === '') data.usuario_id_perfil = null;
     if (data.activo === true) {
