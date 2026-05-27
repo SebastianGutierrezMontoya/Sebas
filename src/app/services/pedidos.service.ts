@@ -18,4 +18,8 @@ export class PedidosService extends BaseService<Pedidos, number> {
       }
     });
   }
+
+  getByUser(id_usuario: string) {
+    return this.http.get<Pedidos[]>(`${this.apiUrl}/usuario/${id_usuario}`)
+  }
 }

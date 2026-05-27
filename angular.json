@@ -41,6 +41,10 @@
               "src/assets/css/admin/admin.css",
               "src/assets/css/catalogo.css"
               
+            ],
+            "scripts": [
+              "src/assets/js/caracteres.js"
+
             ]
             
           },

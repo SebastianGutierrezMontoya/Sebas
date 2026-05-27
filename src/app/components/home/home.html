@@ -1,14 +1,78 @@
-<div class="container mt-5">
-<h2>Home</h2>
-<p>Bienvenido a la página principal.</p>
+<!-- 1. HERO BANNER 2 -->
+<section [style.background]="banner" class="hero-official" >
 
-<ul>
-<li *ngIf="!isAuthenticated" class="nav-item">
-					<a class="nav-link" routerLink="/login">Iniciar Sesión</a>
-				</li>
-				<li *ngIf="!isAuthenticated" class="nav-item">
-					<a class="nav-link" routerLink="/registro">Registro</a>
-				</li>
-</ul>
+</section>
 
-</div>
+<!-- 2. CATEGORIES -->
+<section class="cat-section">
+    <div class="container">
+        <div class="section-header-v4">
+            <h2>Nuestras Líneas</h2>
+        </div>
+        <div  class="cat-v4-grid">
+
+            <a *ngFor="let cat of categorias2" (click)="navegar(cat.cat_id)" class="cat-v4-card">
+
+                <svg class="cat-icon-svg" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><path d="M3 6h18"></path><path d="M16 10a4 4 0 0 1-8 0"></path>
+                   </svg>
+
+                <h3>{{ cat.cat_nombre }}</h3>
+                <span>Artículos</span>
+            </a>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- 4. PRODUCTOS -->
+<section class="container mt-4 mb-5">
+    <div class="section-header-v4">
+        <h2>Recién Llegados</h2>
+    </div>
+    <div class="lp-grid">
+
+        <div *ngFor="let producto of productos" class="bento-card">
+            <div class="bento-media">
+
+                    <img *ngIf="producto.prod_imagen_url" src="{{ producto.prod_imagen_url }}" alt="{{ producto.prod_nombre }}" loading="lazy">
+
+                    <img *ngIf="!producto.prod_imagen_url" [src]="imagen" alt="Multiverse" style="object-fit: contain; padding: 20px; background: #fff;">
+
+                <div class="bento-overlay"></div>
+
+                <div *ngIf="(producto?.prod_stock ?? 0) > 0" class="bento-action">
+                    <button class="bento-btn" (click)="ejecutar( producto!.prod_nombre! ,  producto!.prod_precio_venta! , producto!.prod_id! ,  producto!.prod_stock! )">Agregar</button>
+                </div>
+
+                <div *ngIf="(producto?.prod_stock ?? 0) < 1" class="bento-badge-agotado">Agotado</div>
+                <div *ngIf="(producto?.prod_stock ?? 0) < 1" class="bento-action">
+                    <button class="bento-btn" disabled>Agotado</button>
+                </div>
+
+            </div>
+            <div class="bento-footer">
+                <div>
+                    <h3 class="bento-title">{{ producto.prod_nombre }}</h3>
+                    <p class="bento-subtitle">{{ producto.cat_id }}</p>
+                </div>
+                <span class="bento-price">${{ producto.prod_precio_venta }}</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- 4. SOCIAL -->
+<section class="container">
+    <div class="social-v5">
+        <h2 style="font-weight: 900; font-style: italic; text-transform: uppercase;">Únete a la Comunidad</h2>
+        <div class="social-pills-v5">
+            <a href="http://instagram.com/multiverseanimestore/" target="_blank" class="pill-social">📸 Instagram</a>
+            <a href="https://www.facebook.com/profile.php?id=100070582506827" target="_blank" class="pill-social">👍 Facebook</a>
+            <a href="https://wa.me/573155102831" target="_blank" class="pill-social">💬 WhatsApp</a>
+        </div>
+    </div>
+</section>

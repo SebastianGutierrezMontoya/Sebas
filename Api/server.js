@@ -355,6 +355,25 @@ app.get('/api/pedidos/:id/pedidos_productos', async (req, res) => {
   }
 });
 
+
+app.get('/api/pedidos/usuario/:id_usuario', async (req, res) => {
+  const { id_usuario } = req.params;
+  try {
+    const result = await pool.query(
+      `SELECT ped_id, usu_id, ped_fecha_pedido, ped_total, ped_estado, ped_direccion_envio, ped_notas
+       FROM pedidos
+        WHERE usu_id = $1`,
+      [id_usuario]
+    );
+    res.json(result.rows);
+  }catch (err) {
+    console.error('Error al obtener productos del pedido:', err);
+    res.status(500).send('Error en la base de datos');
+  }
+});
+
+
+
 app.get('/api/pedidos_productos/pedido/:pedido_id', async (req, res) => {
   const { pedido_id } = req.params;
   try {

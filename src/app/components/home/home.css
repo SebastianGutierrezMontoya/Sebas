@@ -1,2 +1,147 @@
-h2 { margin: 0 0 8px 0; }
-p { margin: 0; }
+:root {
+    --accent-color: #f37d15;
+    --dark-bg: #000000;
+    --card-radius: 28px;
+    --border-soft: rgba(0,0,0,0.08);
+}
+
+body {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+/* --- HERO: BANNER 2 (COMPACT) --- */
+.hero-official {
+    position: relative;
+    height: auto;
+    aspect-ratio: 16 / 4; /* Mucho más bajo y compacto */
+    background: url('./banner2.webp') no-repeat center center;
+    background-size: cover;
+    border-bottom: 5px solid var(--accent-color);
+}
+
+@media (max-width: 768px) {
+    .hero-official {
+        aspect-ratio: 16 / 6;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-official {
+        aspect-ratio: 16 / 8;
+    }
+    .cat-v4-grid {
+        grid-template-columns: 1fr;
+    }
+    .social-v5 {
+        padding: 40px 15px;
+        margin: 40px 0;
+        border-radius: 24px;
+    }
+}
+
+/* --- CATEGORIES --- */
+.cat-section {
+    padding: 60px 0;
+}
+
+.cat-v4-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.cat-v4-card {
+    background: #fff;
+    border: 1px solid var(--border-soft);
+    border-radius: var(--card-radius);
+    padding: 30px;
+    text-align: center;
+    text-decoration: none;
+    color: #000;
+    transition: all 0.3s ease;
+}
+
+.cat-v4-card:hover {
+    border-color: var(--accent-color);
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.05);
+}
+
+.cat-icon-svg {
+    width: 40px;
+    height: 40px;
+    stroke: var(--accent-color);
+    stroke-width: 1.5;
+    fill: none;
+    margin-bottom: 15px;
+}
+
+.cat-v4-card h3 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    margin-bottom: 5px;
+}
+
+.section-header-v4 {
+    border-left: 6px solid var(--accent-color);
+    padding-left: 20px;
+    margin-bottom: 40px;
+}
+
+.section-header-v4 h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+/* --- PRODUCT GRID --- */
+.lp-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+}
+
+@media (max-width: 992px) { .lp-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 576px) { .lp-grid { grid-template-columns: 1fr; } }
+
+/* --- SOCIAL --- */
+.social-v5 {
+    background: #f8f9fa;
+    border-radius: 40px;
+    padding: 80px 20px;
+    text-align: center;
+    margin: 80px 0;
+    border: 1px solid #eee;
+}
+
+.social-pills-v5 {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    margin-top: 30px;
+}
+
+.pill-social {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 50px;
+    color: #000;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: 12px;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+}
+
+.pill-social:hover {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+}

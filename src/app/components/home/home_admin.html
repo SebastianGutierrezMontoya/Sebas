@@ -1,0 +1,14 @@
+<div class="container mt-5">
+<h2>Home</h2>
+<p>Bienvenido a la página principal.</p>
+
+<ul>
+<li *ngIf="!isAuthenticated" class="nav-item">
+					<a class="nav-link" routerLink="/login">Iniciar Sesión</a>
+				</li>
+				<li *ngIf="!isAuthenticated" class="nav-item">
+					<a class="nav-link" routerLink="/registro">Registro</a>
+				</li>
+</ul>
+
+</div>

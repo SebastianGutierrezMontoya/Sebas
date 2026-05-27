@@ -72,15 +72,17 @@
     </div>
 
     <div class="checkout-modal-body">
-      <div class="checkout-field" id="checkout-name-group">
+      <!-- <div class="checkout-field" id="checkout-name-group">
         <label for="checkout_name">Nombre completo</label>
-        <input id="checkout_name" type="text" placeholder="Ej. Juan Pérez" class="checkout-input" />
-      </div>
+        <input id="checkout_name" type="text" 
+        
+        placeholder="Ej. Juan Pérez" class="checkout-input" />
+      </div> -->
 
-      <div class="checkout-field" id="checkout-phone-group">
+      <!-- <div class="checkout-field" id="checkout-phone-group">
         <label for="checkout_phone">Teléfono de contacto</label>
         <input id="checkout_phone" type="tel" placeholder="Ej. 3001234567" class="checkout-input" />
-      </div>
+      </div> -->
 
       <div id="checkout-address-badge" style="display:none; align-items:center; gap:8px; margin-bottom:12px; padding:10px 14px; background:rgba(243,125,21,0.08); border:1px solid rgba(243,125,21,0.2); border-radius:12px; font-size:13px; font-weight:600; color:#f37d15;">
         <i class="fas fa-map-marker-alt" style="color:#f37d15;"></i>
@@ -95,7 +97,9 @@
       <div class="checkout-row-duo">
         <div class="checkout-field">
           <label for="checkout_ciudad">Ciudad</label>
-          <input id="checkout_ciudad" type="text" placeholder="Ej. Bogotá" class="checkout-input" list="ciudades-colombia" />
+          <input id="checkout_ciudad" type="text" 
+          onkeypress="return contrasena(event)"
+          placeholder="Ej. Bogotá" class="checkout-input" list="ciudades-colombia" />
         </div>
         <div class="checkout-field" style="opacity:0.5; pointer-events:none;">
           <label for="checkout_pais">País</label>
@@ -105,12 +109,16 @@
 
       <div class="checkout-field">
         <label for="checkout_barrio">Barrio <span style="color:#94a3b8;font-weight:400;font-size:0.8em;">(opcional)</span></label>
-        <input id="checkout_barrio" type="text" placeholder="Ej. Chapinero" class="checkout-input" />
+        <input id="checkout_barrio" type="text"
+        onkeypress="return contrasena(event)" 
+        placeholder="Ej. Chapinero" class="checkout-input" />
       </div>
 
       <div class="checkout-field">
         <label for="checkout_notes">Notas del pedido</label>
-        <textarea id="checkout_notes" placeholder="Opcional" rows="3" class="checkout-input"></textarea>
+        <textarea id="checkout_notes" placeholder="Opcional" 
+        onkeypress="return contrasena(event)"
+        rows="3" class="checkout-input"></textarea>
       </div>
     </div>
 

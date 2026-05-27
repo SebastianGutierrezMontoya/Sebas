@@ -103,11 +103,13 @@
             <input type="text" name="usuario" 
             class="form-input" placeholder="Usuario" required
             formControlName="id_usuario"
+            onkeypress="return soloLetrasYNumeros(event)"
             [class.is-invalid]="loginForm.get('id_usuario')?.invalid && loginForm.get('id_usuario')?.touched"
             />
             <input type="password" name="contraseña" 
             class="form-input" placeholder="Contraseña" required
             formControlName="password"
+            onkeypress="return contrasena(event)"
             [class.is-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
             />
             <button type="submit" class="btn-login">Entrar</button>

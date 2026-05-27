@@ -115,6 +115,7 @@
                     id="id_contrasena_actual" class="form-control" 
                     placeholder="Contraseña actual" required minlength="6"
                     formControlName="contraseña"
+                    onkeypress="return contrasena(event)"
                     >
                 </div>
                 <div class="perfil-field">
@@ -122,14 +123,16 @@
                     <input type="password" name="contrasena_nueva" 
                     id="id_contrasena_nueva" class="form-control" 
                     placeholder="Nueva contraseña" required minlength="6"
-                    formControlName="nueva_contraseña">
+                    formControlName="nueva_contraseña"
+                    onkeypress="return contrasena(event)" >
                 </div>
                 <div class="perfil-field">
                     <label for="id_contrasena_confirmar">Confirmar contraseña</label>
                     <input type="password" name="contrasena_confirmar" 
                     id="id_contrasena_confirmar" class="form-control" 
                     placeholder="Confirmar nueva contraseña" required minlength="6"
-                    formControlName="nueva_contraseña2">
+                    formControlName="nueva_contraseña2"
+                    onkeypress="return contrasena(event)">
                 </div>
             </div>
             <div class="perfil-actions">

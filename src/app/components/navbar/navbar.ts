@@ -27,7 +27,7 @@ export class Navbar implements OnInit {
       map(permisos => Array.isArray(permisos) && permisos.length > 0)
     );
 
-
+    // console.log(this.hasPermissions$)
   }
 
   ngOnInit(): void {
@@ -35,7 +35,7 @@ export class Navbar implements OnInit {
       this.usuario = usuario;
       this.isAuthenticated = !!usuario;
     });
-    console.log(this.usuario)
+    // console.log(this.usuario)
   }
 
   logout(): void {
@@ -45,6 +45,10 @@ export class Navbar implements OnInit {
 
   mi_perfil(): void {
     this.router.navigate(['/mi_perfil', this.usuario.id_usuario]);
+  }
+
+  mis_pedidos(): void {
+    this.router.navigate(['/mis_pedidos', this.usuario.id_usuario]);
   }
 }
 

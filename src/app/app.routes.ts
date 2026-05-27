@@ -1,7 +1,10 @@
 import { Routes } from '@angular/router';
 import { Users } from './components/users/users';
 import { Home } from './components/home/home';
+import { Home_admin } from './components/home/home_admin';
 import { Perfil } from './components/home/perfil';
+import { Mis_pedidos } from './components/home/mis_pedidos';
+import { Detalle_pedido } from './components/home/detalle_pedido';
 import { LoginComponent } from './components/auth/login';
 import { RegistroComponent } from './components/auth/registro';
 import { UsuariosComponent } from './components/usuarios/usuarios';
@@ -39,8 +42,11 @@ export const routes: Routes = [
 	// Rutas protegidas
 	{ path: 'Home', component: Home },
 	{ path: 'mi_perfil/:id', component: Perfil},
+    { path: 'mis_pedidos/:id', component: Mis_pedidos},
+    { path: 'detalle_pedido/:id', component: Detalle_pedido},
 
 
+    { path: 'Admin', component: Home_admin },
 
 
 	{ path: 'usuarios', component: UsuariosComponent, canActivate: [permisosGuard], data: { moduloId: 1, accion: 'read' } },

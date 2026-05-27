@@ -12,10 +12,10 @@
     </a>
 
     <div class="navbar-menu" id="navbarMenu">
-      <a class="navbar-link" href="#">Inicio</a>
+      <a class="navbar-link" href="Home">Inicio</a>
       <a class="navbar-link" href="catalogo">Catálogo</a>
-      <a *ngIf="isAuthenticated" class="navbar-link" href="mis_pedidos">Mis Pedidos</a>
-      <a *ngIf="hasPermissions$" class="navbar-link navbar-link-muted" href="usuarios">Gestión</a>
+      <a *ngIf="isAuthenticated" class="navbar-link" (click)="mis_pedidos()">Mis Pedidos</a>
+      <a *ngIf="hasPermissions$" class="navbar-link navbar-link-muted" href="Admin">Gestión</a>
     </div>
 
     <form class="navbar-search" method="GET" action="catalogo">

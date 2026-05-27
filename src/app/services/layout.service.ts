@@ -8,7 +8,7 @@ import { filter, map } from 'rxjs/operators';
 })
 export class LayoutService {
   // Rutas públicas donde no debe aparecer el sidebar
-  private publicRoutes = ['login', 'registro', 'Home', 'mi_perfil'];
+  private publicRoutes = ['login', 'registro', 'Home', 'mi_perfil', 'mis_pedidos', 'detalle_pedido'];
   
   private showSidebarSubject = new BehaviorSubject<boolean>(true);
   public showSidebar$: Observable<boolean> = this.showSidebarSubject.asObservable();

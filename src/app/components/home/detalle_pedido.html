@@ -1,0 +1,115 @@
+<div class="pd-page">
+    <a (click)="mis_pedidos()" class="pd-back">← Volver a Mis Pedidos</a>
+
+    <div class="pd-header">
+        <div>
+            <h1>Pedido #{{ pedido.ped_id }}</h1>
+            <p>{{ pedido.ped_fecha_pedido }}</p>
+        </div>
+
+            <span *ngIf="pedido!.ped_estado! == 1" class="pd-badge" style="background:rgba(148,163,184,0.12); color:#94a3b8;">⏳ {{ pedido.ped_estado }}</span>
+
+            <span *ngIf="pedido!.ped_estado! == 2" class="pd-badge" style="background:rgba(96,165,250,0.12); color:#60a5fa;">🔵 {{ pedido.ped_estado }}</span>
+
+            <span *ngIf="pedido!.ped_estado! == 3" class="pd-badge" style="background:rgba(251,191,36,0.12); color:#fbbf24;">🟡 {{ pedido.ped_estado }}</span>
+
+            <span *ngIf="pedido!.ped_estado! == 4" class="pd-badge" style="background:rgba(168,85,247,0.12); color:#a855f7;">🟣 {{ pedido.ped_estado }}</span>
+
+            <span *ngIf="pedido!.ped_estado! == 5" class="pd-badge" style="background:rgba(74,222,128,0.12); color:#4ade80;">✅ {{ pedido.ped_estado }}</span>
+
+            <span *ngIf="pedido!.ped_estado! == 6" class="pd-badge" style="background:rgba(239,68,68,0.12); color:#ef4444;">❌ {{ pedido.ped_estado }}</span>
+
+    </div>
+
+    <!-- Timeline -->
+    <div class="pd-timeline">
+
+  <div
+    *ngFor="let s of estados_timeline"
+    style="overflow: hidden;"
+    class="pd-tl-step"
+    [ngClass]="{
+      'current': s.id === pedido?.ped_estado,
+
+      'done':
+        (pedido?.ped_estado === 6 && s.id < 5) ||
+        (s.id < (pedido?.ped_estado ?? 0)),
+
+      'cancelled':
+        pedido?.ped_estado === 6 && s.id === 6
+    }"
+  >
+
+    <div class="pd-tl-line"></div>
+
+    <div class="pd-tl-dot">
+
+      <ng-container *ngIf="s.id === 6 && pedido?.ped_estado === 6">
+        ✕
+      </ng-container>
+
+      <ng-container *ngIf="s.id === 6 && pedido?.ped_estado !== 6">
+        5
+      </ng-container>
+
+      <ng-container *ngIf="s.id !== 6">
+        {{ s.id }}
+      </ng-container>
+
+    </div>
+
+    <div class="pd-tl-label">
+      {{ s.nombre }}
+    </div>
+
+  </div>
+
+</div>
+
+    <!-- Dirección -->
+
+    <div *ngIf="pedido!.ped_direccion_envio!" class="pd-card">
+        <h3 class="pd-card-title">📍 Dirección de envío</h3>
+        <p class="pd-card-text">{{ pedido.ped_direccion_envio }}</p>
+
+        <p *ngIf="pedido!.ped_notas!" style="margin:8px 0 0; color:#94a3b8; font-size:13px;">📝 {{ pedido.ped_notas }}</p>
+
+    </div>
+
+
+    <!-- Productos -->
+    <h2 style="font-size:20px; font-weight:700; margin:0 0 14px;">Productos</h2>
+    <div class="pd-card" style="padding:0 20px;">
+
+        <div *ngFor="let item of pedidocombinado" class="pd-prod">
+            <div class="pd-prod-left">
+                <div class="pd-prod-icon">
+
+                    <img *ngIf="item!.prod_imagen_url!" src="{{ item.prod_imagen_url }}" alt="{{ item.prod_nombre }}">
+
+                    <p *ngIf="!item!.prod_imagen_url!">📦</p>
+
+                </div>
+                <div>
+                    <p class="pd-prod-name">{{ item.prod_nombre }}</p>
+                    <p class="pd-prod-detail">
+                        {{ item.pped_cantidad }} x ${{ item.pped_precio_unitario }}
+
+                        · <span *ngIf="item!.pped_descuento! > 0" style="color:#22c55e;">-{{ item.pped_descuento }}%</span>
+
+                    </p>
+                </div>
+            </div>
+            <span class="pd-prod-total">${{ item.pped_total }}</span>
+        </div>
+
+    </div>
+
+    <!-- Total -->
+    <div class="pd-total">
+        <div class="pd-total-inner">
+            <p class="pd-total-label">Total del pedido</p>
+            <span class="pd-total-value">${{ pedido.ped_total }}</span>
+        </div>
+    </div>
+</div>
