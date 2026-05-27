@@ -1,0 +1,68 @@
+.catalog-layout {
+        display: grid;
+        grid-template-columns: 260px 1fr;
+        gap: 30px;
+        padding: 40px 0;
+    }
+
+    .catalog-layout > * { min-width: 0; }
+
+    /* FILTROS LATERALES */
+    .filters-sidebar {
+        background: #fff;
+        border-radius: 20px;
+        padding: 24px;
+        border: 1px solid var(--border-soft);
+        height: fit-content;
+        position: sticky;
+        top: 100px;
+    }
+
+    .filter-group { margin-bottom: 30px; }
+    .filter-title {
+        font-size: 11px;
+        font-weight: 900;
+        text-transform: uppercase;
+        letter-spacing: 0.15em;
+        color: var(--accent);
+        margin-bottom: 15px;
+        display: block;
+    }
+
+    .filter-pill {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 15px;
+        border-radius: 12px;
+        text-decoration: none;
+        color: #475569;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.2s;
+        margin-bottom: 5px;
+    }
+
+    .filter-pill:hover, .filter-pill.active {
+        background: var(--accent-soft);
+        color: var(--accent);
+    }
+
+    .filter-icon { font-size: 1.2rem; }
+
+    .mobile-category-label {
+        display: none;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #f37d15;
+        margin-bottom: 8px;
+    }
+
+    @media (max-width: 992px) {
+        .catalog-layout { grid-template-columns: 1fr; }
+        .filters-sidebar { display: none; }
+        .filter-select-mobile { display: block; margin-bottom: 16px; }
+        .mobile-category-label { display: block; }
+    }

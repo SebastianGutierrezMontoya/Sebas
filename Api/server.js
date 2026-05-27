@@ -239,6 +239,29 @@ app.get('/api/productos', async (req, res) => {
   }
 });
 
+
+app.get('/api/productos/categoria/:id_cat', async (req, res) => {
+  const { id_cat } = req.params;
+
+  // console.log(id_cat);
+
+  try {
+    const result = await pool.query( `
+      SELECT prod_id, cat_id, prod_nombre, prod_descripcion,
+             prod_precio_venta, prod_stock, prod_imagen_url, prod_descuento
+      FROM productos
+      WHERE cat_id = $1`,
+      [id_cat]
+    );
+
+    res.json(result.rows);
+
+  } catch (err) {
+    res.status(500).send('DB error');
+  }
+});
+
+
 app.get('/api/productos-auditoria', async (req, res) => {
   try {
     const result = await pool.query(`

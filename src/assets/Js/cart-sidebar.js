@@ -55,6 +55,11 @@ function renderCart() {
   const container = document.getElementById('cart-items');
   const totalEl = document.getElementById('cart-total');
 
+  // Obtener el carrito más actualizado
+  if (window.carritoAngular && window.carritoAngular.getCarritoActual) {
+    cart = window.carritoAngular.getCarritoActual();
+  }
+
   container.innerHTML = '';
 
   if (cart.length === 0) {
@@ -118,13 +123,28 @@ function formatPrice(value) {
 }
 
 function changeQty(index, delta) {
-  cart[index].qty += delta;
-  if (cart[index].qty <= 0) {
-    cart.splice(index, 1);
+  // Usar el servicio de Angular si está disponible, si no usar el carrito local
+  if (window.carritoAngular && window.carritoAngular.actualizarCantidad) {
+    window.carritoAngular.actualizarCantidad(index, delta);
+    // Angular notificará al JS a través de actualizarCarritoUI()
+    setTimeout(() => renderCart(), 50); // Pequeño delay para asegurar sincronización
+  } else {
+    cart[index].qty += delta;
+    if (cart[index].qty <= 0) {
+      cart.splice(index, 1);
+    }
+    renderCart();
+    saveCartToCache();
   }
-  renderCart();
-  saveCartToCache();
-  if (cart.length === 0) {
+
+  if (window.carritoAngular && window.carritoAngular.getCarritoActual) {
+    // Si el carrito de Angular está vacío, cerrar el sidebar
+    if (window.carritoAngular.getCarritoActual().length === 0) {
+      cartSidebar.classList.remove('open');
+      cartOverlay.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+  } else if (cart.length === 0) {
     cartSidebar.classList.remove('open');
     cartOverlay.classList.remove('open');
     document.body.style.overflow = '';
@@ -132,17 +152,24 @@ function changeQty(index, delta) {
 }
 
 function addToCart(name, price, id) {
-  const unitPrice = parseFloat(price) || 0;
-  const existing = cart.find(item => item.id === id);
-
-  if (existing) {
-    existing.qty = (existing.qty || 1) + 1;
+  // Usar el servicio de Angular si está disponible, si no usar el carrito local
+  if (window.carritoAngular && window.carritoAngular.agregarAlCarrito) {
+    window.carritoAngular.agregarAlCarrito(id, name, price);
+    // Angular notificará al JS a través de actualizarCarritoUI()
+    setTimeout(() => renderCart(), 50); // Pequeño delay para asegurar sincronización
   } else {
-    cart.push({ id, name, price: unitPrice, qty: 1 });
-  }
+    const unitPrice = parseFloat(price) || 0;
+    const existing = cart.find(item => item.id === id);
 
-  renderCart();
-  saveCartToCache();
+    if (existing) {
+      existing.qty = (existing.qty || 1) + 1;
+    } else {
+      cart.push({ id, name, price: unitPrice, qty: 1 });
+    }
+
+    renderCart();
+    saveCartToCache();
+  }
 
   cartSidebar.classList.add('open');
   cartOverlay.classList.add('open');
@@ -151,7 +178,13 @@ function addToCart(name, price, id) {
 
 
 function removeFromCart(index) {
-  changeQty(index, -cart[index].qty);
+  if (window.carritoAngular && window.carritoAngular.eliminarDelCarrito) {
+    window.carritoAngular.eliminarDelCarrito(index);
+    // Angular notificará al JS a través de actualizarCarritoUI()
+    setTimeout(() => renderCart(), 50); // Pequeño delay para asegurar sincronización
+  } else {
+    changeQty(index, -cart[index].qty);
+  }
 }
 
 
@@ -173,24 +206,13 @@ function closeCheckoutModal() {
 
 function submitCheckoutForm() {
   const notesInput = document.getElementById('checkout_notes');
-  const nameInput = document.getElementById('checkout_name');
-  const phoneInput = document.getElementById('checkout_phone');
   const calleInput = document.getElementById('checkout_calle');
   const ciudadInput = document.getElementById('checkout_ciudad');
   const paisInput = document.getElementById('checkout_pais');
   const barrioInput = document.getElementById('checkout_barrio');
-  const addressHidden = document.getElementById('ped_direccion_envio_input');
-  const notesHidden = document.getElementById('ped_notas_input');
-  const nameHidden = document.getElementById('nombre_invitado_input');
-  const phoneHidden = document.getElementById('telefono_invitado_input');
-  const form = document.getElementById('checkout-form');
   const error = document.getElementById('checkout-error');
-  const isAuthenticated = window.isAuthenticated;
 
-  if (!notesInput || !addressHidden || !notesHidden || !form) {
-    return;
-  }
-
+  // Validar dirección
   const calleVal = calleInput ? calleInput.value.trim() : '';
   const ciudadVal = ciudadInput ? ciudadInput.value.trim() : '';
   const paisVal = paisInput ? paisInput.value.trim() : '';
@@ -207,30 +229,45 @@ function submitCheckoutForm() {
     return;
   }
 
+  // Limpiar errores previos
+  if (error) error.classList.add('hidden');
+  [calleInput, ciudadInput, paisInput].forEach(input => {
+    if (input) input.classList.remove('error');
+  });
+
+  // Construir dirección completa
   const parts = [calleVal, ciudadVal, paisVal];
   if (barrioVal) parts.push(barrioVal);
-  addressHidden.value = parts.join(' | ');
+  const direccionCompleta = parts.join(' | ');
 
-  if (!isAuthenticated) {
-    const nameVal = nameInput ? nameInput.value.trim() : '';
-    const phoneVal = phoneInput ? phoneInput.value.trim() : '';
-    if (!nameVal || !phoneVal) {
-      if (error) {
-        error.textContent = 'Debes ingresar tu nombre y teléfono para continuar.';
-        error.classList.remove('hidden');
-      }
-      if (nameInput && !nameVal) nameInput.classList.add('error');
-      if (phoneInput && !phoneVal) phoneInput.classList.add('error');
-      return;
-    }
-    if (nameHidden) nameHidden.value = nameVal;
-    if (phoneHidden) phoneHidden.value = phoneVal;
+  // Obtener notas
+  const notas = notesInput ? notesInput.value.trim() : '';
+
+  // Obtener el carrito más actualizado
+  const carritoActual = window.carritoAngular && window.carritoAngular.getCarritoActual 
+    ? window.carritoAngular.getCarritoActual() 
+    : cart;
+
+  // Calcular total del carrito
+  let total = 0;
+  carritoActual.forEach(item => {
+    total += item.price * item.qty;
+  });
+
+  // Preparar datos para enviar a Angular
+  const checkoutData = {
+    items: carritoActual,
+    total: total,
+    direccion: direccionCompleta,
+    notas: notas
+  };
+
+  // Llamar a la función de Angular expuesta globalmente
+  if (window.submitCheckoutAngular) {
+    window.submitCheckoutAngular(checkoutData);
+  } else {
+    alert('Error: El servicio de pedidos no está disponible. Intenta recargar la página.');
   }
-
-  notesHidden.value = notesInput.value.trim();
-
-  form.submit();
-  clearCartCache();
 }
 
 function clearInputError(input) {
@@ -238,7 +275,13 @@ function clearInputError(input) {
 }
 
 function initCart() {
-  cart = loadCartFromCache();
+  // Cargar desde el servicio de Angular si está disponible
+  if (window.carritoAngular && window.carritoAngular.getCarritoActual) {
+    cart = window.carritoAngular.getCarritoActual();
+  } else {
+    cart = loadCartFromCache();
+  }
+  
   renderCart();
 
   var nameGroup = document.getElementById('checkout-name-group');

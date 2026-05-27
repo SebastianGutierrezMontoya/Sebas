@@ -1,0 +1,228 @@
+<div class="container">
+    <div class="catalog-layout">
+
+
+    <!-- SIDEBAR DE FILTROS -->
+        <aside class="filters-sidebar">
+            <div class="filter-group">
+                <span class="filter-title">Categorías</span>
+                <div class="filter-options">
+                    <a href="catalogo" class="filter-pill active">
+                        <span class="filter-icon">🌌</span> Todas
+                    </a>
+                            <a
+                              *ngFor="let cat of categorias"
+                              (click)="navegar(cat.cat_id)"
+                              class="filter-pill"
+                              [ngClass]="{
+                                'active': catId == cat.cat_id
+                              }"
+                            >
+                  
+                                <span class="filter-icon">
+                                  {{ obtenerIcono(cat.cat_nombre) }}
+                                </span>
+                            
+                                {{ cat.cat_nombre }}
+                  
+                            </a>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <span class="filter-title">Ayuda</span>
+                <p style="font-size: 12px; color: #94a3b8; line-height: 1.5;">Selecciona una categoría para filtrar los productos del Multiverso.</p>
+            </div>
+        </aside>
+
+
+
+        <span class="mobile-category-label">Categorías</span>
+        <select
+          class="filter-select-mobile"
+          (change)="cambiarCategoria($event)"
+        >
+            
+          <option value="catalogo">
+            Todas
+          </option>
+        
+          <option
+            *ngFor="let cat of categorias"
+            [value]="'catalogo?cat=' + cat.cat_id"
+          >
+            {{ cat.cat_nombre }}
+          </option>
+        
+        </select>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main>
+            <!-- BUSCADOR REDISEÑADO -->
+            <div class="search-wrapper">
+                <form class="search-box" (ngSubmit)="buscar()">
+
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round">
+
+                    <circle cx="11" cy="11" r="8"></circle>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+
+                  </svg>
+              
+                  <input
+                    type="text"
+                    name="prod_nombre"
+                    class="search-input"
+
+                    placeholder="Buscar productos..."
+                  >
+              
+                  <input
+                    *ngIf="catId"
+                    type="hidden"
+                    name="cat"
+                    [value]="catId"
+                  >
+              
+                  <button type="submit" class="search-button">
+                    Buscar
+                  </button>
+              
+                  <a
+                    *ngIf="prod_nombre"
+                    (click)="limpiarBusqueda()"
+                    class="clear-search"
+                  >
+                    ×
+                  </a>
+              
+                </form>
+            </div>
+
+
+            <!-- GRID DE PRODUCTOS -->
+<div class="catalogo-container">
+
+  <ng-container *ngIf="productos!.length > 0">
+
+    <div
+      *ngFor="let producto of productos"
+      class="bento-card"
+      (click)="abrirModal(producto)"
+    >
+
+      <div class="bento-media">
+
+        <img
+          [src]="
+            producto?.prod_imagen_url ||
+            'assets/placeholders/generic_1.png'
+          "
+          [alt]="producto?.prod_nombre"
+          loading="lazy"
+        >
+
+        <ng-container *ngIf="(producto?.prod_stock ?? 0) > 0">
+
+          <div
+            class="bento-action"
+            (click)="$event.stopPropagation()"
+          >
+
+            <button
+              class="bento-btn"
+              (click)="agregarAlPedido(producto)"
+            >
+              + Agregar al Pedido
+            </button>
+
+          </div>
+
+        </ng-container>
+
+        <ng-container *ngIf="(producto?.prod_stock ?? 0) <= 0">
+
+          <div class="bento-badge-agotado">
+            Agotado
+          </div>
+
+          <div
+            class="bento-action"
+            (click)="$event.stopPropagation()"
+          >
+
+            <button
+              class="bento-btn"
+              disabled
+            >
+              Agotado
+            </button>
+
+          </div>
+
+        </ng-container>
+
+      </div>
+
+      <div class="bento-footer">
+
+        <div>
+
+          <h3 class="bento-title">
+            {{ producto?.prod_nombre }}
+          </h3>
+
+          <p class="bento-subtitle">
+            {{ producto?.cat_id }}
+          </p>
+
+        </div>
+
+        <span class="bento-price">
+          ${{ producto?.prod_precio_venta | number:'1.0-0' }}
+        </span>
+
+      </div>
+
+    </div>
+
+  </ng-container>
+
+</div>
+        </main>
+
+
+
+
+
+
+    </div>
+</div>
+
+
+
+<!-- Modal de detalle de producto -->
+<div id="productModal" style="display:none; position:fixed; inset:0; z-index:9999; background:rgba(0,0,0,0.7); align-items:center; justify-content:center; padding:20px;">
+    <div style="background:#fff; border-radius:20px; max-width:480px; width:100%; max-height:90vh; overflow:auto; position:relative;">
+        <button onclick="closeProductModal()" style="position:absolute; top:12px; right:12px; background:none; border:none; font-size:24px; cursor:pointer; z-index:10;">×</button>
+        <img id="modalImg" src="" alt="" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:20px 20px 0 0;">
+        <div style="padding:24px;">
+            <span id="modalCat" style="font-size:12px; text-transform:uppercase; font-weight:700; color:#64748b; letter-spacing:0.05em;"></span>
+            <h2 id="modalTitle" style="font-size:22px; font-weight:800; margin:8px 0 12px; color:#1e293b;"></h2>
+            <p id="modalDesc" style="font-size:14px; color:#64748b; line-height:1.5; margin-bottom:16px;"></p>
+            <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+                <span id="modalPrice" style="font-size:24px; font-weight:800; color:#f37d15;"></span>
+                <span id="modalStock" style="font-size:13px; font-weight:600;"></span>
+            </div>
+            <button id="modalAddBtn" class="bento-btn" style="width:100%; margin-top:20px; padding:14px; font-size:14px;">+ Agregar al Pedido</button>
+        </div>
+    </div>
+</div>

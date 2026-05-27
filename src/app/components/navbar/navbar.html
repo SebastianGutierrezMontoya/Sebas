@@ -15,7 +15,7 @@
       <a class="navbar-link" href="Home">Inicio</a>
       <a class="navbar-link" href="catalogo">Catálogo</a>
       <a *ngIf="isAuthenticated" class="navbar-link" (click)="mis_pedidos()">Mis Pedidos</a>
-      <a *ngIf="hasPermissions$" class="navbar-link navbar-link-muted" href="Admin">Gestión</a>
+      <a *ngIf="hasPermissions$ | async" class="navbar-link navbar-link-muted" href="Admin">Gestión</a>
     </div>
 
     <form class="navbar-search" method="GET" action="catalogo">
@@ -106,8 +106,8 @@
     <a *ngIf="!isAuthenticated" class="mobile-link mobile-link-login" href="login" onclick="closeMobileMenu()">Iniciar Sesión</a>
     <a *ngIf="!isAuthenticated" class="mobile-link mobile-link-register" href="register" onclick="closeMobileMenu()">Crear Cuenta</a>
 
-    <div *ngIf="hasPermissions$" class="mobile-divider"></div>
-    <a *ngIf="hasPermissions$" class="mobile-link" href="panel_dashboard" onclick="closeMobileMenu()">Gestión</a>
+    <div *ngIf="(hasPermissions$ | async)" class="mobile-divider"></div>
+    <a *ngIf="hasPermissions$ | async" class="mobile-link" href="panel_dashboard" onclick="closeMobileMenu()">Gestión</a>
 
   </div>
 </div>

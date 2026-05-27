@@ -25,7 +25,7 @@
       <span id="cart-total">$ 0</span>
     </div>
 
-    <form method="post" action="" id="checkout-form">
+    <form method="post" action="" id="checkout-form" onsubmit="return false;">
 
 
       <div id="cart-data" style="display:none;">
@@ -34,8 +34,6 @@
         <input type="hidden" name="cart_total" id="cart_total_input">
         <input type="hidden" name="ped_direccion_envio" id="ped_direccion_envio_input">
         <input type="hidden" name="ped_notas" id="ped_notas_input">
-        <input type="hidden" name="nombre_invitado" id="nombre_invitado_input">
-        <input type="hidden" name="telefono_invitado" id="telefono_invitado_input">
       </div>
 
 
@@ -91,14 +89,16 @@
 
       <div class="checkout-field">
         <label for="checkout_calle">Dirección — Calle</label>
-        <input id="checkout_calle" type="text" placeholder="Ej. Calle 123 #45-67" class="checkout-input" />
+        <input id="checkout_calle" type="text" 
+        onkeypress="return soloLetrasYNumeros2(event)"
+        placeholder="Ej. Calle 123 #45-67" class="checkout-input" />
       </div>
 
       <div class="checkout-row-duo">
         <div class="checkout-field">
           <label for="checkout_ciudad">Ciudad</label>
           <input id="checkout_ciudad" type="text" 
-          onkeypress="return contrasena(event)"
+          onkeypress="return soloLetrasYNumeros(event)"
           placeholder="Ej. Bogotá" class="checkout-input" list="ciudades-colombia" />
         </div>
         <div class="checkout-field" style="opacity:0.5; pointer-events:none;">
@@ -110,14 +110,14 @@
       <div class="checkout-field">
         <label for="checkout_barrio">Barrio <span style="color:#94a3b8;font-weight:400;font-size:0.8em;">(opcional)</span></label>
         <input id="checkout_barrio" type="text"
-        onkeypress="return contrasena(event)" 
+        onkeypress="return soloLetrasYNumeros(event)" 
         placeholder="Ej. Chapinero" class="checkout-input" />
       </div>
 
       <div class="checkout-field">
         <label for="checkout_notes">Notas del pedido</label>
         <textarea id="checkout_notes" placeholder="Opcional" 
-        onkeypress="return contrasena(event)"
+        onkeypress="return soloLetrasYNumeros(event)"
         rows="3" class="checkout-input"></textarea>
       </div>
     </div>

@@ -56,7 +56,7 @@ initForm() {
   this.Form = this.fb.group({
     ped_id: ['', Validators.required],
     prod_id: ['', Validators.required],
-    pped_fecha_entrega: ['', Validators.required],
+    pped_fecha_entrega: [''],
     pped_cantidad: ['', [Validators.required, Validators.min(1)]],
     pped_precio_unitario: ['', [Validators.required, Validators.min(0)]],
     pped_descuento: ['', [Validators.required, Validators.min(0)]],
@@ -94,7 +94,14 @@ guardar() {
     return;
   }
 
+
+
     const data = this.Form.value;
+
+    if (!data.pped_fecha_entrega) {
+      delete data.pped_fecha_entrega
+    }
+
     if (this.isEditMode) {
       this.pedidosProductosService.actualizar(this.pedidoId!, this.productoId!, data).subscribe({
         next: () => {

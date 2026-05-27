@@ -43,7 +43,8 @@
               
             ],
             "scripts": [
-              "src/assets/js/caracteres.js"
+              "src/assets/js/caracteres.js",
+              "src/assets/js/catalogo.js"
 
             ]
             
