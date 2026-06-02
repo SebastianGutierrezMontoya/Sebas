@@ -56,7 +56,7 @@
             <div class="bento-footer">
                 <div>
                     <h3 class="bento-title">{{ producto.prod_nombre }}</h3>
-                    <p class="bento-subtitle">{{ producto.cat_id }}</p>
+                    <p class="bento-subtitle">{{ getNombreCategoria(producto.cat_id) }}</p>
                 </div>
                 <span class="bento-price">${{ producto.prod_precio_venta }}</span>
             </div>

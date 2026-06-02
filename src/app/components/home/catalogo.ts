@@ -185,6 +185,11 @@ limpiarBusqueda() {
     this.prod_nombre = '';
 }
 
+getNombreCategoria(catId: string): string {
+    const categoria = this.categorias.find(cat => cat.cat_id === catId);
+    return categoria ? categoria.cat_nombre : 'Categoría desconocida';
+  }
+
 cambiarCategoria(event: any) {
 
   const url = event.target.value;

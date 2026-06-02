@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Pedidos } from '../../models/models';
 import { PedidosService } from '../../services/pedidos.service';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { EstadoPedidosService } from '../../services/estadopedidos.service';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +27,7 @@ export class Mis_pedidos implements OnInit {
     
       pedidos: Pedidos[] = [];
       usuarioId: string | null = null;
+      estadosPedidos: any[] = [];
 
     
       constructor(
@@ -34,9 +36,19 @@ export class Mis_pedidos implements OnInit {
         private router: Router,
         private cdr: ChangeDetectorRef,
         private route: ActivatedRoute,
+        private estadoPedidosService: EstadoPedidosService,
       ) {}
     
       ngOnInit(): void {
+
+        this.estadoPedidosService.getAll().subscribe({
+          next: (data) => {
+            this.estadosPedidos = data;
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        });
         
         this.route.params.subscribe(params => {
             if (params['id']) {
@@ -52,9 +64,14 @@ export class Mis_pedidos implements OnInit {
         });
 
         
-    
+
      
       }
+
+      getNombreEstado(estadoId: number): string {
+    const estado = this.estadosPedidos.find(e => e.est_id === estadoId);
+    return estado ? estado.est_nombre : 'Estado desconocido';
+  }
 
 
       loadPedidos(): void {

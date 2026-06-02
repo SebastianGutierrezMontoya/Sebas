@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { RouterOutlet, ActivatedRoute, Router } from '@angular/router';
 import { CategoriaService } from '../../services/categoria.service';
+import { IdGeneratorService } from '../../services/id-generator.service';
 
 @Component({
   selector: 'app-categorias-form',
@@ -17,16 +18,18 @@ export class CategoriasForm implements OnInit, OnDestroy {
   isLoading = false;
   errorMessage = '';
   Categorianombre = '';
+  catID = '';
 
   constructor(
     private formBuilder: FormBuilder,
     private categoriaService: CategoriaService,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private idGeneratorService: IdGeneratorService
   ) {
     this.initializeForm();
-    console.log('✓ CategoriasForm constructor ejecutado');
+    // console.log('✓ CategoriasForm constructor ejecutado');
   }
 
   ngOnInit(): void {
@@ -40,14 +43,31 @@ export class CategoriasForm implements OnInit, OnDestroy {
         this.loadCategoria();
       } else {
         console.log('No hay ID, modo creación');
+        
+        
       }
     });
   }
 
+
+  getIDAsync(): void {
+    this.idGeneratorService.generateIdAsync('categoria').subscribe({
+      next: (id) => {
+        this.catID = id;
+        // console.log(id)
+        // Usar el ID generado
+      },
+      error: (err) => {
+        console.error('Error al generar ID:', err);
+      }
+    });
+  }
+
+
   // Inicializar el formulario
   private initializeForm(): void {
     this.form = this.formBuilder.group({ 
-      cat_id : ['', Validators.required],
+      cat_id : [''],
       cat_nombre: ['', [Validators.required, Validators.maxLength(50)]],
       cat_descripcion: ['', [Validators.maxLength(200)]]
     });
@@ -108,7 +128,9 @@ export class CategoriasForm implements OnInit, OnDestroy {
           }
         });
       } else {
+        this.getIDAsync();
         // Crear nueva categoría
+        categoriaData.cat_id = this.catID;
         this.categoriaService.crearCategoria(categoriaData).subscribe({
           next: () => {
             console.log('✓ Categoría creada correctamente');

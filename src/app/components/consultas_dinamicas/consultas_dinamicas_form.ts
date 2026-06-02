@@ -22,6 +22,8 @@ export class ConsultasDinamicasForm implements OnInit {
   errorMessage = '';
   Consultanombre: string = '';
 
+  nextId: number = 0;
+
 
   constructor(
     private service: ConsultasDinamicasService,
@@ -39,6 +41,8 @@ export class ConsultasDinamicasForm implements OnInit {
         this.isEditMode = true;
         this.consultaId = params['id'];
         this.loadConsulta();
+      } else {
+        this.loadid();
       }
     });
 
@@ -47,10 +51,36 @@ export class ConsultasDinamicasForm implements OnInit {
 
   initForm(): void {
     this.form = this.formBuilder.group({
-      cons_id: [null, Validators.required],
+      cons_id: [null],
       cons_nombre: ['', Validators.required],
       cons_sql: ['', Validators.required],
       cons_description: ['']
+    });
+  }
+
+  async loadid(): Promise<void> {
+    this.obtenerProximoId().then(id => {
+      this.nextId = id;
+    });
+
+  }
+
+  private obtenerProximoId(): Promise<number> {
+    return new Promise((resolve) => {
+      this.service.getAll().subscribe({
+        next: (consultas: any[]) => {
+          if (!consultas || consultas.length === 0) {
+            resolve(1);
+          } else {
+            const maxId = Math.max(...consultas.map(c => c.cons_id || 0));
+            resolve(maxId + 1);
+          }
+        },
+        error: () => {
+          // Si hay error, retorna 1
+          resolve(1);
+        }
+      });
     });
   }
 
@@ -92,6 +122,7 @@ export class ConsultasDinamicasForm implements OnInit {
         }
       });
     } else {
+        consultaData.cons_id = this.nextId;
       this.service.create(consultaData).subscribe({
         next: () => {
           this.router.navigate(['/consultas_dinamicas']);

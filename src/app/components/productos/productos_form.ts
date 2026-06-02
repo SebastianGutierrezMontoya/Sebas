@@ -6,6 +6,7 @@ import { RouterOutlet, ActivatedRoute, Router } from '@angular/router';
 import { ProductosService } from '../../services/productos.service';
 import { CategoriaService } from '../../services/categoria.service';
 
+import { IdGeneratorService } from '../../services/id-generator.service';
 
 @Component({
   selector: 'app-productos-form',
@@ -29,13 +30,16 @@ export class ProductosForm implements OnInit {
   errorMessage = '';
   Productonombre = '';
 
+  prodID = ''
+
   constructor(
     private fb: FormBuilder,
     private service: ProductosService,
     private categoriaService: CategoriaService,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private idGeneratorService: IdGeneratorService
   ) {
     this.initForm();
   }
@@ -48,6 +52,20 @@ export class ProductosForm implements OnInit {
         this.isEditMode = true;
         this.productoId = params['id'];
         this.loadProducto();
+      }
+    });
+  }
+
+
+  getIDAsync(): void {
+    this.idGeneratorService.generateIdAsync('producto').subscribe({
+      next: (id) => {
+        this.prodID = id;
+        // console.log(id)
+        // Usar el ID generado
+      },
+      error: (err) => {
+        console.error('Error al generar ID:', err);
       }
     });
   }
@@ -78,7 +96,8 @@ export class ProductosForm implements OnInit {
   prod_precio_venta: [0],
   prod_stock: [0],
   prod_imagen_url: [''],
-  prod_descuento: [0]
+  prod_descuento: [0],
+  prod_destacado: ['f']
 });
   }
 
@@ -125,6 +144,7 @@ export class ProductosForm implements OnInit {
     console.log('Datos a enviar:', data);
 
     if (this.isEditMode && this.productoId) {
+
       this.service.update(this.productoId, data).subscribe({
         next: () => {
           this.router.navigate(['/productos']);
@@ -137,6 +157,9 @@ export class ProductosForm implements OnInit {
         }
       });
     } else {
+      this.getIDAsync();
+      data.prod_destacado = 'f'
+      data.prod_id = this.prodID;
       this.service.create(data).subscribe({
         next: () => {
           this.router.navigate(['/productos']);

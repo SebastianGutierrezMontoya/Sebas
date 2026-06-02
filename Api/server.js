@@ -689,7 +689,8 @@ createCrudRoutes(app, 'productos', 'productos', 'prod_id', [
   'prod_precio_venta',
   'prod_stock',
   'prod_imagen_url',
-  'prod_descuento'
+  'prod_descuento',
+  'prod_destacado'
 ]);
 
 createCrudRoutes(app, 'usuarios', 'usuarios', 'id_usuario', [

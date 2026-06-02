@@ -18,11 +18,13 @@ export class RolesForm implements OnInit {
   roles: any[] = [];
 
   isEditMode = false;
-  roleId: string | null = null;
+  roleId: number | null = null;
   Rolnombre: string = '';
 
   idLoading = false;
   errorMessage = '';
+
+  nextId: number = 0;
 
   constructor(
     private router: Router,
@@ -35,7 +37,7 @@ export class RolesForm implements OnInit {
 
   initForm(): void {
     this.roleForm = this.formBuilder.group({
-      id_rol: ['', Validators.required],
+      id_rol: [null],
       nombre: ['', Validators.required],
       descripcion: ['']
     });
@@ -52,7 +54,37 @@ export class RolesForm implements OnInit {
             this.roleForm.patchValue(role);
           }
         });
+      } else {
+        this.loadid();
       }
+    });
+  }
+
+
+  async loadid(): Promise<void> {
+    this.obtenerProximoId().then(id => {
+      this.nextId = id;
+    });
+
+  }
+
+
+  private obtenerProximoId(): Promise<number> {
+    return new Promise((resolve) => {
+      this.rolesService.getAll().subscribe({
+        next: (roles: any[]) => {
+          if (!roles || roles.length === 0) {
+            resolve(1);
+          } else {
+            const maxId = Math.max(...roles.map(r => r.id_rol || 0));
+            resolve(maxId + 1);
+          }
+        },
+        error: () => {
+          // Si hay error, retorna 1
+          resolve(1);
+        }
+      });
     });
   }
 
@@ -68,6 +100,7 @@ export class RolesForm implements OnInit {
             }
           });
         } else {
+          roleData.id_rol = this.nextId;
           this.rolesService.create(roleData).subscribe({
             next: () => {
               this.router.navigate(['/roles']);

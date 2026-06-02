@@ -7,6 +7,8 @@ import { ProductosService } from '../../services/productos.service';
 import { UsuariosService } from '../../services/usuarios.service';
 import { PedidosProductos } from '../../models/models';
 import { PedidosProductosService } from '../../services/pedidosproductos.service';
+import { EstadoPedidosService } from '../../services/estadopedidos.service';
+
 
 @Component({
   selector: 'app-pedidos-form',
@@ -25,6 +27,7 @@ export class PedidosForm implements OnInit {
   isLoading = false;
   errorMessage = '';
   pedidosID: any[] = [];
+  estadosPedidos: any[] = [];
 
 
   productopedido(): FormArray {
@@ -39,12 +42,14 @@ export class PedidosForm implements OnInit {
     private pedidosProductosService: PedidosProductosService,
     private route: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private estadoPedidosService: EstadoPedidosService
   ) {
     this.initForm();
   }
 
   ngOnInit(): void {
+    this.loadEstadosPedidos();
     this.loadProductos();
     this.loadUsuarios();
     this.route.params.subscribe((params) => {
@@ -58,6 +63,17 @@ export class PedidosForm implements OnInit {
       }
     });
   }
+
+  loadEstadosPedidos() {
+  this.estadoPedidosService.getAll().subscribe({
+    next: (data) => {
+        this.estadosPedidos = data;
+    },
+    error: (err) => {
+        this.errorMessage = 'Error al cargar los estados de pedidos';
+    }
+  });
+}
 
   loadPedido(): void {
     this.isLoading = true;

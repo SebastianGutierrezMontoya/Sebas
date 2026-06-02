@@ -11,6 +11,7 @@ import { PedidosService } from '../../services/pedidos.service';
 import { ProductosService } from '../../services/productos.service';
 import { Productos } from '../../models/models';
 import { forkJoin, of } from 'rxjs';
+import { EstadoPedidosService } from '../../services/estadopedidos.service';
 
 @Component({
   selector: 'app-home',
@@ -33,6 +34,7 @@ export class Detalle_pedido implements OnInit {
       pedidocombinado: any[] = [];
 
       pedido: Pedidos | any;
+      estadosPedidos: any[] = [];
 
       estados_timeline = [
         {'id': 1, 'nombre': 'Pendiente'},
@@ -52,6 +54,7 @@ export class Detalle_pedido implements OnInit {
               private route: ActivatedRoute,
               private pedidosProductosService: PedidosProductosService,
               private PedidosService: PedidosService,
+              private estadoPedidosService: EstadoPedidosService
             ) {}
           
             ngOnInit(): void {
@@ -89,8 +92,18 @@ export class Detalle_pedido implements OnInit {
 
             //   this.loadProductos();
             //   this.loadPedidoProducto();
-
+              this.estadoPedidosService.getAll().subscribe({
+                next: (data) => {
+                  this.estadosPedidos = data;
+                },
+                error: (err) => {
+                  console.error(err);
+                }
+              });
+              
               this.loadPedido();
+
+              
 
               this.authService.usuario$.subscribe(usuario => {
                 this.usuario = usuario;
@@ -101,6 +114,13 @@ export class Detalle_pedido implements OnInit {
               this.Combinar();
 
             }
+
+
+
+            getNombreEstado(estadoId: number): string {
+    const estado = this.estadosPedidos.find(e => e.est_id === estadoId);
+    return estado ? estado.est_nombre : 'Estado desconocido';
+  }
 
 
 

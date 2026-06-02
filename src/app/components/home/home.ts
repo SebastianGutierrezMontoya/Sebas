@@ -108,7 +108,10 @@ export class Home implements OnInit {
     this.router.navigate(['/catalogo', id]);
   }
 
-
+  getNombreCategoria(catId: string): string {
+    const categoria = this.categorias.find(cat => cat.cat_id === catId);
+    return categoria ? categoria.cat_nombre : 'Categoría desconocida';
+  }
 
   logout(): void {
     this.authService.logout();

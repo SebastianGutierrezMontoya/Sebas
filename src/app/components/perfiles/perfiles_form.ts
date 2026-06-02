@@ -31,6 +31,8 @@ export class PerfilesForm implements OnInit {
     errorMessage = '';
     Perfilnombre = '';
 
+    nextId: number = 0;
+
     constructor(
         private perfilesService: PerfilesService,
         private rolesService: RolesService,
@@ -50,10 +52,39 @@ export class PerfilesForm implements OnInit {
                 this.isEditMode = true;
                 this.perfilId = params['id'];
                 this.loadPerfil();
+            } else {
+                this.loadid();
             }
         });
 
     }
+
+
+    async loadid(): Promise<void> {
+    this.obtenerProximoId().then(id => {
+      this.nextId = id;
+    });
+
+  }
+
+  private obtenerProximoId(): Promise<number> {
+    return new Promise((resolve) => {
+      this.perfilesService.getAll().subscribe({
+        next: (perfil: any[]) => {
+          if (!perfil || perfil.length === 0) {
+            resolve(1);
+          } else {
+            const maxId = Math.max(...perfil.map(p => p.id_perfil || 0));
+            resolve(maxId + 1);
+          }
+        },
+        error: () => {
+          // Si hay error, retorna 1
+          resolve(1);
+        }
+      });
+    });
+  }
 
     loadRoles(): void {
         this.rolesService.getAll().subscribe((data: any[]) => {
@@ -63,7 +94,7 @@ export class PerfilesForm implements OnInit {
 
     initForm(): void {
         this.form = this.fb.group({
-            id_perfil: [null, Validators.required],
+            id_perfil: [null],
             nombre: ['', Validators.required],
             descripcion: [''],
             rol_id: [null, Validators.required]
@@ -106,6 +137,7 @@ export class PerfilesForm implements OnInit {
                 }
             });
         } else {
+            perfilData.id_perfil = this.nextId;
             this.perfilesService.create(perfilData).subscribe({
                 next: () => {
                     this.router.navigate(['/perfiles']);

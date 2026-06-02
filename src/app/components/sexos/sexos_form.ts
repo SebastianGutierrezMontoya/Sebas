@@ -19,6 +19,9 @@ export class SexosForm implements OnInit {
   Sexonombre: string = '';
   isLoading = false;
   errorMessage = '';
+
+  nextId: number | null = null;
+
   constructor(
     private fb: FormBuilder,
     private service: SexosService,
@@ -35,13 +38,41 @@ export class SexosForm implements OnInit {
         this.isEditMode = true;
         this.sexoId = params['id'];
         this.loadSexo();
+      } else {
+        this.loadid();
       }
+    });
+  }
+
+  async loadid(): Promise<void> {
+    this.obtenerProximoId().then(id => {
+      this.nextId = id;
+    });
+
+  }
+
+  private obtenerProximoId(): Promise<number> {
+    return new Promise((resolve) => {
+      this.service.getAll().subscribe({
+        next: (sexos: any[]) => {
+          if (!sexos || sexos.length === 0) {
+            resolve(1);
+          } else {
+            const maxId = Math.max(...sexos.map(s => s.id_sexo || 0));
+            resolve(maxId + 1);
+          }
+        },
+        error: () => {
+          // Si hay error, retorna 1
+          resolve(1);
+        }
+      });
     });
   }
 
   initForm(): void {
     this.form = this.fb.group({
-      id_sexo: ['', Validators.required],
+      id_sexo: [null],
       nombre_sexo: ['', Validators.required],
     });
   }
@@ -81,6 +112,7 @@ export class SexosForm implements OnInit {
         }
       });
     } else {
+      sexoData.id_sexo = this.nextId; // Asigna el ID generado
       this.service.create(sexoData).subscribe({
         next: () => {
           this.router.navigate(['/sexos']);
