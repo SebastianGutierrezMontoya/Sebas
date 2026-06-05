@@ -53,13 +53,20 @@ export class Catalogo implements OnInit {
     this.loadCategorias();
 
     this.route.params.subscribe(params => {
-            if (params['id']) {
-                this.catId = params['id'];
-                this.loadProductoscat(this.catId);
-            } else {
-                this.loadProductos();
-            }
-        });
+      if (params['id']) {
+        this.catId = params['id'];
+        this.loadProductoscat(this.catId);
+      } else {
+        this.loadProductos();
+      }
+    });
+
+    this.route.queryParams.subscribe(queryParams => {
+      if (queryParams['prod_nombre']) {
+        this.prod_nombre = queryParams['prod_nombre'];
+        this.buscar();
+      }
+    });
     
     
     this.authService.usuario$.subscribe(usuario => {
@@ -172,12 +179,52 @@ export class Catalogo implements OnInit {
     return '🧸';
   }
 
+  if (n.includes('poster') || n.includes('lienzo')) {
+    return '🖼️';
+  }
+
+  if (n.includes('gadgets')) {
+    return '🎲';
+  }
+
+  if (n.includes('cosplay')) { 
+    return '👗';
+  }
+
+  if (n.includes('juegos')) { 
+    return '🎮';
+  }
+
+  if (n.includes('especiales')) {
+    return '🎁';
+  }
+
+
   return '📦';
 }
 
-buscar() {
+buscar(): void {
+  if (!this.prod_nombre.trim()) {
+    this.loadProductos();
+    return;
+  }
 
-  console.log(this.prod_nombre);
+  this.isLoading = true;
+  this.errorMessage = '';
+
+  this.service.getProductos(this.prod_nombre).subscribe({
+    next: (data) => {
+      this.productos = data;
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Error en búsqueda:', err);
+      this.errorMessage = 'Error al buscar productos';
+      this.isLoading = false;
+      this.cdr.detectChanges();
+    }
+  });
 }
 
 
