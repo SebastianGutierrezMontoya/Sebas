@@ -261,6 +261,19 @@ app.get('/api/productos/categoria/:id_cat', async (req, res) => {
   }
 });
 
+app.get('/api/productos/destacados', async (req, res) => {
+  try {
+    const result = await pool.query( `
+      SELECT prod_id, cat_id, prod_nombre, prod_descripcion, prod_precio_venta, prod_stock, prod_imagen_url, prod_descuento
+      FROM productos WHERE prod_destacado = true`
+    );
+
+    res.json(result.rows);
+  } catch (err) {
+    res.status(500).send('DB error');
+  }
+});
+
 
 app.get('/api/productos-auditoria', async (req, res) => {
   try {

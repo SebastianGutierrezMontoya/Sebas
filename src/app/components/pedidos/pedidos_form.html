@@ -33,6 +33,16 @@
     
   </div>
 
+  <div *ngIf="contactos.length > 0" class="panel-form-group">
+    <label>Contactos del Usuario</label>
+    <div *ngFor="let contacto of contactos" class="panel-form-group">
+      
+      <input type="text" class="form-control" value="{{ contacto.dato_contacto }}" readonly>
+
+    </div>
+  </div>
+
+
   <!-- FECHA PEDIDO -->
   <div class="panel-form-group">
     <label>Fecha de pedido</label>

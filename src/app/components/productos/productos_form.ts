@@ -89,7 +89,7 @@ export class ProductosForm implements OnInit {
   // ========================
   private initForm(): void {
     this.form = this.fb.group({
-  prod_id: ['PROD-' + Math.random().toString(36).substr(2, 9).toUpperCase(), Validators.required],
+  prod_id: [''],
   prod_nombre: ['', [Validators.required]],
   cat_id: ['', Validators.required],
   prod_descripcion: [''],
@@ -97,7 +97,7 @@ export class ProductosForm implements OnInit {
   prod_stock: [0],
   prod_imagen_url: [''],
   prod_descuento: [0],
-  prod_destacado: ['f']
+  prod_destacado: [false]
 });
   }
 
@@ -141,7 +141,7 @@ export class ProductosForm implements OnInit {
     this.errorMessage = '';
 
     const data = this.form.value;
-    console.log('Datos a enviar:', data);
+    // console.log('Datos a enviar:', data);
 
     if (this.isEditMode && this.productoId) {
 
@@ -158,7 +158,7 @@ export class ProductosForm implements OnInit {
       });
     } else {
       this.getIDAsync();
-      data.prod_destacado = 'f'
+      // data.prod_destacado = 'f'
       data.prod_id = this.prodID;
       this.service.create(data).subscribe({
         next: () => {

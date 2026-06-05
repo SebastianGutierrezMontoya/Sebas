@@ -9,6 +9,9 @@ import { PedidosProductos } from '../../models/models';
 import { PedidosProductosService } from '../../services/pedidosproductos.service';
 import { EstadoPedidosService } from '../../services/estadopedidos.service';
 
+import { Contactos } from '../../models/models';
+import { ContactosService } from '../../services/contactos.service';
+
 
 @Component({
   selector: 'app-pedidos-form',
@@ -29,6 +32,9 @@ export class PedidosForm implements OnInit {
   pedidosID: any[] = [];
   estadosPedidos: any[] = [];
 
+  contactos: Contactos[] = [];
+  
+
 
   productopedido(): FormArray {
     return this.form.get('productopedido') as FormArray;
@@ -43,12 +49,14 @@ export class PedidosForm implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private cdr: ChangeDetectorRef,
-    private estadoPedidosService: EstadoPedidosService
+    private estadoPedidosService: EstadoPedidosService,
+    private contactosService: ContactosService
   ) {
     this.initForm();
   }
 
   ngOnInit(): void {
+    
     this.loadEstadosPedidos();
     this.loadProductos();
     this.loadUsuarios();
@@ -58,8 +66,20 @@ export class PedidosForm implements OnInit {
         this.pedidoId = params['id'];
         
         this.loadPedidosProductos();
-
         this.loadPedido();
+      }
+    });
+  }
+
+  loadContactos(usuarioId: any): void {
+    if (!usuarioId) return;
+    this.contactosService.getByUsuarioId(usuarioId).subscribe({
+      next: (data) => {
+        this.contactos = data;
+        this.cdr.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error cargando contactos', err);
       }
     });
   }
@@ -82,8 +102,12 @@ export class PedidosForm implements OnInit {
       next: (data) => {
         data.ped_fecha_pedido = data.ped_fecha_pedido ? data.ped_fecha_pedido.split('T')[0] : '';
         this.form.patchValue(data); 
-
         
+        // Cargar contactos del usuario del pedido
+        const usuarioId = data.usu_id;
+        if (usuarioId) {
+          this.loadContactos(usuarioId);
+        }
 
         this.cdr.detectChanges();
         if (this.pedidosID) {
@@ -109,7 +133,6 @@ export class PedidosForm implements OnInit {
         this.cdr.detectChanges();
       }
     });
-  
   }
 
   loadProductos(): void {
@@ -181,12 +204,12 @@ export class PedidosForm implements OnInit {
   initForm(): void {
     this.form = this.fb.group({
       ped_id: [null, Validators.required],
-      usu_id: [null, Validators.required],
-      ped_fecha_pedido: [''],
-      ped_total: [0],
+      usu_id: [{ value: null, disabled: true }, Validators.required],
+      ped_fecha_pedido: [{ value: '', disabled: true }, Validators.required],
+      ped_total: [{ value: 0, disabled: true }, Validators.required],
       ped_estado: [0],
       ped_direccion_envio: [''],
-      ped_notas: [''],
+      ped_notas: [{ value: '', disabled: true }],
       productopedido: this.fb.array([])
     });
   }

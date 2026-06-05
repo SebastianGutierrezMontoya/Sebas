@@ -74,6 +74,7 @@ export interface Productos {
   prod_stock?: number;
   prod_imagen_url?: string;
   prod_descuento?: number; // Decimal
+  prod_destacado: boolean; // 'Y'|'N'
 }
 
 export interface ProductosAuditoria {

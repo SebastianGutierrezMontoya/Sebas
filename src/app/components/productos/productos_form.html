@@ -76,6 +76,15 @@
     
   </div>
 
+   <!-- DESTACADO -->
+   <div class="panel-form-group">
+    <label>Destacado</label>
+    <select formControlName="prod_destacado" class="form-control">
+      <option [value]="'false'" [selected]="form.get('prod_destacado')?.value === 'f'">No</option>
+      <option [value]="'true'" [selected]="form.get('prod_destacado')?.value === 't'">Sí</option>
+    </select>
+  </div>
+
   <!-- BOTONES -->
   <div class="form-linear form-center">
     <button type="submit" [disabled]="isLoading || form.invalid" class="panel-btn panel-btn-primary">

@@ -24,6 +24,10 @@ getProductos(search?: string, page: number = 1) {
 getByCat(id_cat: string) {
     return this.http.get<Productos[]>(`${this.apiUrl}/categoria/${id_cat}`)
   }
+
+getDestacados(): Observable<Productos[]> {
+  return this.http.get<Productos[]>(`${this.apiUrl}/destacados`);
+}
   
   
 }

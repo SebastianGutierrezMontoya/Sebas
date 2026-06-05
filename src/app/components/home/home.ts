@@ -86,7 +86,7 @@ export class Home implements OnInit {
 
 
 
-    this.service.getAll().subscribe({
+    this.service.getDestacados().subscribe({
       next: (data) => {
         this.productos = data;
         console.log(data)
